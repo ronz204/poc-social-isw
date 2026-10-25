@@ -5,10 +5,14 @@
   "scripts": {
     "start": "bun source/boot.ts",
     "dev": "bun --watch source/boot.ts",
-    "build:client": "bun build source/infra/client/app.ts --outdir public/js --target browser"
+    "build": "bun run build:client && bun run build:css",
+    "build:client": "bun build source/infra/client/app.ts --outdir public/js --target browser",
+    "build:css": "tailwindcss -i source/infra/styles/app.css -o public/css/app.css --minify"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
     "@types/bun": "latest",
+    "tailwindcss": "^4.3.3",
     "vitest": "^5.0.5"
   },
   "peerDependencies": {
