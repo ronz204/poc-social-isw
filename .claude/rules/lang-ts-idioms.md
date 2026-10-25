@@ -24,7 +24,7 @@ This governs how TypeScript expresses what the DDD rules state in neutral terms:
 ## Distinct primitives
 
 - A value object is a branded primitive: a brand type over the primitive, plus a same-named constant that holds `kind`, `parse` and `is`. The type is inferred from the constant (`typeof`/`ReturnType`), never declared by hand, so it can't drift from its parser.
-- Equality on a value object stays `===`, and it maps to a column with no wrapping.
+- Equality on a value object stays `===`, and it crosses a boundary (a JSON field, a socket message) as a plain value with no wrapping.
 
 ## Immutability and construction
 
@@ -34,7 +34,7 @@ This governs how TypeScript expresses what the DDD rules state in neutral terms:
 
 ## Interfaces
 
-- A contract is an `interface` whose name starts with `I` followed by its role (`IOrderRepository`, `INotifier`). Its implementation drops the `I`, or ends in `Adapter` when it is an infrastructure implementation, so the two never collide in a flat namespace.
+- A contract is an `interface` whose name starts with `I` followed by its role (`IPostRepository`, `IBroadcaster`). A repository implementation drops the `I` and takes its transport as a prefix (`HttpPostRepository`, `MemoryChatRepository`); any other infrastructure implementation ends in `Adapter`. The two never collide in a flat namespace.
 
 ## Errors
 
@@ -46,9 +46,8 @@ This governs how TypeScript expresses what the DDD rules state in neutral terms:
 
 ## Factories and imports
 
-- A handler's `of` is a `static` method beside its constructor.
-- A reference used only for its type is written as `import type`, which is how a handler names a query's concrete class and the repositories object without importing runtime code from the persistence layer.
-- A run-scoped class declared beside a multi-commit handler is a plain class in the handler file named `<UseCase>Steps`.
+- A handler receives its dependencies as constructor parameters typed by core interfaces, and the container's binding builds it.
+- A reference used only for its type is written as `import type`, which is how application code names an infrastructure type without importing runtime code from that layer.
 
 ---
 
