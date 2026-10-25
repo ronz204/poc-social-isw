@@ -4,6 +4,9 @@
     "allow": [
       "WebSearch",
       "Skill(update-config)",
+      "Bash(bun install)",
+      "Bash(bun run *)",
+      "Bash(bunx *)",
       "Bash(curl *)",
       "Bash(git log *)",
       "Bash(git status)",
