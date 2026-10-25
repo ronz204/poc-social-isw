@@ -13,7 +13,6 @@ A server-rendered social-network demo: a feed from a public fake-data API, curre
 | What the system is, its scope and vocabulary | `.claude/docs/overview.md` |
 | Behavior that spans components or isn't evident from one | `.claude/docs/modules.md` |
 | The stack and why, topology, cross-cutting patterns, open decisions | `.claude/docs/structure.md` |
-| What happens to data (there is no database) | `.claude/docs/database.md` |
 | How a non-trivial mechanism works | `.claude/docs/expertise.md` |
 | Scope, risks and done criteria | `.claude/docs/approach.md` |
 | How the knowledge base itself is worked | `.claude/docs/operandi.md` |
@@ -25,16 +24,15 @@ A server-rendered social-network demo: a feed from a public fake-data API, curre
 
 ## Non-obvious structure
 
-- Application code lives under `source/`; `source/env.ts` and `source/boot.ts` exist but are empty. Aliases (`@app`, `@infra`, `@env`) are in `tsconfig.json`; the `@core` alias is being dropped.
+- Application code lives under `source/` in the three layers `@app`, `@core` and `@infra` (aliases in `tsconfig.json`); `source/env.ts` and `source/boot.ts` exist but are empty.
+- Views (the HTML components) live inside the infrastructure layer. Client static assets go in a `public/` folder at the repo root, beside `source/`, not inside it; it doesn't exist yet.
 - `elysia` and `@elysiajs/html` are the chosen stack but are not installed yet.
-- Where views and public assets live under `source/` is undecided (see structure.md).
 
 ## Conventions
 
 - 100% TypeScript, including client scripts, and no database: both come from the brief.
 - Code must stay explainable line by line: the author is graded zero if they can't explain it or tweak it live.
 - Commits follow `.claude/rules/commit-conventions.md`; code identifiers and messages in English.
-- The inherited `lang-ts-idioms` rule describes DDD constructs this project may not use; treat it as unconfirmed here.
 
 ---
 

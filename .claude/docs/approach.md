@@ -21,8 +21,7 @@ Not defined yet. The first step is this knowledge base; the order of the rest is
 
 ## Risks
 
-- **Stack not confirmed with the teacher.** The rubric names Express, EJS and Axios/fetch in its own wording (items 5, 6 and 7); Elysia, `@elysiajs/html` and ofetch are assumed acceptable. Confirming before building avoids losing those points.
-- **Geolocation library under Bun.** Compatibility of the preferred offline library is unverified.
+- **Geolocation under Bun.** The chosen offline library has not been verified to run on Bun; the spike should come before the weather slice is built.
 - **Oral defense.** Code the author cannot explain line by line scores zero, so any generated code needs to be understood and adapted before it stays.
 
 ## Done criteria
