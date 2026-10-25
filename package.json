@@ -10,7 +10,10 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@elysia/html": "^1.4.1",
+    "@elysia/static": "^1.4.11",
     "dockdi": "^1.0.4",
+    "elysia": "^1.4.30",
     "ofetch": "^1.5.1",
     "zod": "^4.6.7"
   }
