@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "dockdi": "^1.0.4",
+    "ofetch": "^1.5.1",
     "zod": "^4.6.7"
   }
 }
