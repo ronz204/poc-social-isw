@@ -24,6 +24,11 @@
 		"isolatedModules": true,
 		"forceConsistentCasingInFileNames": true,
 
+		// JSX is rendered to HTML strings by @kitajs/html (through @elysia/html)
+		"jsx": "react",
+		"jsxFactory": "Html.createElement",
+		"jsxFragmentFactory": "Html.Fragment",
+
 		// Bun runtime types
 		"types": ["@types/bun"],
 

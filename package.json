@@ -2,6 +2,11 @@
   "name": "poc-social-isw",
   "type": "module",
   "private": true,
+  "scripts": {
+    "start": "bun source/boot.ts",
+    "dev": "bun --watch source/boot.ts",
+    "build:client": "bun build source/infra/client/app.ts --outdir public/js --target browser"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "vitest": "^5.0.5"
