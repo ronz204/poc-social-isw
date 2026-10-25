@@ -1,6 +1,6 @@
 # poc-social-isw
 
-A server-rendered social-network demo: a feed from a public fake-data API, current weather for the visitor's IP-derived location, and a global real-time chat over WebSockets. Everything live is held in memory (no database). It is a university assignment (brief in `perspective.md`) built on Bun, Elysia, `@elysiajs/html` and ofetch instead of the brief's Express/EJS/Axios.
+A server-rendered social-network demo: a feed from a public fake-data API, current weather for the visitor's IP-derived location, and a global real-time chat over WebSockets. Everything live is held in memory (no database). It is a university assignment built on Bun, Elysia, `@elysiajs/html` and ofetch instead of the brief's Express/EJS/Axios.
 
 ---
 
@@ -8,7 +8,6 @@ A server-rendered social-network demo: a feed from a public fake-data API, curre
 
 | If you need... | Read |
 |---|---|
-| The assignment's requirements, rubric and deliverables | `perspective.md` (source of truth for what must be built) |
 | The contract of a capability before changing its behavior | `deltas/` — list the folder and open the spec that matches (and its design file for UI work) |
 | What the system is, its scope and vocabulary | `.claude/docs/overview.md` |
 | Behavior that spans components or isn't evident from one | `.claude/docs/modules.md` |
