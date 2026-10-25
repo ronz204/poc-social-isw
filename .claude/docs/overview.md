@@ -1,37 +1,41 @@
-<!--
-This file ships as part of the harness itself, as the fill-in skeleton for
-this doc category — copy it into a project as-is, then fill it in place
-when bootstrapping (surveyor) or updating (archivist) that project's vision
-reference. Delete these guidance comments once every section holds real,
-grounded content — never leave both a filled section and its comment
-side by side. Same Step 0 discipline as any other artifact: ground every
-claim in the actual codebase/README/stated intent, never assumption.
--->
-
 # Overview
 
-<!-- One sentence: what this file covers and what it deliberately excludes (e.g. "How each part communicates lives in structure.md, not here"). -->
+What the system is, its scope and its vocabulary. How the parts communicate lives in structure.md, not here; the full requirements and grading rubric live in the assignment brief at the repo root.
 
 ---
 
 ## Vision
 
-<!-- What problem this system solves, in domain language — not a restatement of the directory tree or a feature list. A future reader should understand *why* the system exists after this section, not just what it contains. -->
+A web platform that simulates a social network with two live ingredients on top of it: the weather where the visitor is, and a global real-time chat. Existing users and posts come from a public fake-data API so the feed is never empty; everything a visitor creates (new posts, chat messages) is real, shared with every connected visitor, and lives only in the server's memory.
+
+The project is a university assignment, so it has a constraint most apps do not: the author must be able to explain every line and make small changes live, or the work is graded zero even if it runs. Code is therefore kept simple and legible; sophistication that cannot be defended orally is a cost, not a feature.
+
+The brief is a floor, not a ceiling: the author has latitude to go beyond it. Where this project departs from the brief's literal text, that is a deliberate choice recorded in structure.md.
 
 ## Scope & non-goals
 
-<!-- What the project owns. Then explicit non-goals — a boundary that's easy to assume belongs here but deliberately doesn't. This is the primary home for scope boundaries; the file's closing Non-goals section is only for a boundary that doesn't fit naturally here — don't split one boundary across both sections. -->
+In scope: a three-panel page (weather, feed, chat), server-rendered; a feed built from the fake-data API's posts joined with their authors; weather for the visitor's approximate location; publishing a post with a name and a text; a global chat; live broadcast of new posts and messages to every connected client, with in-memory history delivered to each new connection; friendly degraded UI when an external API fails; a user manual.
+
+Out of scope, by requirement or decision:
+
+- No database and no persistence: a server restart empties all live content.
+- No authentication or accounts: a visitor just types a name.
+- No private or per-user messaging; the chat is global only.
+- No external write: the fake-data API is read-only here, posts created by visitors are never sent to it.
 
 ## Domain concepts
 
-<!-- Table: the core entities/actors in this domain and how they relate — the vocabulary the rest of the knowledge base assumes. Conceptual, not implementation: what a concept means and what it owns, not which table or class holds it. -->
-
 | Concept | Description |
 |---|---|
-| `<concept>` | `<what it is, what it owns, how it relates to other concepts>` |
+| `User` | An author record from the fake-data API. Distinct from a visitor, who has no account and only supplies a display name when publishing. |
+| `Post` | A feed entry. Either fetched from the fake-data API (title, body, author) or created live by a visitor (server-assigned id, author name, content, formatted time). |
+| `Chat message` | A live message in the global chat, broadcast to all connected clients and kept in server memory. |
+| `Location` | The visitor's approximate coordinates, derived from their IP address; a fixed default is used when the IP carries no location (local development). |
+| `Weather reading` | Current temperature and wind speed for a `Location`, from the weather API. |
+| `History` | The in-memory sequence of live posts (and chat) replayed to a client when it connects. |
 
 ---
 
 ## Non-goals
 
-<!-- Only for a boundary not already covered by Scope & non-goals above — never restate the same boundary in both places. Include only if such a boundary exists and is easy to violate by accident; omit entirely otherwise. -->
+- This file does not restate the assignment's requirement list or rubric; those stay in the brief.

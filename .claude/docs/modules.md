@@ -1,35 +1,30 @@
-<!--
-This file ships as part of the harness itself, as the fill-in skeleton for
-this doc category — copy it into a project as-is, then fill it in place
-when bootstrapping (surveyor) or updating (archivist) that project's
-cross-component behavior reference. It holds only what reading one component
-doesn't reveal: a component's own step-by-step behavior and data shape are in
-its code, and a capability's contract is its spec. Delete these guidance
-comments once every section holds real, grounded content. Ground every claim in
-the real source (Step 0) — never infer behavior from a filename or from what a
-similar project usually does. Omit a section with nothing real to say.
--->
-
 # Modules
 
-<!-- One sentence: what this file covers — behavior that spans components or would surprise a reader — and what it deliberately excludes (e.g. "A component's own behavior lives in its code and a capability's contract in its spec, not here"). -->
+Behavior that spans components or would surprise a reader. No application code exists yet, so everything below is the designed behavior from the brief and the confirmed decisions, not observed behavior; check it against the code once it lands.
 
 ---
 
 ## Cross-component flows
 
-<!-- A flow that crosses more than one component, where the order or the hand-off isn't visible from any single one of them: a numbered list or a short sequence naming the components by role. Describe what really happens, not an idealized version. Component names are durable architecture vocabulary — describe the boundary, not the source-tree location that implements it. -->
+Page load (server-rendered):
+
+1. The request's client IP goes to the location lookup.
+2. The resulting coordinates go to the weather API; the posts and users are fetched from the fake-data API and joined by author.
+3. The three panels render from whatever came back; each external dependency can degrade on its own without taking down the others.
+
+Live publish and chat:
+
+1. A client sends a publish (or chat) event over the WebSocket.
+2. The server validates it, builds the stored object itself (unique id, author, content, formatted time) and appends it to the in-memory history.
+3. The server broadcasts it to every connected client.
+4. A client that connects later receives the history first.
 
 ## Non-obvious behavior
 
-<!-- Per component, only behavior that would surprise a reader or break if changed: hidden coupling, an ordering requirement, a side effect, state kept implicitly. For each, name the component, what it does, and why it matters. Skip anything a reader gets by reading that component. -->
+- Location lookup: on a local machine the client IP is a loopback address (`127.0.0.1` or `::1`) and yields no location, so the weather panel needs a fixed default location plus a friendly note saying it is a default; otherwise weather never works in development.
+- Feed: posts come from two sources (the read-only fake-data API and visitors publishing live). Whether they share one list, and how ids stay distinct between the two, is undecided (see structure.md).
 
 ## Shared guarantees
 
-<!-- What several components rely on together that no single one states — an ordering, an idempotency expectation, a shared assumption. A guarantee that belongs to one capability goes in that capability's spec instead. Use a fenced code block for anything structural. -->
-
----
-
-## Non-goals
-
-<!-- Only include this section if a scope boundary here is easy to violate by accident. Omit entirely otherwise. -->
+- The server, not the client, creates the stored post: the client only supplies author name and text, so id and time cannot be forged by a client.
+- All live state is process-local memory: it is shared by every connection to the same process and lost on restart.

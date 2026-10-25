@@ -1,47 +1,53 @@
-<!--
-This file ships as part of the harness itself, as the fill-in skeleton for
-this doc category — copy it into a project as-is, then fill it in place
-when bootstrapping (surveyor) or updating (archivist) that project's
-topology reference. Delete these guidance comments once every section holds
-real, grounded content. Ground every claim in the actual stack/config
-(Step 0), never in what a similar project usually looks like.
-Record the reasoning and the facts the code doesn't show. A technology list or a
-dependency map that the manifests and imports already state is pointed at in
-general terms, never copied here.
--->
-
 # Structure
 
-<!-- One sentence: what this file covers and what it deliberately excludes (e.g. "The data model itself lives in database.md, not here"). -->
+Stack choices and rationale, how the parts communicate, cross-cutting patterns, and decisions still open. Persistence is in database.md.
 
 ---
 
 ## Stack
 
-<!-- Table: each major technology choice and why it was made — not just what was picked. -->
+The brief names Express, EJS and Axios/fetch; this project deliberately uses a different set. The author's reason is much better control of everything; the cost is that the choice must be defensible in the oral defense.
 
 | Layer | Choice | Rationale |
 |---|---|---|
-| `<layer>` | `<technology>` | `<why this one>` |
+| Runtime | Bun | Native TypeScript, built-in WebSocket and bundler; fewer moving parts than a Node toolchain. |
+| Web framework | Elysia | Replaces Express. To be installed; not in the manifest yet. |
+| Rendering | `@elysiajs/html` | Replaces EJS: views are TypeScript, so the "100% TypeScript" requirement covers templates too. To be installed. |
+| HTTP client | ofetch | Replaces Axios/fetch; used for every external API call. |
+| Validation | zod | Schemas at every trust boundary (see Cross-cutting patterns). |
+| Realtime | Elysia's built-in WebSocket on Bun | No separate WebSocket library to justify or configure. To be confirmed at implementation. |
+| Client scripts | TypeScript compiled with `bun build` to static assets | The brief requires client code in TypeScript too. |
+| Tests | vitest | Configured to resolve the tsconfig path aliases. |
+| DI container | dockdi | Installed; its role is not decided yet (see Open decisions). |
+
+Import aliases are limited to the application layer and the infrastructure layer (plus the env module); there is deliberately no domain layer alias, because posts, messages and weather are simple data shapes with no domain behavior to model. The tsconfig still lists a core alias that is pending removal.
 
 ## Topology
 
-<!-- How the parts actually communicate — request flow, sync vs. async boundaries, what talks to what. Prefer a short structural breakdown or an ASCII diagram in a fenced code block over prose when the shape is spatial. -->
+```
+browser ──HTTP──▶ Elysia ──ofetch──▶ fake-data API (posts, users)
+   ▲                 │    └─ofetch/lib─▶ location lookup ─▶ weather API
+   └───WebSocket─────┘
+                     └── in-memory store (live posts, chat history)
+```
 
-## Infrastructure
-
-<!-- Static infrastructure/provisioning facts outside the persistence layer — hosting model, environments, provisioned resources (queues, caches, CDNs, compute) — and why each was provisioned that way. Persistence-layer infrastructure (the database's own engine/hosting/backup approach) lives in database.md instead, not here. Omit if the project genuinely has none of this (e.g. runs as a single local process). -->
+One process, no database, no background workers. The brief's four responsibilities (service calls, endpoints, templates, public assets) map to the application and infrastructure layers; where views and public assets live under the source root is not decided yet.
 
 ## Cross-cutting patterns
 
-<!-- Patterns that apply across components rather than to one of them specifically — auth, background jobs, caching, rate limiting, error handling. State each pattern with its rationale, not just its mechanics. -->
+| Pattern | Decision | Why |
+|---|---|---|
+| Authentication | None | Brief requires only a typed name. |
+| Input validation | Every external input goes through a schema at the boundary: forms, WebSocket messages, and the fake-data and weather API responses | Untrusted client data and third-party shapes can change or lie; see the rule on boundaries. |
+| HTML escaping | All visitor-supplied text is escaped when rendered | Posts and chat are shown to every other visitor, so unescaped text is stored XSS. See the matching rule. |
+| Caching | Short-TTL cache of weather and feed responses; invalidated by expiry only | Avoids hitting both free APIs on every page visit. Mechanism undecided. |
+| Rate limiting | Applied to publish and chat events | Any visitor can broadcast to all; limits flooding. Mechanism undecided. |
+| Secrets | None required; environment config follows the committed sample file | Both external APIs are keyless. |
 
 ## Open architecture decisions
 
-<!-- A choice deliberately not made yet, and what resolving it depends on — a real trade-off being carried, not a task waiting to be scheduled. Once decided, fold the choice and its rationale into Stack/Topology/Cross-cutting patterns above and remove it from here; this section is never a place a resolved decision keeps living. Omit entirely when there's nothing genuinely open. -->
-
----
-
-## Non-goals
-
-<!-- Only include this section if a scope boundary here is easy to violate by accident. Omit entirely otherwise. -->
+- **IP geolocation.** Leaning toward `geoip-lite` (offline, no rate limit, no network failure) behind an interface so it can be swapped for ip-api.com (free tier is HTTP only, 45 requests per minute, non-commercial). Bun compatibility of `geoip-lite` is not verified, and a search for a more modern option was inconclusive (an offline ip2region reader and several hosted APIs surfaced, with conflicting limits and nothing verified).
+- **Error handling in server-rendered pages.** The brief requires a try/catch around each external call with a friendly message in the view. An Elysia error handler is request-level, so it cannot render a page with only the weather panel degraded; per-call degradation is needed for the panels, while the global handler can remain the last-resort fallback. Whether to formalize this as a rule is undecided.
+- **Stack deviation from the brief.** The rubric names Express, EJS and Axios/fetch literally; whether the teacher accepts Elysia, `@elysiajs/html` and ofetch is assumed from the author's stated latitude, not confirmed.
+- **Live posts vs. fetched posts.** Whether visitor posts merge into the same feed list as the fake-data API's posts, and how their ids avoid colliding with the API's numeric ids.
+- **Where views and public assets live** under the source root, and what the dependency-injection container is used for, if anything.

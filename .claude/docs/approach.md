@@ -1,57 +1,33 @@
-<!--
-This file ships as part of the harness itself, as the fill-in skeleton for
-this doc category — copy it into a project as-is, then fill it in place
-when bootstrapping (surveyor) or updating (archivist) that project's build
-approach. Unlike structure.md, this file is always created for a
-bootstrapped project, even when the honest content is "not applicable here"
-(no meaningful build sequencing beyond "just build the thing") — state that
-explicitly rather than omitting the file. This file is never discarded once
-work lands — it stays live-edited the same way every other doc does: update
-the roadmap and status in place as phases complete, don't leave a finished
-phase's entry describing it as pending.
-Delete these guidance comments once every section holds real, grounded
-content. Ground every claim in what was actually decided/confirmed, never
-invent a phase or pillar that hasn't actually been agreed on.
--->
-
 # Approach
 
-<!-- One sentence: what this file covers — the order and philosophy behind building this project — and what it deliberately excludes (e.g. "Why the project exists lives in overview.md, not here"). -->
+What the project must support, how to tell it is done, and what could derail it. Why it exists lives in overview.md; the exact requirements and rubric live in the assignment brief at the repo root.
 
 ---
-
-## Technical pillars
-
-<!-- Table: the few things this project deliberately builds together because the problem genuinely needs them at once, not because they were bolted on separately. Explain *why together*, not just list them. Omit if the project has no such deliberate combination — most don't. -->
-
-| Pillar | What it means here |
-|---|---|
-| `<pillar>` | `<why this matters and why it's tied to the others>` |
 
 ## Functional scope
 
-<!-- What the system being built must actually support, as a bullet list of concrete capabilities — not a feature-marketing list, a scope boundary a build sequence can be checked against. -->
+- Server-rendered three-panel page: weather, feed, chat.
+- Feed from the fake-data API's posts and users, mapped to typed `Post` and `User` shapes, showing title, content and author name.
+- Current temperature and wind speed for the visitor's IP-derived location, with a fixed default for local development.
+- Publish a post with a name and a text; the server builds the stored object and broadcasts it; new connections receive the history.
+- Global chat that works across clients.
+- Friendly degraded UI when the fake-data API or the weather API fails; the app never collapses.
+- Beyond the brief, confirmed: short-TTL caching of weather and feed, and rate limiting of publish and chat.
+- A user manual.
 
 ## Roadmap
 
-<!-- Ordered phases/stages the build proceeds through, each with what it actually establishes. Update this in place as phases complete — mark a phase done when it's done, don't leave it worded as future work after it lands. -->
-
-0. **`<phase name>`** — `<what this phase establishes and why it comes first/next>`
+Not defined yet. The first step is this knowledge base; the order of the rest is decided slice by slice, by the author.
 
 ## Risks
 
-<!-- Known risks to the roadmap actually landing as planned — an unresolved external dependency, an unvalidated scaling/performance assumption, a technology bet that might not pan out. Not a generic risk register: only a risk specific and real to this roadmap. Omit entirely if there genuinely isn't one. -->
+- **Stack not confirmed with the teacher.** The rubric names Express, EJS and Axios/fetch in its own wording (items 5, 6 and 7); Elysia, `@elysiajs/html` and ofetch are assumed acceptable. Confirming before building avoids losing those points.
+- **Geolocation library under Bun.** Compatibility of the preferred offline library is unverified.
+- **Oral defense.** Code the author cannot explain line by line scores zero, so any generated code needs to be understood and adapted before it stays.
 
 ## Done criteria
 
-<!-- How to tell the current scope (or a named phase of it) is actually done — specific, falsifiable conditions, not a vibe. If it can't be checked by reading the resulting code/behavior, it isn't specific enough yet. -->
-
-## Stretch goals
-
-<!-- Explicitly non-blocking extensions — real candidates, not blocking scope, deferred once the done criteria above are actually met. Omit if there are none. -->
-
----
-
-## Non-goals
-
-<!-- Only include this section if a scope boundary here is easy to violate by accident. Omit entirely otherwise. -->
+- Every item of the brief's checklist is met, or its deviation is a recorded decision.
+- With one external API made unreachable, the page still renders and shows a friendly message in the matching panel.
+- A post published in one browser appears in a second one without reload, and a third browser opened afterwards receives it as history.
+- Delivery follows the brief's naming and deadline requirements.
