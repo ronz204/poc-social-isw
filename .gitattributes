@@ -1,0 +1,35 @@
+# Everything runs on Linux (containers, CI): normalize text to LF on every OS.
+* text=auto eol=lf
+
+# Scripts executed inside containers: CRLF breaks bash and psql meta-commands.
+*.sh        text eol=lf
+*.sql       text eol=lf
+Dockerfile  text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+
+# Windows-only scripts keep CRLF.
+*.ps1       text eol=crlf
+*.bat       text eol=crlf
+*.cmd       text eol=crlf
+
+# Lockfiles: never hand-merged, regenerate instead.
+bun.lock    text -diff merge=binary
+*.lockb     binary
+
+*.md        text diff=markdown
+*.ts        text diff=javascript
+*.tsx       text diff=javascript
+*.py        text diff=python
+
+# Binaries.
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.ico       binary
+*.webp      binary
+*.pdf       binary
+*.docx      binary
+*.woff      binary
+*.woff2     binary

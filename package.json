@@ -1,0 +1,16 @@
+{
+  "name": "poc-social-isw",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "vitest": "^5.0.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "dockdi": "^1.0.4",
+    "zod": "^4.6.7"
+  }
+}
