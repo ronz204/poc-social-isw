@@ -1,3 +1,4 @@
+import { socket } from "./connection";
 import { postItem, type ClientPost } from "./live-posts.render";
 
 const form = document.querySelector<HTMLFormElement>("#live-form");
@@ -33,7 +34,6 @@ if (form && list && empty && message && nameField && textField) {
   };
 
   setEnabled(false);
-  const socket = new WebSocket(`${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws`);
   socket.addEventListener("open", () => setEnabled(true));
   socket.addEventListener("close", () => setEnabled(false));
   socket.addEventListener("message", (event) => {
@@ -41,7 +41,8 @@ if (form && list && empty && message && nameField && textField) {
     // The history arrives oldest first, so showing each at the top leaves the newest first.
     if (data.type === "history") data.posts.forEach(show);
     else if (data.type === "post") show(data.post);
-    else message.textContent = data.reason === "rate_limited" ? TOO_FAST : INVALID;
+    // Chat messages share the connection and are not this script's.
+    else if (data.type === "error") message.textContent = data.reason === "rate_limited" ? TOO_FAST : INVALID;
   });
 
   form.addEventListener("submit", (event) => {

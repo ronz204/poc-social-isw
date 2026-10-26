@@ -4,7 +4,13 @@ import { staticPlugin } from "@elysia/static";
 import { container, EnvToken } from "./dock";
 import { localWeatherPlugin } from "@app/local-weather/local-weather.plugin";
 import { socialFeedPlugin } from "@app/social-feed/social-feed.plugin";
+import { globalChatSocket } from "@app/global-chat/global-chat.socket";
 import { livePostsSocket } from "@app/live-posts/live-posts.socket";
+import {
+  ChatLimiterToken,
+  ListMessagesHandlerToken,
+  SendMessageHandlerToken,
+} from "@infra/bloc/global-chat.dock";
 import { livePostsPlugin } from "@infra/bloc/live-posts.plugin";
 import {
   ClientHubToken,
@@ -19,12 +25,20 @@ import { HomeView } from "@infra/views/home.view";
 
 const { PORT } = container.resolve(EnvToken);
 
-const limiter = container.resolve(PublishLimiterToken);
-const socket = livePostsSocket({
+const hub = container.resolve(ClientHubToken);
+const publishLimiter = container.resolve(PublishLimiterToken);
+const chatLimiter = container.resolve(ChatLimiterToken);
+const postsSocket = livePostsSocket({
   publish: container.resolve(PublishPostHandlerToken),
   list: container.resolve(ListPostsHandlerToken),
-  limiter,
-  hub: container.resolve(ClientHubToken),
+  limiter: publishLimiter,
+  hub,
+});
+const chatSocket = globalChatSocket({
+  send: container.resolve(SendMessageHandlerToken),
+  list: container.resolve(ListMessagesHandlerToken),
+  limiter: chatLimiter,
+  hub,
 });
 
 new Elysia()
@@ -32,7 +46,7 @@ new Elysia()
   .use(staticPlugin({ assets: "public", prefix: "/public" }))
   .use(localWeatherPlugin(container.resolve(GetWeatherHandlerToken)))
   .use(socialFeedPlugin(container.resolve(GetFeedPageHandlerToken)))
-  .use(livePostsPlugin(socket, limiter))
+  .use(livePostsPlugin(postsSocket, chatSocket, [publishLimiter, chatLimiter]))
   .get("/", async ({ request, server, weatherFor, feedPage }) => {
     // Weather and the first feed page are requested together.
     const [weather, feed] = await Promise.all([

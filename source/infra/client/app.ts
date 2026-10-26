@@ -1,4 +1,5 @@
 import "./live-posts";
+import "./chat";
 
 const feed = document.querySelector<HTMLElement>("#feed-posts");
 const status = document.querySelector<HTMLElement>("#feed-status");

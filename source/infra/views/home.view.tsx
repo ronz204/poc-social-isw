@@ -1,6 +1,7 @@
 import { Html } from "@elysia/html";
 import type { GetWeatherOutput } from "@app/local-weather/get-weather/get-weather.schema";
 import type { GetFeedPageOutput } from "@app/social-feed/get-feed-page/get-feed-page.schema";
+import { Chat } from "./components/chat.component";
 import { FeedPosts } from "./components/feed-posts.component";
 import { LivePosts } from "./components/live-posts.component";
 import { WeatherPanel } from "./components/weather-panel.component";
@@ -22,6 +23,9 @@ export const HomeView = ({ weather, feed }: { weather: GetWeatherOutput; feed: G
         <LivePosts />
         <FeedPosts feed={feed} />
       </main>
+      <aside class="max-w-sm p-4">
+        <Chat />
+      </aside>
       <script src="/public/js/app.js"></script>
     </body>
   </html>
