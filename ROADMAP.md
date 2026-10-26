@@ -6,15 +6,15 @@ Build progress of poc-social-isw, step by step; it tracks work done, not decisio
 
 ## Overview
 
-**Overall progress: 9 / 32 tasks — 28%**
+**Overall progress: 13 / 32 tasks — 41%**
 
 | # | Step | Status | Progress |
 |---|---|---|---|
 | 1 | [Foundation](#1--foundation) | ✅ Done | 4/4 — 100% |
-| 2 | [Weather panel](#2--weather-panel) | 🔄 In progress | 1/5 — 20% |
-| 3 | [Social feed](#3--social-feed) | 🔄 In progress | 1/5 — 20% |
-| 4 | [Live posts](#4--live-posts) | 🔄 In progress | 1/5 — 20% |
-| 5 | [Global chat](#5--global-chat) | 🔄 In progress | 1/5 — 20% |
+| 2 | [Weather panel](#2--weather-panel) | 🔄 In progress | 2/5 — 40% |
+| 3 | [Social feed](#3--social-feed) | 🔄 In progress | 2/5 — 40% |
+| 4 | [Live posts](#4--live-posts) | 🔄 In progress | 2/5 — 40% |
+| 5 | [Global chat](#5--global-chat) | 🔄 In progress | 2/5 — 40% |
 | 6 | [Page shell](#6--page-shell) | 🔄 In progress | 1/4 — 25% |
 | 7 | [Delivery](#7--delivery) | 🔲 Not started | 0/4 — 0% |
 
@@ -36,7 +36,7 @@ Stack installed and the one open technical risk settled before any slice is buil
 Slice: `deltas/weather-panel.spec.md`.
 
 - [x] Write the spec with intent, contract, 12 invariants and acceptance criteria, with the provider choice left open.
-- [ ] Write `weather-panel.design.md` with the panel's layout, its states (loading, success, default-location note, unavailable) and the friendly message wording.
+- [x] Write `weather-panel.design.md` with the panel's layout, its states (loading, success, default-location note, unavailable) and the friendly message wording.
 - [ ] Write the tests first for each invariant: loopback IP falls back to San José, a failing or malformed weather API yields `unavailable`, and a second call inside the TTL does not hit the API.
 - [ ] Implement the location lookup interface with the default fallback, the Open-Meteo reading parsed with a zod schema, and the in-memory TTL cache, then render the weather panel.
 - [ ] Run the sentinel check of the spec against the implementation and fix any drift it reports.
@@ -46,7 +46,7 @@ Slice: `deltas/weather-panel.spec.md`.
 Slice: `deltas/social-feed.spec.md`.
 
 - [x] Specify the slice with intent, the `Post` and `User` shapes, how author is joined to post, and the behavior when the fake-data API fails.
-- [ ] Write `social-feed.design.md` with how a post card shows title, content and author, plus the loading, empty and degraded states.
+- [x] Write `social-feed.design.md` with how a post card shows title, content and author, plus the loading, empty and degraded states.
 - [ ] Write the tests first for the join of posts to authors, the schema validation of both API responses, and the degraded result on failure.
 - [ ] Implement the ofetch calls to `/posts` and `/users`, the mapping to typed shapes, the TTL cache and the rendered feed panel.
 - [ ] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
@@ -56,7 +56,7 @@ Slice: `deltas/social-feed.spec.md`.
 Slice: `deltas/live-posts.spec.md`. Visitor posts are not merged into the feed's list, so their ids never collide with the API's.
 
 - [x] Specify the slice with the server-built post (id, author, content, formatted time), the in-memory history, the broadcast rule and the rate limit, and settle the open merge-with-feed question.
-- [ ] Write `live-posts.design.md` with the publish form, the live items as they arrive, and the states for a rejected or rate-limited post.
+- [x] Write `live-posts.design.md` with the publish form, the live items as they arrive, and the states for a rejected or rate-limited post.
 - [ ] Write the tests first for server-side id and time creation, validation of the incoming event, escaping of visitor text, history on connect and broadcast to all.
 - [ ] Implement the WebSocket handler, the in-memory post store, the publish validation with zod, the rate limiting and the client script that sends and renders posts.
 - [ ] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
@@ -66,7 +66,7 @@ Slice: `deltas/live-posts.spec.md`. Visitor posts are not merged into the feed's
 Slice: `deltas/global-chat.spec.md`. Shares the WebSocket transport with live posts.
 
 - [x] Specify the slice with the chat message shape, the history replayed to new connections, the broadcast rule and the rate limit, and check what it shares with live posts.
-- [ ] Write `global-chat.design.md` with the chat panel's message list, the input, and the states for empty history and a rejected message.
+- [x] Write `global-chat.design.md` with the chat panel's message list, the input, and the states for empty history and a rejected message.
 - [ ] Write the tests first for message validation, escaping of visitor text, history on connect and delivery to every connected client.
 - [ ] Implement the chat handler on the shared WebSocket, the in-memory message store, the rate limiting and the client script that sends and renders messages.
 - [ ] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
