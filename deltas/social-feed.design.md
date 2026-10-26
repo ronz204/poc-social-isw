@@ -21,7 +21,7 @@ The API posts area is a vertical list of post cards inside the center panel, aft
 - **Title:** the most prominent line.
 - **Content:** the post body.
 
-At the end of the list sits one status row, which is empty, "Loading more posts", "Could not load more posts" with a Retry button, or "No more posts" depending on the state below.
+At the end of the list sits one status row, which is empty, "Loading more posts", "Could not load more posts", or "No more posts" depending on the state below.
 
 ## States
 
@@ -31,13 +31,13 @@ At the end of the list sits one status row, which is empty, "Loading more posts"
 - While the visitor has not reached the bottom and more posts remain, the status row is empty.
 - While the next page is being fetched, the status row shows "Loading more posts".
 - While the last page has been shown, the status row shows "No more posts".
-- While the request for the next page fails, the status row shows "Could not load more posts" with a Retry button. The Retry button is a presentation choice, not a spec requirement.
+- While the request for the next page fails, the status row shows "Could not load more posts". There is no button: the next time the row comes into view, the same page is requested again.
 
 ## Interactions
 
-- When the visitor scrolls the center panel to its bottom and the last page said more remain, the client requests the next page over HTTP and appends its cards after the existing ones.
+- When the status row comes into view (the visitor reached the bottom of the center panel) and the last page said more remain, the client requests the next page with `GET /feed?page=N` and appends its cards after the existing ones. The response is JSON with the cards as already escaped HTML and the has-more value; when the feed fails it answers 503 with empty HTML.
 - When a page arrives with has-more false, the client stops requesting pages.
-- When the visitor presses Retry, the client requests the same page again.
+- When the row comes into view again after a failed request, the client requests the same page again.
 - While a page request is in flight, scrolling to the bottom again does not send a second request.
 
 There are no confirmation steps. How the page size, paging and has-more work is in social-feed.spec.md (Contract and invariants 6, 7, 10 and 11).
@@ -47,16 +47,14 @@ There are no confirmation steps. How the page size, paging and has-more work is 
 | Source | Used for |
 |---|---|
 | Home page response: first page of the feed | The first cards and the first has-more value |
-| HTTP request for page N of the feed | The cards to append and the new has-more value |
+| `GET /feed?page=N` | The cards to append and the new has-more value |
 | Feed failure outcome | The degraded message |
 
 Author name, title and content are rendered as text (see social-feed.spec.md, invariant 5). The area writes nothing.
 
 ## Deferred / Open questions
 
-- The HTTP route and response format used to request a page (HTML fragment or JSON); decided when implementing.
 - Wording of the degraded message (a first line is "Posts are not available right now") and of "No posts to show".
-- Whether the Retry button is worth its code for the demo; it can be dropped for a plain message.
 - Accessibility of the loading and end rows.
 
 ## Acceptance criteria
@@ -65,7 +63,7 @@ Author name, title and content are rendered as text (see social-feed.spec.md, in
 2. Given more than one page of posts, when the visitor scrolls the center panel to the bottom, then the next cards appear after the existing ones without a page reload. [manual: scroll the center panel]
 3. Given the visitor reaches the last page, when they scroll to the bottom, then the row says "No more posts" and no further request is made. [manual: scroll to the end with the network tab open]
 4. Given the posts API is unreachable, when the page loads, then the area shows its friendly message and the live posts and chat keep working. [manual: block the posts host and reload]
-5. Given the next-page request fails, when the visitor scrolls to the bottom, then the row says "Could not load more posts" and Retry requests it again. [manual: go offline after the first page, scroll, go online and press Retry]
+5. Given the next-page request fails, when the visitor scrolls to the bottom, then the row says "Could not load more posts", and when they scroll away and back to the bottom the same page is requested again. [manual: go offline after the first page, scroll, go online, scroll up and down]
 
 ---
 
