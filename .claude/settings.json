@@ -4,6 +4,7 @@
     "allow": [
       "WebSearch",
       "Skill(update-config)",
+      "Bash(bunx vitest run *)",
       "Bash(bun install)",
       "Bash(bun run *)",
       "Bash(bunx *)",
