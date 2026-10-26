@@ -1,5 +1,6 @@
 import { Container, token } from "dockdi";
 import { env } from "@env";
+import { feedDock } from "@infra/api/feed/feed.dock";
 import { weatherDock } from "@infra/api/weather/weather.dock";
 
 export const EnvToken = token<typeof env>("Env");
@@ -8,3 +9,4 @@ export const EnvToken = token<typeof env>("Env");
 export const container = new Container();
 container.bind(EnvToken).toValue(env);
 container.load(weatherDock);
+container.load(feedDock);
