@@ -55,20 +55,20 @@ Slice: `deltas/social-feed.spec.md`.
 
 Slice: `deltas/live-posts.spec.md`. Visitor posts are not merged into the feed's list, so their ids never collide with the API's.
 
-- [x] Specify the slice with the server-built post (id, author, content, formatted time), the in-memory history, the broadcast rule and the rate limit, and settle the open merge-with-feed question.
-- [x] Write `live-posts.design.md` with the publish form, the live items as they arrive, and the states for a rejected or rate-limited post.
+- [x] Specify the slice with the server-built post (id, author, content, formatted time), the in-memory history and the broadcast rule, and settle the open merge-with-feed question.
+- [x] Write `live-posts.design.md` with the publish form, the live items as they arrive, and the states for a rejected post.
 - [x] Write the tests first for server-side id and time creation, validation of the incoming event, escaping of visitor text, history on connect and broadcast to all.
-- [x] Implement the WebSocket handler, the in-memory post store, the publish validation with zod, the rate limiting and the client script that sends and renders posts.
+- [x] Implement the WebSocket handler, the in-memory post store, the publish validation with zod and the client script that sends and renders posts.
 - [x] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
 
 ## 5 — Global chat
 
 Slice: `deltas/global-chat.spec.md`. Shares the WebSocket transport with live posts.
 
-- [x] Specify the slice with the chat message shape, the history replayed to new connections, the broadcast rule and the rate limit, and check what it shares with live posts.
+- [x] Specify the slice with the chat message shape, the history replayed to new connections, the broadcast rule, and check what it shares with live posts.
 - [x] Write `global-chat.design.md` with the chat panel's message list, the input, and the states for empty history and a rejected message.
 - [x] Write the tests first for message validation, escaping of visitor text, history on connect and delivery to every connected client.
-- [x] Implement the chat handler on the shared WebSocket, the in-memory message store, the rate limiting and the client script that sends and renders messages.
+- [x] Implement the chat handler on the shared WebSocket, the in-memory message store and the client script that sends and renders messages.
 - [x] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
 
 ## 6 — Page shell
