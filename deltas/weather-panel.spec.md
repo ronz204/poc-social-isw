@@ -42,18 +42,18 @@ The weather API is queried with coordinates only, never with a city name. A look
 
 ## Invariants
 
-1. When the client IP is loopback or private, or the lookup finds no location, the system uses the default location. [test: testing/app/local-weather/get-weather.handler.test.ts "uses the default location, flagged as default, when the lookup finds nothing"]
-2. When the default location is used, the result carries `isDefault` true so the view can say it is a default. [test: testing/app/local-weather/get-weather.handler.test.ts "uses the default location, flagged as default, when the lookup finds nothing"]
-3. When the lookup finds a location, the result carries `isDefault` false. [test: testing/app/local-weather/get-weather.handler.test.ts "uses the found coordinates, flagged as not default, when the lookup resolves"]
-4. If the location lookup throws, then the system uses the default location instead of failing the weather. [test: testing/app/local-weather/get-weather.handler.test.ts "falls back to the default location when the lookup throws"]
-5. The weather API is always queried with coordinates, never with a place name. [test: testing/infra/api/weather/reading.meteo.adapter.test.ts "queries by coordinates only, never by the place name"]
-6. If the weather API fails, times out, or answers with a shape that fails its schema, then the use case returns `unavailable` instead of throwing. [test: testing/app/local-weather/get-weather.handler.test.ts "returns unavailable, without throwing, when the reader fails with anything else"]
-7. The weather API response is parsed with a schema at the boundary before any field is used. [test: testing/infra/api/weather/reading.meteo.adapter.test.ts "fails with a reading error when the payload is malformed"]
-8. While a cached reading for the same coordinates is younger than the TTL, the system does not call the weather API again. [test: testing/infra/api/weather/reading.cache.adapter.test.ts "calls the inner reader once for two reads of the same coordinates inside the TTL"]
-9. A cached reading leaves the cache only by expiry. [test: testing/infra/api/weather/reading.cache.adapter.test.ts "keeps a reading until it expires, whatever else is read meanwhile"]
-10. The temperature in a reading is in °C. [test: testing/infra/api/weather/reading.meteo.adapter.test.ts "asks for the temperature in degrees Celsius explicitly"]
-11. The wind speed in a reading is in km/h. [test: testing/infra/api/weather/reading.meteo.adapter.test.ts "asks for the wind speed in kilometres per hour explicitly"]
-12. Where the lookup provides a place name, the location carries it; otherwise the location has no name. [test: testing/app/local-weather/get-weather.handler.test.ts "carries the place name when the lookup provides one"]
+1. When the client IP is loopback or private, or the lookup finds no location, the system uses the default location. [test: testing/app/local-weather/get-weather.handler.test.ts "uses default when lookup finds nothing"]
+2. When the default location is used, the result carries `isDefault` true so the view can say it is a default. [test: testing/app/local-weather/get-weather.handler.test.ts "uses default when lookup finds nothing"]
+3. When the lookup finds a location, the result carries `isDefault` false. [test: testing/app/local-weather/get-weather.handler.test.ts "uses found coordinates when lookup resolves"]
+4. If the location lookup throws, then the system uses the default location instead of failing the weather. [test: testing/app/local-weather/get-weather.handler.test.ts "falls back to default when lookup throws"]
+5. The weather API is always queried with coordinates, never with a place name. [test: testing/infra/api/weather/reading.meteo.adapter.test.ts "queries by coordinates only"]
+6. If the weather API fails, times out, or answers with a shape that fails its schema, then the use case returns `unavailable` instead of throwing. [test: testing/app/local-weather/get-weather.handler.test.ts "unavailable on any other failure"]
+7. The weather API response is parsed with a schema at the boundary before any field is used. [test: testing/infra/api/weather/reading.meteo.adapter.test.ts "rejects a malformed payload"]
+8. While a cached reading for the same coordinates is younger than the TTL, the system does not call the weather API again. [test: testing/infra/api/weather/reading.cache.adapter.test.ts "reads once inside the TTL"]
+9. A cached reading leaves the cache only by expiry. [test: testing/infra/api/weather/reading.cache.adapter.test.ts "keeps a reading until expiry"]
+10. The temperature in a reading is in °C. [test: testing/infra/api/weather/reading.meteo.adapter.test.ts "requests Celsius"]
+11. The wind speed in a reading is in km/h. [test: testing/infra/api/weather/reading.meteo.adapter.test.ts "requests km/h"]
+12. Where the lookup provides a place name, the location carries it; otherwise the location has no name. [test: testing/app/local-weather/get-weather.handler.test.ts "carries the place name"]
 
 ## Deferred / Open questions
 
@@ -64,12 +64,12 @@ The weather API is queried with coordinates only, never with a city name. A look
 
 ## Acceptance criteria
 
-- Given a loopback client IP, when the weather is requested, then the result is San José with `isDefault` true. [test: testing/app/local-weather/get-weather.handler.test.ts "uses the default location, flagged as default, when the lookup finds nothing"]
-- Given a public IP the lookup resolves, when the weather is requested, then the result uses those coordinates with `isDefault` false. [test: testing/app/local-weather/get-weather.handler.test.ts "uses the found coordinates, flagged as not default, when the lookup resolves"]
-- Given the weather API is down, when the weather is requested, then the result is `unavailable` and nothing throws. [test: testing/app/local-weather/get-weather.handler.test.ts "returns unavailable when the reader fails with a reading error"]
-- Given the weather API answers a malformed payload, when the weather is requested, then the result is `unavailable`. [test: testing/infra/api/weather/reading.meteo.adapter.test.ts "fails with a reading error when the payload is malformed"]
-- Given two requests for the same coordinates within the TTL, when both run, then the weather API is called once. [test: testing/infra/api/weather/reading.cache.adapter.test.ts "calls the inner reader once for two reads of the same coordinates inside the TTL"]
-- Given a cached reading older than the TTL, when the weather is requested, then the weather API is called again. [test: testing/infra/api/weather/reading.cache.adapter.test.ts "calls the inner reader again once the cached reading is as old as the TTL"]
+- Given a loopback client IP, when the weather is requested, then the result is San José with `isDefault` true. [test: testing/app/local-weather/get-weather.handler.test.ts "uses default when lookup finds nothing"]
+- Given a public IP the lookup resolves, when the weather is requested, then the result uses those coordinates with `isDefault` false. [test: testing/app/local-weather/get-weather.handler.test.ts "uses found coordinates when lookup resolves"]
+- Given the weather API is down, when the weather is requested, then the result is `unavailable` and nothing throws. [test: testing/app/local-weather/get-weather.handler.test.ts "unavailable on reading error"]
+- Given the weather API answers a malformed payload, when the weather is requested, then the result is `unavailable`. [test: testing/infra/api/weather/reading.meteo.adapter.test.ts "rejects a malformed payload"]
+- Given two requests for the same coordinates within the TTL, when both run, then the weather API is called once. [test: testing/infra/api/weather/reading.cache.adapter.test.ts "reads once inside the TTL"]
+- Given a cached reading older than the TTL, when the weather is requested, then the weather API is called again. [test: testing/infra/api/weather/reading.cache.adapter.test.ts "reads again after the TTL"]
 
 ---
 
