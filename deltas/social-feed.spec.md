@@ -20,7 +20,7 @@ Non-goals:
 - Posts published live by visitors. The live-posts slice owns them; they are not merged into this list, so no id policy between the two sources is needed here.
 - Comments. The brief mentions them in prose, but its feed requirement only asks for posts and users.
 - Writing to the API, persistence and accounts.
-- Layout, visual states and how scrolling asks for the next page: those belong to a future design file, to be done with or after the page-shell slice.
+- Layout, visual states and how scrolling asks for the next page: those belong to `social-feed.design.md`.
 
 ## Contract
 
@@ -31,6 +31,7 @@ Non-goals:
 | Join | Post's user id against the user's id |
 | Page size | Fixed, server-side constant (starting value 10) |
 | Order | The API's order |
+| Page result | The posts of the page plus a has-more indicator, true while posts remain after this page |
 | Cache | Short TTL on the fetched data, invalidated by expiry only; value and mechanism open |
 | On failure | A friendly message in place of the posts; no exception reaches the caller |
 
@@ -42,16 +43,17 @@ Non-goals:
 4. The `/posts` and `/users` responses are parsed with a schema at the boundary, and only the parsed result is used afterwards. [none]
 5. Author name, title and content are HTML-escaped when rendered. [none]
 6. When a page is requested, the feed returns at most the fixed page size of posts, in the API's order. [none]
-7. If the requested page is not a valid page number or is past the last page, then the feed returns the first page. [none]
+7. If the requested page is not a valid page number, then the feed returns the first page. [none]
 8. While the cached data is within its TTL, no new request goes to the API. [none]
 9. The slice never sends data to the API. [none]
+10. If the requested page is a valid number past the last page, then the feed returns no posts and has-more false, never the first page again. [none]
+11. While posts remain after the returned page, the page result carries has-more true; on the last page it carries has-more false. [none]
 
 ## Deferred / Open questions
 
 - Testing gap: every invariant is tagged `[none]` because no code exists yet. The executor writes one vitest test per invariant when the slice is implemented.
-- Exact page size (10 is a starting value) and how the panel's scrolling requests the next page. Decided in the feed's design file.
+- Exact page size (10 is a starting value).
 - Cache TTL value and mechanism. Decided when the slice is implemented.
-- Fallback for an invalid or out-of-range page (invariant 7) is a proposal, not confirmed in detail. Revisit if the scroll mechanism makes it irrelevant.
 - Serving stale cached data while the API is down is not done: failure shows only the friendly message. Revisit if the demo needs more resilience.
 
 ## Acceptance criteria
@@ -61,6 +63,8 @@ Non-goals:
 3. Given `/posts` answers 500 or malformed JSON, when the page loads, then the feed shows the friendly message and the page still returns 200. [none]
 4. Given a request already fetched the feed, when a second request arrives within the TTL, then the API receives one call in total. [none]
 5. Given a post title containing `<script>`, when the page renders, then the markup shows it as escaped text. [none]
+6. Given 100 posts and a page size of 10, when page 11 is requested, then no posts and has-more false come back. [none]
+7. Given 100 posts and a page size of 10, when page 10 is requested, then 10 posts come back with has-more false, and page 9 reports has-more true. [none]
 
 ---
 

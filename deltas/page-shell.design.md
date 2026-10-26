@@ -8,7 +8,7 @@ Covers the header, the arrangement of the three panels, the connection status, t
 
 Non-goals:
 
-- The inner look of each panel's content (weather card, post cards, message list). Future design files of the weather-panel, social-feed, live-posts and global-chat slices own it.
+- The inner look of each panel's content (weather card, post cards, message list). The design files of the weather-panel, social-feed, live-posts and global-chat slices own it.
 - Colors and theme.
 
 ## Layout
@@ -39,7 +39,8 @@ Styling goes through the existing Tailwind build.
 - When the server answers a publish with an error, the publish form shows it inline.
 - When the visitor submits the chat form with valid fields while connected, the client sends the chat message (rules in global-chat.spec.md).
 - When the server answers a chat message with an error, the chat form shows it inline.
-- When the visitor scrolls the center panel to its bottom, the next page of API posts is requested (mechanism open).
+- When the visitor scrolls the center panel to its bottom, the next page of API posts is requested over HTTP (see social-feed.design.md).
+- When a form sends a message, its text field is cleared and its name field keeps its value; the name is saved in the visitor's browser and prefills both forms on the next visit.
 - When the viewport narrows below the breakpoint, the layout stacks in one column.
 
 There are no confirmation steps: nothing destructive exists.
@@ -58,11 +59,8 @@ The page writes only publish and chat messages.
 ## Deferred / Open questions
 
 - Breakpoint value for stacking.
-- How scrolling asks for the next page of API posts: infinite scroll or a load-more button, and whether it is an HTTP request or a socket message.
-- Whether the form clears the text on send or on the server's broadcast; the name stays either way.
-- Remembering the visitor's name between visits.
 - Accessibility: focus after sending, live announcement of incoming messages.
-- Panel-internal designs and the theme.
+- The theme.
 
 ## Acceptance criteria
 
