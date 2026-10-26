@@ -17,8 +17,8 @@ Non-goals:
 
 Top of the center panel, top to bottom:
 
-- **Publish form:** a name field, a text field and a Publish button, with an inline message line under them for errors.
-- **Live posts list:** newest first. Each post shows the author name, the content and the formatted time.
+- **Publish form:** a name field on its own row; under it the text field with a round, icon-only send button beside it, both the same height; an inline message line under them for errors.
+- **Live posts list:** newest first. Each post shows a round avatar with the author's initials, the author name, a "Live" badge, the formatted time and the content. The tinted background and the badge tell live posts apart from the API posts below.
 
 The API posts follow below the list (social-feed.design.md).
 
@@ -34,6 +34,7 @@ The API posts follow below the list (social-feed.design.md).
 ## Interactions
 
 - When the visitor submits the form with a name and a text while connected, the client sends the post message; the rules are in live-posts.spec.md (Contract and invariants 3 and 7).
+- The send button has no visible text, so it carries the accessible name "Publish".
 - When the form is sent, the text field is cleared and the name field keeps its value; the name is saved in the browser and prefilled on the next visit and in the chat form. The saved name is a convenience: if the browser cannot store it, the form still works.
 - When a post arrives, from the visitor or from anyone else, it is added at the top of the list.
 - When the server answers with an error, the text already cleared is not restored.

@@ -14,12 +14,14 @@ Non-goals:
 
 ## Layout
 
-Inside the panel's frame, top to bottom:
+Inside the panel's frame, one card with a sunny gradient background, top to bottom:
 
+- **Place name:** with a pin icon, shown above the temperature only when the location has one.
 - **Temperature:** the largest element, in °C.
-- **Wind speed:** below it, in km/h, with a "Wind" label.
-- **Place name:** shown above the temperature only when the location has one.
+- **Wind speed:** below it, in km/h, with a "Wind" label, in a small rounded chip.
 - **Default-location note:** a small line at the bottom, shown only for the default location.
+
+The panel is as tall as its card, not the full column height, because it has nothing more to scroll.
 
 ## States
 

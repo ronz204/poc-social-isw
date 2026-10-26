@@ -13,8 +13,8 @@ Non-goals:
 
 ## Layout
 
-- **Header:** app name on the left, connection status on the right. No navigation, no accounts.
-- **Wide screens:** three columns, weather on the left (narrow), feed in the center (widest), chat on the right (medium). Each panel has a title and scrolls on its own; the page itself does not scroll past the viewport.
+- **Header:** a logo tile and the app name "Happy" on the left, connection status on the right. No navigation, no accounts.
+- **Wide screens:** three columns, weather on the left (narrow), feed in the center (widest), chat on the right (medium). Each panel has an icon and a title, and scrolls on its own, except the weather panel, which is as tall as its content; the page itself does not scroll past the viewport.
 - **Narrow screens:** one column in the order feed, weather, chat. The page scrolls normally.
 - **Center panel, top to bottom:** publish form (name and text), live posts newest first, then the API feed.
 - **Right panel, top to bottom:** chat messages, then the chat form (name and text) at the bottom.

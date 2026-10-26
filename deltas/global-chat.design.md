@@ -16,8 +16,8 @@ Non-goals:
 
 Top to bottom inside the panel:
 
-- **Message list:** oldest at the top, newest at the bottom, scrolling on its own. Each message shows the author name, the text and the formatted time.
-- **Chat form:** at the bottom, a name field, a text field and a Send button, with an inline message line for errors.
+- **Message list:** oldest at the top, newest at the bottom, scrolling on its own. Each message shows a round avatar with the author's initials, then the author name and the formatted time, with the text in a bubble under them.
+- **Chat form:** at the bottom, a name field on its own row; under it the text field with a round, icon-only send button beside it, both the same height; an inline message line for errors.
 
 ## States
 
@@ -31,6 +31,7 @@ Top to bottom inside the panel:
 ## Interactions
 
 - When the visitor submits the form with a name and a text while connected, the client sends the chat message; the rules are in global-chat.spec.md (Contract and invariants 3 and 7).
+- The send button has no visible text, so it carries the accessible name "Send".
 - When the form is sent, the text field is cleared and the name field keeps its value; the name is saved in the browser and shared with the publish form. If the browser cannot store it, the form still works.
 - When a message arrives and the visitor is at the bottom of the list, the list scrolls to show it.
 - When a message arrives and the visitor has scrolled up to read, the list does not move.

@@ -17,9 +17,9 @@ Non-goals:
 
 The API posts area is a vertical list of post cards inside the center panel, after the live posts. Each card, top to bottom:
 
+- **Author:** a line of its own at the top, a round avatar with the author's initials and the author's name beside it. The avatar is only decoration, drawn from the name; it is not an identity.
 - **Title:** the most prominent line.
 - **Content:** the post body.
-- **Author:** the author's name, on a line of its own under the content.
 
 At the end of the list sits one status row, which is empty, "Loading more posts", "Could not load more posts" with a Retry button, or "No more posts" depending on the state below.
 

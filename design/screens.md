@@ -26,7 +26,7 @@ Each screen belongs to a delta under `deltas/`, which holds its full contract.
 - Phases 0 to 2 are drawn: the theme variables, the base components, and screens A1 to A4 (frames `A1 Home Wide`, `A2 Home Narrow`, `A3 Connection States`, `A4 Error Page`, under a `Components` section).
 - Color variables (hex): `bg` (warm cream), `surface`, `border`, `border-control`, `text-primary`, `text-secondary`, `muted`, `accent` (coral), `accent-tint`, `accent-border`, `on-accent`, `disabled`, `disabled-bg`, `neutral-bg`, `sun` and `sun-warm` (the weather card gradient), four avatar pairs `av1-bg`/`av1-fg` to `av4-bg`/`av4-fg`, and the `success`, `warning` and `error` pairs (`*-bg`, `*-text`). Font variables: `font-ui` (Nunito) and `font-display` (Fredoka). Number variables: `space-xs` to `space-xl`, `radius-sm` (12), `radius-md` (20) and `radius-pill`.
 - The app is named Happy. The theme is a warm, rounded proposal, light only: cream background, white panels with a soft shadow, a coral accent, a sunny weather card. The design files leave colors and theme out on purpose, and the page is styled with the Tailwind build, so the values must be carried into it at implementation.
-- Presentation additions not yet in the design files: an initials avatar beside every author (post cards, live posts, chat), a "Live" badge on live posts, chat messages as bubbles, a logo tile before the app name, an icon tile in each panel title, and a weather panel that hugs its content instead of filling the column height.
+- The presentation additions (avatars, the "Live" badge, chat bubbles, the logo tile, panel icons, the round icon-only send button and the weather panel that hugs its content) are recorded in the `design.md` files.
 
 ---
 
@@ -181,7 +181,6 @@ Minimum order if scope must be cut: phases 0 to 2, then 5 and 6 (the live part i
 ## Open Items and Questions
 
 - The theme is a proposal to review: palette, the two fonts and the radius.
-- The presentation additions listed under Current State are not in the `design.md` files yet: the post card puts the author above the title, and live posts carry a "Live" badge. They need to go through the `design.md` files once the look is approved.
 - Iconography is undecided: icons for the temperature and wind are an open question in `weather-panel.design.md`.
 - Wording of the friendly messages (weather unavailable, feed degraded) and of the rejection messages is not final.
 - The stacking breakpoint is decided at implementation.
