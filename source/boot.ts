@@ -17,18 +17,14 @@ import { HomeView } from "@infra/views/home.view";
 const { PORT } = container.resolve(EnvToken);
 
 const hub = container.resolve(LivePostsDock.clientHub);
-const publishLimiter = container.resolve(LivePostsDock.publishLimiter);
-const chatLimiter = container.resolve(GlobalChatDock.limiter);
 const postsSocket = livePostsSocket({
   publish: container.resolve(LivePostsDock.publishPost),
   list: container.resolve(LivePostsDock.listPosts),
-  limiter: publishLimiter,
   hub,
 });
 const chatSocket = globalChatSocket({
   send: container.resolve(GlobalChatDock.sendMessage),
   list: container.resolve(GlobalChatDock.listMessages),
-  limiter: chatLimiter,
   hub,
 });
 
@@ -37,7 +33,7 @@ new Elysia()
   .use(staticPlugin({ assets: "public", prefix: "/public" }))
   .use(localWeatherPlugin(container.resolve(WeatherDock.getWeather)))
   .use(socialFeedPlugin(container.resolve(FeedDock.getFeedPage)))
-  .use(realtimePlugin(postsSocket, chatSocket, [publishLimiter, chatLimiter]))
+  .use(realtimePlugin(postsSocket, chatSocket))
   .get("/", async ({ request, server, weatherFor, feedPage }) => {
     // Weather and the first feed page are requested together.
     const [weather, feed] = await Promise.all([

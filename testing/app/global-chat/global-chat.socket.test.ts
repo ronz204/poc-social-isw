@@ -8,7 +8,6 @@ import { livePostsSocket } from "@app/live-posts/live-posts.socket";
 import type { SocketClient } from "@app/realtime/realtime.contracts";
 import { PublishPostHandler } from "@app/live-posts/publish-post/publish-post.handler";
 import { ClientHub } from "@infra/bloc/client.hub";
-import { SlidingWindowLimiter } from "@infra/bloc/sliding-window.limiter";
 import { MemoryChatStore } from "@infra/bloc/chat.memory-store";
 import { MemoryPostStore } from "@infra/bloc/post.memory-store";
 
@@ -18,7 +17,7 @@ const makeClient = (id: string): SocketClient & { received: any[] } => {
   return { id, received, send: (text) => void received.push(JSON.parse(text)) };
 };
 
-const makeChat = (options: { max?: number; limit?: number } = {}) => {
+const makeChat = (options: { max?: number } = {}) => {
   const chatStore = new MemoryChatStore(options.max);
   const postStore = new MemoryPostStore();
   const hub = new ClientHub();
@@ -28,13 +27,11 @@ const makeChat = (options: { max?: number; limit?: number } = {}) => {
   const chat = globalChatSocket({
     send: new SendMessageHandler(chatStore, { next: () => `m-${++chatCounter}` }, clock),
     list: new ListMessagesHandler(chatStore),
-    limiter: new SlidingWindowLimiter(options.limit ?? 1000, 10_000),
     hub,
   });
   const posts = livePostsSocket({
     publish: new PublishPostHandler(postStore, { next: () => `p-${++postCounter}` }, clock),
     list: new ListPostsHandler(postStore),
-    limiter: new SlidingWindowLimiter(1000, 10_000),
     hub,
   });
   // The endpoint registers the connection in the hub, then both sockets greet it.
@@ -143,26 +140,6 @@ describe("globalChatSocket", () => {
     expect(chatStore.list().map((m) => m.text)).toEqual(["2", "3", "4"]);
   });
 
-  it("rejects a message over the rate limit and leaves the other clients unaffected", () => {
-    const { chat, connect, chatStore } = makeChat({ limit: 2 });
-    const fast = makeClient("fast");
-    const other = makeClient("other");
-    connect(fast);
-    connect(other);
-    chat.message(fast, msg("one"));
-    chat.message(fast, msg("two"));
-    const before = other.received.length;
-
-    chat.message(fast, msg("three"));
-
-    expect(fast.received.at(-1)).toEqual({ type: "chat-error", reason: "rate_limited" });
-    expect(other.received).toHaveLength(before);
-    expect(chatStore.list()).toHaveLength(2);
-
-    chat.message(other, msg("mine"));
-    expect(other.received.at(-1).type).toBe("chat");
-  });
-
   it("keeps the broadcast working after a client sends a malformed message", () => {
     const { chat, connect } = makeChat();
     const bad = makeClient("bad");
@@ -188,19 +165,5 @@ describe("globalChatSocket", () => {
     posts.message(a, { type: "post", name: "Ana", text: "a post" });
     expect(chatStore.list()).toHaveLength(1);
     expect(postStore.list()).toHaveLength(1);
-  });
-
-  it("counts chat messages apart from posts in the rate limits", () => {
-    const { chat, posts, connect } = makeChat({ limit: 1 });
-    const a = makeClient("a");
-    connect(a);
-    chat.message(a, msg("one"));
-
-    // The chat allowance is used up, but the posts limiter (a separate one) still lets a post through.
-    posts.message(a, { type: "post", name: "Ana", text: "a post" });
-    chat.message(a, msg("two"));
-
-    expect(a.received.some((m) => m.type === "post")).toBe(true);
-    expect(a.received.at(-1)).toEqual({ type: "chat-error", reason: "rate_limited" });
   });
 });

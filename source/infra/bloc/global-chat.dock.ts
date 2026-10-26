@@ -3,27 +3,18 @@ import { ListMessagesHandler } from "@app/global-chat/list-messages/list-message
 import { SendMessageHandler } from "@app/global-chat/send-message/send-message.handler";
 import type { IChatClock, IChatIdIssuer, IChatMessageRepository } from "@core/global-chat";
 import { MemoryChatStore } from "./chat.memory-store";
-import { SlidingWindowLimiter } from "./sliding-window.limiter";
-
-const CHAT_LIMIT = 10;
-const CHAT_WINDOW_MS = 10_000;
 
 export class GlobalChatDock {
   // tokens
   static readonly messageRepository = token<IChatMessageRepository>("GlobalChatDock.messageRepository");
   static readonly idIssuer = token<IChatIdIssuer>("GlobalChatDock.idIssuer");
   static readonly clock = token<IChatClock>("GlobalChatDock.clock");
-  static readonly limiter = token<SlidingWindowLimiter>("GlobalChatDock.limiter");
   static readonly sendMessage = token<SendMessageHandler>("GlobalChatDock.sendMessage");
   static readonly listMessages = token<ListMessagesHandler>("GlobalChatDock.listMessages");
 
   // module
   static readonly module: Module = (container) => {
     container.bind(GlobalChatDock.messageRepository).toFactory(() => new MemoryChatStore()).inSingleton();
-    container
-      .bind(GlobalChatDock.limiter)
-      .toFactory(() => new SlidingWindowLimiter(CHAT_LIMIT, CHAT_WINDOW_MS))
-      .inSingleton();
     container.bind(GlobalChatDock.idIssuer).toValue({ next: () => crypto.randomUUID() });
     container.bind(GlobalChatDock.clock).toValue({ now: () => new Date() });
     container

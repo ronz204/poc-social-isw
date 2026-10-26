@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { PublishLimiter, SocketClient, SocketHub } from "@app/realtime/realtime.contracts";
+import type { SocketClient, SocketHub } from "@app/realtime/realtime.contracts";
 import type { ListPostsHandler } from "./list-posts/list-posts.handler";
 import type { PublishPostHandler } from "./publish-post/publish-post.handler";
 import { publishPostInput } from "./publish-post/publish-post.schema";
@@ -13,7 +13,6 @@ const reply = (client: SocketClient, body: object) => client.send(JSON.stringify
 export const livePostsSocket = (deps: {
   publish: PublishPostHandler;
   list: ListPostsHandler;
-  limiter: PublishLimiter;
   hub: SocketHub;
 }) => ({
   open(client: SocketClient) {
@@ -24,7 +23,6 @@ export const livePostsSocket = (deps: {
     deps.hub.remove(client);
   },
   message(client: SocketClient, data: unknown) {
-    if (!deps.limiter.allow(client.id)) return reply(client, { type: "error", reason: "rate_limited" });
     const parsed = publishPostMessage.safeParse(data);
     if (!parsed.success) return reply(client, { type: "error", reason: "invalid" });
     const post = deps.publish.execute(parsed.data);

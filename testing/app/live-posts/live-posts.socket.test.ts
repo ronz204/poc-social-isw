@@ -5,7 +5,6 @@ import type { SocketClient } from "@app/realtime/realtime.contracts";
 import { PublishPostHandler } from "@app/live-posts/publish-post/publish-post.handler";
 import { MAX_TEXT } from "@app/live-posts/publish-post/publish-post.schema";
 import { ClientHub } from "@infra/bloc/client.hub";
-import { SlidingWindowLimiter } from "@infra/bloc/sliding-window.limiter";
 import { MemoryPostStore } from "@infra/bloc/post.memory-store";
 
 // A connection that records every text sent to it.
@@ -21,13 +20,12 @@ const makeClient = (id: string, failing = false): SocketClient & { received: any
   };
 };
 
-const makeSocket = (options: { max?: number; limit?: number } = {}) => {
+const makeSocket = (options: { max?: number } = {}) => {
   const store = new MemoryPostStore(options.max);
   let counter = 0;
   const socket = livePostsSocket({
     publish: new PublishPostHandler(store, { next: () => `id-${++counter}` }, { now: () => new Date(2026, 9, 26, 9, 30) }),
     list: new ListPostsHandler(store),
-    limiter: new SlidingWindowLimiter(options.limit ?? 1000, 10_000),
     hub: new ClientHub(),
   });
   return { socket, store };
@@ -109,26 +107,6 @@ describe("livePostsSocket", () => {
     socket.message(a, post(`  ${"x".repeat(MAX_TEXT)}  `));
 
     expect(a.received.at(-1).post.content).toBe("x".repeat(MAX_TEXT));
-  });
-
-  it("rejects a publish over the rate limit and leaves the other clients unaffected", () => {
-    const { socket, store } = makeSocket({ limit: 2 });
-    const fast = makeClient("fast");
-    const other = makeClient("other");
-    socket.open(fast);
-    socket.open(other);
-    socket.message(fast, post("one"));
-    socket.message(fast, post("two"));
-    const before = other.received.length;
-
-    socket.message(fast, post("three"));
-
-    expect(fast.received.at(-1)).toEqual({ type: "error", reason: "rate_limited" });
-    expect(other.received).toHaveLength(before);
-    expect(store.list()).toHaveLength(2);
-
-    socket.message(other, post("mine"));
-    expect(other.received.at(-1).type).toBe("post");
   });
 
   it("keeps the broadcast working when one client's connection fails", () => {

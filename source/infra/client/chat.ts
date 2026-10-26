@@ -11,12 +11,11 @@ const textField = document.querySelector<HTMLInputElement>("#chat-text");
 // The same key as the publish form: one saved name for both.
 const NAME_KEY = "visitor-name";
 const INVALID = "Your name and message can't be empty, and the message can't pass 200 characters.";
-const TOO_FAST = "You're sending messages too fast. Please wait a moment and try again.";
 
 type ServerMessage =
   | { type: "chat-history"; messages: ClientChatMessage[] }
   | { type: "chat"; message: ClientChatMessage }
-  | { type: "chat-error"; reason: "invalid" | "rate_limited" };
+  | { type: "chat-error"; reason: "invalid" };
 
 if (form && list && empty && message && nameField && textField) {
   // The saved name is a convenience: a browser that cannot store it still works.
@@ -46,9 +45,7 @@ if (form && list && empty && message && nameField && textField) {
     // The history arrives oldest first, so appending each leaves the newest at the bottom.
     if (data.type === "chat-history") (data as { messages: ClientChatMessage[] }).messages.forEach(show);
     else if (data.type === "chat") show((data as { message: ClientChatMessage }).message);
-    else if (data.type === "chat-error") {
-      message.textContent = (data as { reason: string }).reason === "rate_limited" ? TOO_FAST : INVALID;
-    }
+    else if (data.type === "chat-error") message.textContent = INVALID;
   });
 
   form.addEventListener("submit", (event) => {

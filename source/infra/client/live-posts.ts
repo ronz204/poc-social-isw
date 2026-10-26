@@ -10,12 +10,11 @@ const textField = document.querySelector<HTMLInputElement>("#live-text");
 
 const NAME_KEY = "visitor-name";
 const INVALID = "Your name and message can't be empty, and the message can't pass 280 characters.";
-const TOO_FAST = "You're posting too fast. Please wait a moment and try again.";
 
 type ServerMessage =
   | { type: "history"; posts: ClientPost[] }
   | { type: "post"; post: ClientPost }
-  | { type: "error"; reason: "invalid" | "rate_limited" };
+  | { type: "error"; reason: "invalid" };
 
 if (form && list && empty && message && nameField && textField) {
   // The saved name is a convenience: a browser that cannot store it still works.
@@ -42,7 +41,7 @@ if (form && list && empty && message && nameField && textField) {
     if (data.type === "history") data.posts.forEach(show);
     else if (data.type === "post") show(data.post);
     // Chat messages share the connection and are not this script's.
-    else if (data.type === "error") message.textContent = data.reason === "rate_limited" ? TOO_FAST : INVALID;
+    else if (data.type === "error") message.textContent = INVALID;
   });
 
   form.addEventListener("submit", (event) => {

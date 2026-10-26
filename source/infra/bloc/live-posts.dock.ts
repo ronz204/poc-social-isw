@@ -4,10 +4,6 @@ import { PublishPostHandler } from "@app/live-posts/publish-post/publish-post.ha
 import type { IClock, ILivePostRepository, IPostIdIssuer } from "@core/live-posts";
 import { MemoryPostStore } from "./post.memory-store";
 import { ClientHub } from "./client.hub";
-import { SlidingWindowLimiter } from "./sliding-window.limiter";
-
-const PUBLISH_LIMIT = 5;
-const PUBLISH_WINDOW_MS = 10_000;
 
 export class LivePostsDock {
   // tokens
@@ -15,7 +11,6 @@ export class LivePostsDock {
   static readonly postIdIssuer = token<IPostIdIssuer>("LivePostsDock.postIdIssuer");
   static readonly clock = token<IClock>("LivePostsDock.clock");
   static readonly clientHub = token<ClientHub>("LivePostsDock.clientHub");
-  static readonly publishLimiter = token<SlidingWindowLimiter>("LivePostsDock.publishLimiter");
   static readonly publishPost = token<PublishPostHandler>("LivePostsDock.publishPost");
   static readonly listPosts = token<ListPostsHandler>("LivePostsDock.listPosts");
 
@@ -23,10 +18,6 @@ export class LivePostsDock {
   static readonly module: Module = (container) => {
     container.bind(LivePostsDock.postRepository).toFactory(() => new MemoryPostStore()).inSingleton();
     container.bind(LivePostsDock.clientHub).toFactory(() => new ClientHub()).inSingleton();
-    container
-      .bind(LivePostsDock.publishLimiter)
-      .toFactory(() => new SlidingWindowLimiter(PUBLISH_LIMIT, PUBLISH_WINDOW_MS))
-      .inSingleton();
     container.bind(LivePostsDock.postIdIssuer).toValue({ next: () => crypto.randomUUID() });
     container.bind(LivePostsDock.clock).toValue({ now: () => new Date() });
     container

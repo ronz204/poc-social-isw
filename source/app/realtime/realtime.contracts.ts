@@ -9,11 +9,3 @@ export interface SocketHub {
   remove(client: SocketClient): void;
   broadcast(text: string): void;
 }
-
-export interface PublishLimiter {
-  allow(clientId: string): boolean;
-}
-
-export interface ClientLimiter extends PublishLimiter {
-  forget(clientId: string): void;
-}
