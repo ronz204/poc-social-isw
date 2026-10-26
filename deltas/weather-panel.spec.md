@@ -57,7 +57,7 @@ The weather API is queried with coordinates only, never with a city name. A look
 
 ## Deferred / Open questions
 
-- **Geolocation provider.** `geoip-lite` is the current choice but is not verified under Bun, and its data refresh (license key, where it lives, whether the data is committed) is undecided; `ip-api.com` (HTTP only, 45 requests per minute) is the fallback. A spike under Bun settles it before this slice is built; until then the spec stays provider-agnostic behind the lookup interface.
+- **Geolocation data quality.** `geoip-lite` is the settled provider (verified under Bun) and runs on its bundled data without a refresh. That data usually carries coordinates and a timezone but no city name, so most locations have no name (invariant 12) and the panel must not depend on one.
 - **TTL value and cache mechanism.** About 10 minutes is the proposal; the mechanism is undecided. Decide when implementing.
 - **Caching failures.** Proposed: an `unavailable` result is not cached, so a recovered API shows up on the next visit. Not confirmed; decide when implementing and then promote it to an invariant.
 - **Weather API timeout.** The value is undecided; it must be short enough that a hung API cannot stall the page render.

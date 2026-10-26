@@ -6,11 +6,11 @@ Build progress of poc-social-isw, step by step; it tracks work done, not decisio
 
 ## Overview
 
-**Overall progress: 8 / 32 tasks — 25%**
+**Overall progress: 9 / 32 tasks — 28%**
 
 | # | Step | Status | Progress |
 |---|---|---|---|
-| 1 | [Foundation](#1--foundation) | 🔄 In progress | 3/4 — 75% |
+| 1 | [Foundation](#1--foundation) | ✅ Done | 4/4 — 100% |
 | 2 | [Weather panel](#2--weather-panel) | 🔄 In progress | 1/5 — 20% |
 | 3 | [Social feed](#3--social-feed) | 🔄 In progress | 1/5 — 20% |
 | 4 | [Live posts](#4--live-posts) | 🔄 In progress | 1/5 — 20% |
@@ -29,7 +29,7 @@ Stack installed and the one open technical risk settled before any slice is buil
 - [x] Install `elysia` and `@elysiajs/html` with bun and confirm a minimal server starts and answers one request that renders a TSX/HTML component.
 - [x] Fill in the empty `source/env.ts` and `source/boot.ts` so the app reads its config from a committed `.sample` env file and starts through a single entry point that builds the DI container.
 - [x] Create the `public/` folder at the repo root and add a `bun build` step that compiles the TypeScript client scripts into static assets the server can serve.
-- [ ] Run a short spike of `geoip-lite` under Bun: check that it installs and loads, that a public IP resolves to coordinates, and how its data gets refreshed; then record the provider decision (or the `ip-api.com` fallback) in `structure.md`.
+- [x] Run a short spike of `geoip-lite` under Bun: check that it installs and loads, that a public IP resolves to coordinates, and how its data gets refreshed; then record the provider decision (or the `ip-api.com` fallback) in `structure.md`.
 
 ## 2 — Weather panel
 
