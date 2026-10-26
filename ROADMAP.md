@@ -6,14 +6,14 @@ Build progress of poc-social-isw, step by step; it tracks work done, not decisio
 
 ## Overview
 
-**Overall progress: 19 / 32 tasks — 59%**
+**Overall progress: 22 / 32 tasks — 69%**
 
 | # | Step | Status | Progress |
 |---|---|---|---|
 | 1 | [Foundation](#1--foundation) | ✅ Done | 4/4 — 100% |
 | 2 | [Weather panel](#2--weather-panel) | ✅ Done | 5/5 — 100% |
 | 3 | [Social feed](#3--social-feed) | ✅ Done | 5/5 — 100% |
-| 4 | [Live posts](#4--live-posts) | 🔄 In progress | 2/5 — 40% |
+| 4 | [Live posts](#4--live-posts) | ✅ Done | 5/5 — 100% |
 | 5 | [Global chat](#5--global-chat) | 🔄 In progress | 2/5 — 40% |
 | 6 | [Page shell](#6--page-shell) | 🔄 In progress | 1/4 — 25% |
 | 7 | [Delivery](#7--delivery) | 🔲 Not started | 0/4 — 0% |
@@ -57,9 +57,9 @@ Slice: `deltas/live-posts.spec.md`. Visitor posts are not merged into the feed's
 
 - [x] Specify the slice with the server-built post (id, author, content, formatted time), the in-memory history, the broadcast rule and the rate limit, and settle the open merge-with-feed question.
 - [x] Write `live-posts.design.md` with the publish form, the live items as they arrive, and the states for a rejected or rate-limited post.
-- [ ] Write the tests first for server-side id and time creation, validation of the incoming event, escaping of visitor text, history on connect and broadcast to all.
-- [ ] Implement the WebSocket handler, the in-memory post store, the publish validation with zod, the rate limiting and the client script that sends and renders posts.
-- [ ] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
+- [x] Write the tests first for server-side id and time creation, validation of the incoming event, escaping of visitor text, history on connect and broadcast to all.
+- [x] Implement the WebSocket handler, the in-memory post store, the publish validation with zod, the rate limiting and the client script that sends and renders posts.
+- [x] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
 
 ## 5 — Global chat
 
