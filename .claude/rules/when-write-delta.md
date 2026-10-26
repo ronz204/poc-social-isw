@@ -1,6 +1,6 @@
 ---
 paths:
-  - "*/deltas/**"
+  - "deltas/**"
   - ".claude/skills/specifier/**"
   - ".claude/skills/archivist/**"
 ---

@@ -1,7 +1,6 @@
 ---
 paths:
-  - "*/cmd/**"
-  - "*/source/**"
+  - "source/**"
 ---
 
 # Lean-Change Code Conventions
