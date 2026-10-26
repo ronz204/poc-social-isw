@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { HISTORY_SIZE, MemoryPostStore } from "@infra/store/post.memory-store";
+import { HISTORY_SIZE, MemoryPostStore } from "@infra/bloc/post.memory-store";
 
 const post = (n: number) => ({ id: `id-${n}`, author: "Ana", content: `Post ${n}`, time: "09:30 AM" });
 

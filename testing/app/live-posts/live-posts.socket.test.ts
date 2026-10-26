@@ -4,8 +4,8 @@ import { livePostsSocket, type SocketClient } from "@app/live-posts/live-posts.s
 import { PublishPostHandler } from "@app/live-posts/publish-post/publish-post.handler";
 import { MAX_TEXT } from "@app/live-posts/publish-post/publish-post.schema";
 import { ClientHub } from "@infra/bloc/client.hub";
-import { SlidingWindowLimiter } from "@infra/bloc/rate-limiter";
-import { MemoryPostStore } from "@infra/store/post.memory-store";
+import { SlidingWindowLimiter } from "@infra/bloc/sliding-window.limiter";
+import { MemoryPostStore } from "@infra/bloc/post.memory-store";
 
 // A connection that records every text sent to it.
 const makeClient = (id: string, failing = false): SocketClient & { received: any[] } => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MemoryChatStore } from "@infra/store/chat.memory-store";
+import { MemoryChatStore } from "@infra/bloc/chat.memory-store";
 
 const message = (id: string) => ({ id, author: "Ana", text: id, time: "09:30 AM" });
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { SlidingWindowLimiter } from "@infra/bloc/rate-limiter";
+import { SlidingWindowLimiter } from "@infra/bloc/sliding-window.limiter";
 
 describe("SlidingWindowLimiter", () => {
   it("allows up to the limit inside the window and then refuses", () => {

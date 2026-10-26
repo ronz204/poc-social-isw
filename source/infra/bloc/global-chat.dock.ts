@@ -2,8 +2,8 @@ import { token, type Module } from "dockdi";
 import { ListMessagesHandler } from "@app/global-chat/list-messages/list-messages.handler";
 import { SendMessageHandler } from "@app/global-chat/send-message/send-message.handler";
 import type { IChatClock, IChatIdIssuer, IChatMessageRepository } from "@core/global-chat";
-import { MemoryChatStore } from "../store/chat.memory-store";
-import { SlidingWindowLimiter } from "./rate-limiter";
+import { MemoryChatStore } from "./chat.memory-store";
+import { SlidingWindowLimiter } from "./sliding-window.limiter";
 
 const CHAT_LIMIT = 10;
 const CHAT_WINDOW_MS = 10_000;

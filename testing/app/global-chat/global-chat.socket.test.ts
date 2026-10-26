@@ -7,9 +7,9 @@ import { ListPostsHandler } from "@app/live-posts/list-posts/list-posts.handler"
 import { livePostsSocket, type SocketClient } from "@app/live-posts/live-posts.socket";
 import { PublishPostHandler } from "@app/live-posts/publish-post/publish-post.handler";
 import { ClientHub } from "@infra/bloc/client.hub";
-import { SlidingWindowLimiter } from "@infra/bloc/rate-limiter";
-import { MemoryChatStore } from "@infra/store/chat.memory-store";
-import { MemoryPostStore } from "@infra/store/post.memory-store";
+import { SlidingWindowLimiter } from "@infra/bloc/sliding-window.limiter";
+import { MemoryChatStore } from "@infra/bloc/chat.memory-store";
+import { MemoryPostStore } from "@infra/bloc/post.memory-store";
 
 // A connection that records every text sent to it.
 const makeClient = (id: string): SocketClient & { received: any[] } => {

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { PublishPostHandler } from "@app/live-posts/publish-post/publish-post.handler";
 import { publishPostInput } from "@app/live-posts/publish-post/publish-post.schema";
-import { MemoryPostStore } from "@infra/store/post.memory-store";
+import { MemoryPostStore } from "@infra/bloc/post.memory-store";
 
 const makeHandler = () => {
   const store = new MemoryPostStore();

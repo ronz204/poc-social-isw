@@ -2,9 +2,9 @@ import { token, type Module } from "dockdi";
 import { ListPostsHandler } from "@app/live-posts/list-posts/list-posts.handler";
 import { PublishPostHandler } from "@app/live-posts/publish-post/publish-post.handler";
 import type { IClock, ILivePostRepository, IPostIdIssuer } from "@core/live-posts";
-import { MemoryPostStore } from "../store/post.memory-store";
+import { MemoryPostStore } from "./post.memory-store";
 import { ClientHub } from "./client.hub";
-import { SlidingWindowLimiter } from "./rate-limiter";
+import { SlidingWindowLimiter } from "./sliding-window.limiter";
 
 const PUBLISH_LIMIT = 5;
 const PUBLISH_WINDOW_MS = 10_000;

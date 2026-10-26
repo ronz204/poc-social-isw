@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
 import type { globalChatSocket } from "@app/global-chat/global-chat.socket";
 import type { livePostsSocket, SocketClient } from "@app/live-posts/live-posts.socket";
-import type { SlidingWindowLimiter } from "./rate-limiter";
+import type { SlidingWindowLimiter } from "./sliding-window.limiter";
 
 // The one WebSocket endpoint: a chat message goes to the chat socket, everything else to the posts socket.
 export const livePostsPlugin = (

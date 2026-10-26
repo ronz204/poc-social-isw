@@ -9,8 +9,8 @@ import { livePostsSocket } from "@app/live-posts/live-posts.socket";
 import { GlobalChatDock } from "@infra/bloc/global-chat.dock";
 import { livePostsPlugin } from "@infra/bloc/live-posts.plugin";
 import { LivePostsDock } from "@infra/bloc/live-posts.dock";
-import { WeatherDock } from "@infra/api/weather/weather.dock";
-import { FeedDock } from "@infra/api/feed/feed.dock";
+import { WeatherDock } from "@infra/bloc/weather.dock";
+import { FeedDock } from "@infra/bloc/feed.dock";
 import { PostCards } from "@infra/views/components/feed-posts.component";
 import { HomeView } from "@infra/views/home.view";
 
