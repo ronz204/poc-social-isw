@@ -7,7 +7,7 @@
 	],
 	"compilerOptions": {
 		// Environment - Latest JavaScript features
-		"lib": ["ESNext"],
+		"lib": ["ESNext", "DOM"],
 		"target": "ESNext",
 		"module": "ESNext",
 
