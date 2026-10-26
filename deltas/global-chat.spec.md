@@ -10,10 +10,10 @@ Every connected visitor talks in one shared room in real time, and a visitor who
 
 Owns:
 
-- Receiving a chat message, validating it and rejecting it when invalid or over the rate limit.
+- Receiving a chat message, validating it and rejecting it when invalid.
 - Building the stored message on the server, appending it to the chat history and broadcasting it to all connected clients.
 - Sending the chat history to each new connection.
-- Bounding the chat history and limiting the chat rate per connection.
+- Bounding the chat history.
 
 Shares the single WebSocket connection with the live-posts slice; each message carries a `type` that tells chat from posts. This slice specifies only chat messages and the chat history; the endpoint is the one live-posts.spec.md records.
 
@@ -31,13 +31,12 @@ Non-goals:
 |---|---|
 | Transport | The shared WebSocket at `/ws`; a message whose `type` is `"chat"` goes to the chat, any other to live posts |
 | Client chat message | `{type: "chat", name, text}`; the name travels in every message, so the server keeps no per-connection state; nothing else is read |
-| Server messages | `{type: "chat-history", messages}` on connect (oldest first), `{type: "chat", message}` broadcast, `{type: "chat-error", reason: "invalid" \| "rate_limited"}` to the sender |
+| Server messages | `{type: "chat-history", messages}` on connect (oldest first), `{type: "chat", message}` broadcast, `{type: "chat-error", reason: "invalid"}` to the sender |
 | Stored message | Unique id (a UUID), author name, text, time as `hh:mm AM/PM` (en-US, server clock), all built by the server |
 | Validation | Name and text are trimmed, non-empty and within a maximum length (starting values: name 30, text 200) |
 | On rejection | An error message goes to the sender only; nothing is stored or broadcast |
 | Broadcast | To every connected client, the sender included |
 | History | Sent to each new connection; holds only the most recent messages (starting value: 50), the oldest is dropped first |
-| Rate limit | Per connection, sliding window of 10 messages in 10 seconds, kept in its own limiter, separate from the live-posts limit (5 in 10 seconds) and more permissive; an over-limit message is rejected with the `rate_limited` error |
 
 ## Invariants
 
@@ -46,17 +45,15 @@ Non-goals:
 3. If a chat message is unparseable, has a wrong type or a missing field, has a name or text that is empty after trimming, or exceeds a maximum length, then nothing is stored or broadcast and the sender receives an error message. [test: testing/app/global-chat/global-chat.socket.test.ts "rejects %s: error to the sender only, nothing stored or broadcast"]
 4. When a valid chat message arrives, the server appends it to the chat history and broadcasts it to every connected client. [test: testing/app/global-chat/global-chat.socket.test.ts "broadcasts a valid message to every client, the sender included"]
 5. When a client connects, the server sends it the stored chat messages. [test: testing/app/global-chat/global-chat.socket.test.ts "sends the stored messages to a client that connects afterwards"]
-6. While the chat history holds the maximum number of messages, appending a new one drops the oldest. [test: testing/infra/bloc/chat.memory-store.test.ts "drops the oldest message when it is full"]
-7. If a connection exceeds the chat rate limit, then the message is not stored or broadcast and the sender receives an error message. [test: testing/app/global-chat/global-chat.socket.test.ts "rejects a message over the rate limit and leaves the other clients unaffected"]
-8. Author name and text are inserted into the page as text, never as markup, including messages that arrive over the WebSocket. [test: testing/infra/client/chat.render.test.ts "shows author name and text as text, never as markup"]
-9. Incoming chat messages are parsed with a schema at the boundary, and only the parsed result is used afterwards. [test: testing/app/global-chat/global-chat.socket.test.ts "rejects %s: error to the sender only, nothing stored or broadcast"]
-10. If one client sends a malformed message, then the other clients' connections stay open and the broadcast keeps working. [test: testing/app/global-chat/global-chat.socket.test.ts "keeps the broadcast working after a client sends a malformed message"]
-11. A chat message is never stored in or broadcast as part of the live posts history, and a post is never stored in the chat history. [test: testing/app/global-chat/global-chat.socket.test.ts "keeps chat and posts apart in both directions"]
-12. The chat rate limit never counts live posts publishes, and the live-posts limit never counts chat messages. [test: testing/app/global-chat/global-chat.socket.test.ts "counts chat messages apart from posts in the rate limits"]
+6. While the chat history holds the maximum number of messages, appending a new one drops the oldest. [test: testing/infra/bloc/chat.store.test.ts "drops the oldest message when it is full"]
+7. Author name and text are inserted into the page as text, never as markup, including messages that arrive over the WebSocket. [test: testing/infra/client/chat.render.test.ts "shows author name and text as text, never as markup"]
+8. Incoming chat messages are parsed with a schema at the boundary, and only the parsed result is used afterwards. [test: testing/app/global-chat/global-chat.socket.test.ts "rejects %s: error to the sender only, nothing stored or broadcast"]
+9. If one client sends a malformed message, then the other clients' connections stay open and the broadcast keeps working. [test: testing/app/global-chat/global-chat.socket.test.ts "keeps the broadcast working after a client sends a malformed message"]
+10. A chat message is never stored in or broadcast as part of the live posts history, and a post is never stored in the chat history. [test: testing/app/global-chat/global-chat.socket.test.ts "keeps chat and posts apart in both directions"]
 
 ## Deferred / Open questions
 
-- Maximum lengths (30 and 200), history size (50) and the rate limit (10 messages in 10 seconds) are starting values. The limit counts every message a connection sends, valid or not.
+- Maximum lengths (30 and 200) and history size (50) are starting values.
 - Tests drive the socket with fake clients and never open a real WebSocket, so the routing by `type` at the endpoint is not covered by a test.
 - Whether a connecting client gets the history strictly before any later broadcast. Same open question as live-posts.
 - Presence features and chat UI details (auto-scroll, highlighting one's own messages, inline errors). Decided in the design file or a later slice.
@@ -69,8 +66,7 @@ Non-goals:
 4. Given an empty text or a text one character over the maximum, when it is sent, then the sender gets an error and the other client receives nothing. [test: testing/app/global-chat/global-chat.socket.test.ts "rejects %s: error to the sender only, nothing stored or broadcast"]
 5. Given a text containing `<script>`, when it reaches the clients, then both show it as escaped text. [test: testing/infra/client/chat.render.test.ts "shows author name and text as text, never as markup"]
 6. Given the history is full, when one more message is sent, then the history still holds the maximum and the oldest message is gone. [test: testing/app/global-chat/global-chat.socket.test.ts "keeps only the most recent messages and drops the oldest"]
-7. Given one connection over the chat limit, when it sends again, then it gets an error and the other clients are unaffected. [test: testing/app/global-chat/global-chat.socket.test.ts "rejects a message over the rate limit and leaves the other clients unaffected"]
-8. Given a chat message was sent, when the post history is read, then it holds no new item, and the same holds in the other direction. [test: testing/app/global-chat/global-chat.socket.test.ts "keeps chat and posts apart in both directions"]
+7. Given a chat message was sent, when the post history is read, then it holds no new item, and the same holds in the other direction. [test: testing/app/global-chat/global-chat.socket.test.ts "keeps chat and posts apart in both directions"]
 
 ---
 

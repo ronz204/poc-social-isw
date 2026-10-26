@@ -16,7 +16,7 @@ Live publish and chat:
 
 1. The page opens one WebSocket connection; messages carry a `type` that tells a post from a chat message, and the client routes each to its own list.
 2. A client sends a publish (or chat) message.
-3. The server validates it and checks the sender's rate limit; if either fails, only the sender gets an error and nothing is stored or broadcast. Otherwise it builds the stored object itself (unique id, author, content, formatted time) and appends it to that kind's in-memory history, which is bounded to its most recent entries.
+3. The server validates it; if that fails, only the sender gets an error and nothing is stored or broadcast. Otherwise it builds the stored object itself (unique id, author, content, formatted time) and appends it to that kind's in-memory history, which is bounded to its most recent entries.
 4. The server broadcasts it to every connected client, the sender included.
 5. A client that connects, or reconnects after a drop, receives both histories; on a reconnect they replace the lists on screen instead of adding to them.
 
@@ -25,7 +25,7 @@ Live publish and chat:
 - Location lookup: on a local machine the client IP is a loopback address (`127.0.0.1` or `::1`) and yields no location, so the weather panel needs a fixed default location plus a friendly note saying it is a default; otherwise weather never works in development.
 - Feed: posts come from two sources (the read-only fake-data API and visitors publishing live). They are kept as two separate lists, never merged: live posts show above the API posts, newest first, so their ids never need to avoid the API's numeric ids.
 - Feed: the API posts are served in fixed-size pages, and a post whose author is not among the fetched users is left out rather than shown with a placeholder author.
-- Posts and chat share the connection but nothing else: their histories and their rate limits are independent.
+- Posts and chat share the connection but nothing else: their histories are independent.
 
 ## Shared guarantees
 

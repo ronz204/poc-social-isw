@@ -25,19 +25,18 @@ Top to bottom inside the panel:
 - While the history arrives on connect, the list shows the stored messages with the newest at the bottom and scrolled into view.
 - While the connection is not open, the form is disabled (see page-shell.design.md).
 - While the server rejects a message as invalid, the message line shows the reason under the form.
-- While the server rejects a message for the rate limit, the message line tells the visitor to wait before sending again.
 - While a previous error is shown and the visitor sends a valid message, the message line is cleared.
 
 ## Interactions
 
-- When the visitor submits the form with a name and a text while connected, the client sends the chat message; the rules are in global-chat.spec.md (Contract and invariants 3 and 7).
+- When the visitor submits the form with a name and a text while connected, the client sends the chat message; the rules are in global-chat.spec.md (Contract and invariant 3).
 - The send button has no visible text, so it carries the accessible name "Send".
 - When the form is sent, the text field is cleared and the name field keeps its value; the name is saved in the browser and shared with the publish form. If the browser cannot store it, the form still works.
 - When a message arrives and the visitor is at the bottom of the list, the list scrolls to show it.
 - When a message arrives and the visitor has scrolled up to read, the list does not move.
 - When the server answers with an error, the text already cleared is not restored.
 
-There are no confirmation steps. Author name and text are shown as text, never as markup (see global-chat.spec.md, invariant 8).
+There are no confirmation steps. Author name and text are shown as text, never as markup (see global-chat.spec.md, invariant 7).
 
 ## Consumes
 
@@ -52,7 +51,7 @@ It writes the chat message (name and text) and the saved name.
 
 ## Deferred / Open questions
 
-- Wording of the rejection messages beyond showing them inline; first lines are "Your name and message can't be empty, and the message can't pass 200 characters." for an invalid message and "You're sending messages too fast. Please wait a moment and try again." for the rate limit, which uses the warning tint.
+- Wording of the rejection messages beyond showing them inline; first lines are "Your name and message can't be empty, and the message can't pass 200 characters." for an invalid message.
 - Format and locale of the time: the server's string is shown as it comes (global-chat.spec.md).
 - Whether a "new messages" hint is needed when the visitor has scrolled up.
 - Accessibility: focus after sending, announcing new messages.

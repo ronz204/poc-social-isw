@@ -12,7 +12,7 @@ What the project must support, how to tell it is done, and what could derail it.
 - Publish a post with a name and a text; the server builds the stored object and broadcasts it; new connections receive the history.
 - Global chat that works across clients.
 - Friendly degraded UI when the fake-data API or the weather API fails; the app never collapses.
-- Beyond the brief, confirmed: short-TTL caching of weather and feed, and rate limiting of publish and chat.
+- Beyond the brief, confirmed: short-TTL caching of weather and feed.
 - A user manual.
 
 ## Roadmap

@@ -28,18 +28,17 @@ The API posts follow below the list (social-feed.design.md).
 - While the history arrives on connect, the list shows the stored posts newest first.
 - While the connection is not open, the form is disabled (see page-shell.design.md).
 - While the server rejects a publish as invalid, the message line shows the reason under the form.
-- While the server rejects a publish for the rate limit, the message line tells the visitor to wait before posting again.
 - While a previous error is shown and the visitor sends a valid post, the message line is cleared.
 
 ## Interactions
 
-- When the visitor submits the form with a name and a text while connected, the client sends the post message; the rules are in live-posts.spec.md (Contract and invariants 3 and 7).
+- When the visitor submits the form with a name and a text while connected, the client sends the post message; the rules are in live-posts.spec.md (Contract and invariant 3).
 - The send button has no visible text, so it carries the accessible name "Publish".
 - When the form is sent, the text field is cleared and the name field keeps its value; the name is saved in the browser and prefilled on the next visit and in the chat form. The saved name is a convenience: if the browser cannot store it, the form still works.
 - When a post arrives, from the visitor or from anyone else, it is added at the top of the list.
 - When the server answers with an error, the text already cleared is not restored.
 
-There are no confirmation steps. Author name and text are shown as text, never as markup (see live-posts.spec.md, invariant 8).
+There are no confirmation steps. Author name and text are shown as text, never as markup (see live-posts.spec.md, invariant 7).
 
 ## Consumes
 
@@ -54,7 +53,7 @@ It writes the publish message (name and text) and the saved name.
 
 ## Deferred / Open questions
 
-- Wording of the rejection messages beyond showing them inline; first lines are "Your name and message can't be empty, and the message can't pass 280 characters." for an invalid post and "You're posting too fast. Please wait a moment and try again." for the rate limit, which uses the warning tint.
+- Wording of the rejection messages beyond showing them inline; first lines are "Your name and message can't be empty, and the message can't pass 280 characters." for an invalid post.
 - Format and locale of the time: the server's string is shown as it comes (live-posts.spec.md).
 - Accessibility: focus after sending, announcing new posts.
 - Whether a rejected message should keep the text for correction; today it does not.

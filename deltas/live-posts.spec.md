@@ -10,10 +10,10 @@ A visitor publishes a name and a text and every connected visitor sees it at onc
 
 Owns:
 
-- Receiving a publish message, validating it and rejecting it when invalid or over the rate limit.
+- Receiving a publish message, validating it and rejecting it when invalid.
 - Building the stored post on the server, appending it to the in-memory history and broadcasting it to all connected clients.
 - Sending the stored posts to each new connection.
-- Bounding the history and limiting the publish rate per connection.
+- Bounding the history.
 
 Non-goals:
 
@@ -28,13 +28,12 @@ Non-goals:
 |---|---|
 | Transport | One WebSocket connection at `/ws`, shared with global-chat; each message is JSON with a `type` that tells posts from chat |
 | Client publish message | `{type: "post", name, text}`; nothing else is read |
-| Server messages | `{type: "history", posts}` on connect (oldest first), `{type: "post", post}` broadcast, `{type: "error", reason: "invalid" \| "rate_limited"}` to the sender |
+| Server messages | `{type: "history", posts}` on connect (oldest first), `{type: "post", post}` broadcast, `{type: "error", reason: "invalid"}` to the sender |
 | Stored post | Unique id (a UUID), author name, content, time as `hh:mm AM/PM` (en-US, server clock), all built by the server |
 | Validation | Name and text are trimmed, non-empty and within a maximum length (starting values: name 30, text 280) |
 | On rejection | An error message goes to the sender only; nothing is stored or broadcast |
 | Broadcast | The new post goes to every connected client, the sender included |
 | History | Sent to each new connection; holds only the most recent posts (starting value: 100), the oldest is dropped first |
-| Rate limit | Per connection, sliding window of 5 messages in 10 seconds; an over-limit publish is rejected with the `rate_limited` error |
 
 ## Invariants
 
@@ -43,16 +42,14 @@ Non-goals:
 3. If a publish message is unparseable, has a wrong type or a missing field, has a name or text that is empty after trimming, or exceeds a maximum length, then nothing is stored or broadcast and the sender receives an error message. [test: testing/app/live-posts/live-posts.socket.test.ts "rejects %s: error to the sender only, nothing stored or broadcast"]
 4. When a valid publish arrives, the server appends the post to the history and broadcasts it to every connected client. [test: testing/app/live-posts/live-posts.socket.test.ts "broadcasts a valid post to every client, the sender included"]
 5. When a client connects, the server sends it the stored posts. [test: testing/app/live-posts/live-posts.socket.test.ts "sends the stored posts to a client that connects"]
-6. While the history holds the maximum number of posts, appending a new post drops the oldest one. [test: testing/infra/bloc/post.memory-store.test.ts "drops the oldest post once the history is full"]
-7. If a connection exceeds the publish rate limit, then the post is not stored or broadcast and the sender receives an error message. [test: testing/app/live-posts/live-posts.socket.test.ts "rejects a publish over the rate limit and leaves the other clients unaffected"]
-8. Author name and text are inserted into the page as text, never as markup, including posts that arrive over the WebSocket. [test: testing/infra/client/live-posts.render.test.ts "shows author name and text as text, never as markup"]
-9. Incoming WebSocket messages are parsed with a schema at the boundary, and only the parsed result is used afterwards. [test: testing/app/live-posts/live-posts.socket.test.ts "rejects %s: error to the sender only, nothing stored or broadcast"]
-10. If one client sends a malformed message, then the other clients' connections stay open and the broadcast keeps working. [test: testing/app/live-posts/live-posts.socket.test.ts "keeps the broadcast working when one client's connection fails"]
+6. While the history holds the maximum number of posts, appending a new post drops the oldest one. [test: testing/infra/bloc/post.store.test.ts "drops the oldest post once the history is full"]
+7. Author name and text are inserted into the page as text, never as markup, including posts that arrive over the WebSocket. [test: testing/infra/client/live-posts.render.test.ts "shows author name and text as text, never as markup"]
+8. Incoming WebSocket messages are parsed with a schema at the boundary, and only the parsed result is used afterwards. [test: testing/app/live-posts/live-posts.socket.test.ts "rejects %s: error to the sender only, nothing stored or broadcast"]
+9. If one client sends a malformed message, then the other clients' connections stay open and the broadcast keeps working. [test: testing/app/live-posts/live-posts.socket.test.ts "keeps the broadcast working when one client's connection fails"]
 
 ## Deferred / Open questions
 
 - Maximum lengths (30 and 280) and history size (100) are starting values.
-- Rate limit: 5 messages in a 10 second sliding window per connection is the starting value. It counts every message a connection sends, valid or not.
 - Whether the sender's error shows inline in the publish form is decided in the design file.
 
 ## Acceptance criteria
@@ -62,8 +59,7 @@ Non-goals:
 3. Given a publish message that also carries an id and a time, when it is stored, then the id and time are the server's own. [test: testing/app/live-posts/live-posts.socket.test.ts "uses the server's id and time when the message carries its own"]
 4. Given an empty text or a text one character over the maximum, when it is published, then the sender gets an error and the other client receives nothing. [test: testing/app/live-posts/live-posts.socket.test.ts "rejects %s: error to the sender only, nothing stored or broadcast"]
 5. Given a text containing `<script>`, when it reaches the clients, then both show it as escaped text. [test: testing/infra/client/live-posts.render.test.ts "shows author name and text as text, never as markup"]
-6. Given the history is full, when one more post is published, then the history still holds the maximum and the oldest post is gone. [test: testing/infra/bloc/post.memory-store.test.ts "drops the oldest post once the history is full"]
-7. Given one connection over the rate limit, when it publishes again, then it gets an error and the other clients are unaffected. [test: testing/app/live-posts/live-posts.socket.test.ts "rejects a publish over the rate limit and leaves the other clients unaffected"]
+6. Given the history is full, when one more post is published, then the history still holds the maximum and the oldest post is gone. [test: testing/infra/bloc/post.store.test.ts "drops the oldest post once the history is full"]
 
 ---
 
