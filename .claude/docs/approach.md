@@ -7,7 +7,7 @@ What the project must support, how to tell it is done, and what could derail it.
 ## Functional scope
 
 - Server-rendered three-panel page: weather, feed, chat.
-- Feed from the fake-data API's posts and users, mapped to typed `Post` and `User` shapes, showing title, content and author name.
+- Feed from the fake-data API's posts and users, mapped to typed `Post` and `User` shapes, showing title, content and author name, in fixed-size pages.
 - Current temperature and wind speed for the visitor's IP-derived location, with a fixed default for local development.
 - Publish a post with a name and a text; the server builds the stored object and broadcasts it; new connections receive the history.
 - Global chat that works across clients.
@@ -17,7 +17,7 @@ What the project must support, how to tell it is done, and what could derail it.
 
 ## Roadmap
 
-Not defined yet. The first step is this knowledge base; the order of the rest is decided slice by slice, by the author.
+Foundation first, then the weather panel, social feed, live posts, global chat and page shell slices, then delivery. Every slice has its spec, and the page shell also has its design; the other designs are written as each slice is built. A roadmap file at the repo root tracks progress.
 
 ## Risks
 

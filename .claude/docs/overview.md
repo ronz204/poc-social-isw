@@ -28,11 +28,11 @@ Out of scope, by requirement or decision:
 | Concept | Description |
 |---|---|
 | `User` | An author record from the fake-data API. Distinct from a visitor, who has no account and only supplies a display name when publishing. |
-| `Post` | A feed entry. Either fetched from the fake-data API (title, body, author) or created live by a visitor (server-assigned id, author name, content, formatted time). |
+| `Post` | A feed entry. Either fetched from the fake-data API (title, body, author) or created live by a visitor (server-assigned id, author name, content, formatted time). The two kinds are shown as separate lists, live posts above the fetched ones. |
 | `Chat message` | A live message in the global chat, broadcast to all connected clients and kept in server memory. |
 | `Location` | The visitor's approximate coordinates, derived from their IP address; a fixed default is used when the IP carries no location (local development). |
 | `Weather reading` | Current temperature and wind speed for a `Location`, from the weather API. |
-| `History` | The in-memory sequence of live posts (and chat) replayed to a client when it connects. |
+| `History` | The in-memory sequence of live posts, and a separate one of chat messages, each bounded to its most recent entries and replayed to a client when it connects. |
 
 ---
 

@@ -19,13 +19,13 @@ A server-rendered social-network demo: a feed from a public fake-data API, curre
 
 ## Commands
 
-`package.json` defines no scripts yet; don't assume `dev`, `test` or `build` exist. `bunfig.toml` forces `bun` for `run`. Tests are vitest, configured to resolve the tsconfig path aliases.
+`package.json` defines `start`, `dev` and `build` scripts but no `test` script yet; don't assume `test` exists. `bunfig.toml` forces `bun` for `run`. Tests are vitest, configured to resolve the tsconfig path aliases.
 
 ## Non-obvious structure
 
-- Application code lives under `source/` in the three layers `@app`, `@core` and `@infra` (aliases in `tsconfig.json`); `source/env.ts` and `source/boot.ts` exist but are empty.
-- Views (the HTML components) live inside the infrastructure layer. Client static assets go in a `public/` folder at the repo root, beside `source/`, not inside it; it doesn't exist yet.
-- `elysia` and `@elysiajs/html` are the chosen stack but are not installed yet.
+- Application code lives under `source/` in the three layers `@app`, `@core` and `@infra` (aliases in `tsconfig.json`); `source/env.ts` holds the config schema and `source/boot.ts` the server entry point.
+- Views (the HTML components) live inside the infrastructure layer. Client static assets go in a `public/` folder at the repo root, beside `source/`, not inside it; its contents are build output.
+- Progress by step is tracked in `ROADMAP.md`; it records work done, not contracts.
 
 ## Conventions
 
