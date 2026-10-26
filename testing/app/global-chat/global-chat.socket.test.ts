@@ -8,8 +8,8 @@ import { livePostsSocket } from "@app/live-posts/live-posts.socket";
 import type { SocketClient } from "@app/realtime/realtime.contracts";
 import { PublishPostHandler } from "@app/live-posts/publish-post/publish-post.handler";
 import { ClientHub } from "@infra/bloc/client.hub";
-import { MemoryChatStore } from "@infra/bloc/chat.memory-store";
-import { MemoryPostStore } from "@infra/bloc/post.memory-store";
+import { MemoryChatStore } from "@infra/bloc/chat.store";
+import { MemoryPostStore } from "@infra/bloc/post.store";
 
 // A connection that records every text sent to it.
 const makeClient = (id: string): SocketClient & { received: any[] } => {

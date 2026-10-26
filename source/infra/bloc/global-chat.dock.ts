@@ -2,7 +2,7 @@ import { token, type Module } from "dockdi";
 import { ListMessagesHandler } from "@app/global-chat/list-messages/list-messages.handler";
 import { SendMessageHandler } from "@app/global-chat/send-message/send-message.handler";
 import type { IChatClock, IChatIdIssuer, IChatMessageRepository } from "@core/global-chat";
-import { MemoryChatStore } from "./chat.memory-store";
+import { MemoryChatStore } from "./chat.store";
 
 export class GlobalChatDock {
   // tokens

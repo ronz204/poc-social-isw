@@ -5,7 +5,7 @@ import type { SocketClient } from "@app/realtime/realtime.contracts";
 import { PublishPostHandler } from "@app/live-posts/publish-post/publish-post.handler";
 import { MAX_TEXT } from "@app/live-posts/publish-post/publish-post.schema";
 import { ClientHub } from "@infra/bloc/client.hub";
-import { MemoryPostStore } from "@infra/bloc/post.memory-store";
+import { MemoryPostStore } from "@infra/bloc/post.store";
 
 // A connection that records every text sent to it.
 const makeClient = (id: string, failing = false): SocketClient & { received: any[] } => {
