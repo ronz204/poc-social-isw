@@ -44,7 +44,7 @@ One process, no database, no background workers. The brief's four responsibiliti
 | Caching | Short-TTL cache of weather and feed responses; invalidated by expiry only | Avoids hitting both free APIs on every page visit. Mechanism undecided. |
 | Rate limiting | Applied to publish and chat events | Any visitor can broadcast to all; limits flooding. Mechanism undecided. |
 | Secrets | None required; environment config follows the committed sample file | Both external APIs are keyless. |
-| State | Live posts and chat history are plain in-memory collections, shared by every connection to the one process | Required by the brief (no database). A restart empties them, only a single instance is supported (a second would keep its own history and miss the first one's broadcasts), and the live posts history is bounded to the most recent posts; the chat history's bound is not decided. |
+| State | Live posts and chat history are plain in-memory collections, shared by every connection to the one process | Required by the brief (no database). A restart empties them, only a single instance is supported (a second would keep its own history and miss the first one's broadcasts), and both histories are bounded to their most recent entries, so memory does not grow without limit. |
 
 ## Open architecture decisions
 
