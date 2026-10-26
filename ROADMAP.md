@@ -6,12 +6,12 @@ Build progress of poc-social-isw, step by step; it tracks work done, not decisio
 
 ## Overview
 
-**Overall progress: 13 / 32 tasks — 41%**
+**Overall progress: 16 / 32 tasks — 50%**
 
 | # | Step | Status | Progress |
 |---|---|---|---|
 | 1 | [Foundation](#1--foundation) | ✅ Done | 4/4 — 100% |
-| 2 | [Weather panel](#2--weather-panel) | 🔄 In progress | 2/5 — 40% |
+| 2 | [Weather panel](#2--weather-panel) | ✅ Done | 5/5 — 100% |
 | 3 | [Social feed](#3--social-feed) | 🔄 In progress | 2/5 — 40% |
 | 4 | [Live posts](#4--live-posts) | 🔄 In progress | 2/5 — 40% |
 | 5 | [Global chat](#5--global-chat) | 🔄 In progress | 2/5 — 40% |
@@ -37,9 +37,9 @@ Slice: `deltas/weather-panel.spec.md`.
 
 - [x] Write the spec with intent, contract, 12 invariants and acceptance criteria, with the provider choice left open.
 - [x] Write `weather-panel.design.md` with the panel's layout, its states (loading, success, default-location note, unavailable) and the friendly message wording.
-- [ ] Write the tests first for each invariant: loopback IP falls back to San José, a failing or malformed weather API yields `unavailable`, and a second call inside the TTL does not hit the API.
-- [ ] Implement the location lookup interface with the default fallback, the Open-Meteo reading parsed with a zod schema, and the in-memory TTL cache, then render the weather panel.
-- [ ] Run the sentinel check of the spec against the implementation and fix any drift it reports.
+- [x] Write the tests first for each invariant: loopback IP falls back to San José, a failing or malformed weather API yields `unavailable`, and a second call inside the TTL does not hit the API.
+- [x] Implement the location lookup interface with the default fallback, the Open-Meteo reading parsed with a zod schema, and the in-memory TTL cache, then render the weather panel.
+- [x] Run the sentinel check of the spec against the implementation and fix any drift it reports.
 
 ## 3 — Social feed
 
