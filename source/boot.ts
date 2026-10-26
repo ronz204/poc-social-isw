@@ -4,6 +4,14 @@ import { staticPlugin } from "@elysia/static";
 import { container, EnvToken } from "./dock";
 import { localWeatherPlugin } from "@app/local-weather/local-weather.plugin";
 import { socialFeedPlugin } from "@app/social-feed/social-feed.plugin";
+import { livePostsSocket } from "@app/live-posts/live-posts.socket";
+import { livePostsPlugin } from "@infra/bloc/live-posts.plugin";
+import {
+  ClientHubToken,
+  ListPostsHandlerToken,
+  PublishLimiterToken,
+  PublishPostHandlerToken,
+} from "@infra/bloc/live-posts.dock";
 import { GetWeatherHandlerToken } from "@infra/api/weather/weather.dock";
 import { GetFeedPageHandlerToken } from "@infra/api/feed/feed.dock";
 import { PostCards } from "@infra/views/components/feed-posts.component";
@@ -11,11 +19,20 @@ import { HomeView } from "@infra/views/home.view";
 
 const { PORT } = container.resolve(EnvToken);
 
+const limiter = container.resolve(PublishLimiterToken);
+const socket = livePostsSocket({
+  publish: container.resolve(PublishPostHandlerToken),
+  list: container.resolve(ListPostsHandlerToken),
+  limiter,
+  hub: container.resolve(ClientHubToken),
+});
+
 new Elysia()
   .use(html())
   .use(staticPlugin({ assets: "public", prefix: "/public" }))
   .use(localWeatherPlugin(container.resolve(GetWeatherHandlerToken)))
   .use(socialFeedPlugin(container.resolve(GetFeedPageHandlerToken)))
+  .use(livePostsPlugin(socket, limiter))
   .get("/", async ({ request, server, weatherFor, feedPage }) => {
     // Weather and the first feed page are requested together.
     const [weather, feed] = await Promise.all([

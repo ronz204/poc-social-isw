@@ -1,3 +1,5 @@
+import "./live-posts";
+
 const feed = document.querySelector<HTMLElement>("#feed-posts");
 const status = document.querySelector<HTMLElement>("#feed-status");
 

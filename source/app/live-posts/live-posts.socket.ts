@@ -1,0 +1,48 @@
+import { z } from "zod";
+import type { ListPostsHandler } from "./list-posts/list-posts.handler";
+import type { PublishPostHandler } from "./publish-post/publish-post.handler";
+import { publishPostInput } from "./publish-post/publish-post.schema";
+
+// What the socket needs from a connection, so a test hands it a plain object instead of a real socket.
+export interface SocketClient {
+  readonly id: string;
+  send(text: string): void;
+}
+
+export interface SocketHub {
+  add(client: SocketClient): void;
+  remove(client: SocketClient): void;
+  broadcast(text: string): void;
+}
+
+export interface PublishLimiter {
+  allow(clientId: string): boolean;
+}
+
+// The one message a client sends here; the `type` tells posts from chat on the shared connection.
+export const publishPostMessage = publishPostInput.extend({ type: z.literal("post") });
+
+const reply = (client: SocketClient, body: object) => client.send(JSON.stringify(body));
+
+// Routes the post messages of one connection; a bad message only gets an error back to its sender.
+export const livePostsSocket = (deps: {
+  publish: PublishPostHandler;
+  list: ListPostsHandler;
+  limiter: PublishLimiter;
+  hub: SocketHub;
+}) => ({
+  open(client: SocketClient) {
+    deps.hub.add(client);
+    reply(client, { type: "history", posts: deps.list.execute() });
+  },
+  close(client: SocketClient) {
+    deps.hub.remove(client);
+  },
+  message(client: SocketClient, data: unknown) {
+    if (!deps.limiter.allow(client.id)) return reply(client, { type: "error", reason: "rate_limited" });
+    const parsed = publishPostMessage.safeParse(data);
+    if (!parsed.success) return reply(client, { type: "error", reason: "invalid" });
+    const post = deps.publish.execute(parsed.data);
+    deps.hub.broadcast(JSON.stringify({ type: "post", post }));
+  },
+});
