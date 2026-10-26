@@ -54,7 +54,7 @@ It writes the publish message (name and text) and the saved name.
 
 ## Deferred / Open questions
 
-- Wording of the rejection messages beyond showing them inline.
+- Wording of the rejection messages beyond showing them inline; first lines are "Your name and message can't be empty, and the message can't pass 280 characters." for an invalid post and "You're posting too fast. Please wait a moment and try again." for the rate limit, which uses the warning tint.
 - Format and locale of the time: the server's string is shown as it comes (live-posts.spec.md).
 - Accessibility: focus after sending, announcing new posts.
 - Whether a rejected message should keep the text for correction; today it does not.

@@ -55,7 +55,7 @@ Author name, title and content are rendered as text (see social-feed.spec.md, in
 ## Deferred / Open questions
 
 - The HTTP route and response format used to request a page (HTML fragment or JSON); decided when implementing.
-- Wording of the degraded message and of "No posts to show".
+- Wording of the degraded message (a first line is "Posts are not available right now") and of "No posts to show".
 - Whether the Retry button is worth its code for the demo; it can be dropped for a plain message.
 - Accessibility of the loading and end rows.
 

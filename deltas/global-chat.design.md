@@ -52,7 +52,7 @@ It writes the chat message (name and text) and the saved name.
 
 ## Deferred / Open questions
 
-- Wording of the rejection messages beyond showing them inline.
+- Wording of the rejection messages beyond showing them inline; first lines are "Your name and message can't be empty, and the message can't pass 200 characters." for an invalid message and "You're sending messages too fast. Please wait a moment and try again." for the rate limit, which uses the warning tint.
 - Format and locale of the time: the server's string is shown as it comes (global-chat.spec.md).
 - Whether a "new messages" hint is needed when the visitor has scrolled up.
 - Accessibility: focus after sending, announcing new messages.

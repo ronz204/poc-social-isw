@@ -18,7 +18,7 @@ Inside the panel's frame, one card with a sunny gradient background, top to bott
 
 - **Place name:** with a pin icon, shown above the temperature only when the location has one.
 - **Temperature:** the largest element, in °C.
-- **Wind speed:** below it, in km/h, with a "Wind" label, in a small rounded chip.
+- **Wind speed:** below it, in km/h, with a wind icon and a "Wind" label, in a small rounded chip. The temperature carries no icon.
 - **Default-location note:** a small line at the bottom, shown only for the default location.
 
 The panel is as tall as its card, not the full column height, because it has nothing more to scroll.
@@ -50,7 +50,6 @@ The panel writes nothing.
 
 - Friendly message wording for the unavailable state; a first line is "Weather is not available right now".
 - Whether to round the temperature and wind speed, and to how many decimals.
-- Icon or text only for the wind and temperature.
 
 ## Acceptance criteria
 
