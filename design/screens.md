@@ -23,9 +23,10 @@ Each screen belongs to a delta under `deltas/`, which holds its full contract.
 ## Current State in Pencil
 
 - Single working file: `design/social.pen`, versioned in the repo. It is the source of truth for all slices, so tokens are defined once and components are reused across screens.
-- The file is empty: no frames, no components and no variables yet. Nothing is designed.
-- Colors and theme are not decided: the design files leave them out on purpose, and the page is styled with the Tailwind build. Phase 0 settles them before any screen is drawn.
-- The `.pen` file is encrypted: it is only read and written through the Pencil tools.
+- Phases 0 to 2 are drawn: the theme variables, the base components, and screens A1 to A4 (frames `A1 Home Wide`, `A2 Home Narrow`, `A3 Connection States`, `A4 Error Page`, under a `Components` section).
+- Color variables (hex): `bg` (warm cream), `surface`, `border`, `border-control`, `text-primary`, `text-secondary`, `muted`, `accent` (coral), `accent-tint`, `accent-border`, `on-accent`, `disabled`, `disabled-bg`, `neutral-bg`, `sun` and `sun-warm` (the weather card gradient), four avatar pairs `av1-bg`/`av1-fg` to `av4-bg`/`av4-fg`, and the `success`, `warning` and `error` pairs (`*-bg`, `*-text`). Font variables: `font-ui` (Nunito) and `font-display` (Fredoka). Number variables: `space-xs` to `space-xl`, `radius-sm` (12), `radius-md` (20) and `radius-pill`.
+- The app is named Happy. The theme is a warm, rounded proposal, light only: cream background, white panels with a soft shadow, a coral accent, a sunny weather card. The design files leave colors and theme out on purpose, and the page is styled with the Tailwind build, so the values must be carried into it at implementation.
+- Presentation additions not yet in the design files: an initials avatar beside every author (post cards, live posts, chat), a "Live" badge on live posts, chat messages as bubbles, a logo tile before the app name, an icon tile in each panel title, and a weather panel that hugs its content instead of filling the column height.
 
 ---
 
@@ -35,7 +36,7 @@ States: the "States" columns list what must be shown as variants of the same fra
 
 ### A. Page Frame (`page-shell`)
 
-Status: not started.
+Status: done on desktop. A1 to A4 are drawn in `social.pen`. A2 is the mobile counterpart of A1 (390 wide, the panels stacked as feed, weather, chat); A3 and A4 are drawn at desktop width only. The panels hold sample content built from the content components below, so every region can be judged; their own states belong to phases 3 to 6.
 
 | ID | Screen | Purpose | States |
 |---|---|---|---|
@@ -111,25 +112,30 @@ The "Status" column states whether the component is already in the `Components` 
 
 | Component | Variants and states | Used by | Status |
 |---|---|---|---|
-| Header | App name on the left, connection status on the right | A | Not started |
-| Connection status | Connecting, connected, offline and retrying | A | Not started |
-| Panel frame | Title and a body that scrolls on its own | A to E | Not started |
-| Weather readout | Temperature, wind, optional place name, optional default-location note | B | Not started |
-| Post card | Title, content, author | C | Not started |
+| Header | Logo tile and the name "Happy" on the left, connection status on the right; the status can be hidden (A4) | A | Done: `Header` |
+| Connection status | Connecting, connected, offline and retrying, by overriding fill, dot and label | A | Done: `Status Pill` |
+| Avatar | Initials in a colored circle, four color pairs, size by override | C, D, E | Done: `Avatar` |
+| Panel frame | Icon tile, title and a body that scrolls on its own | A to E | Done: `Panel Frame` (the body is replaced per panel) |
+| Weather readout | Gradient card with the temperature, wind chip, optional place name, optional default-location note | B | Basic version done: `Weather Readout`; B states pending |
+| Post card | Avatar and author, title, content | C | Basic version done: `Post Card`; C states pending |
 | Feed status row | Empty, loading, end, failed with Retry | C | Not started |
-| Live post item | Author, content, time | D | Not started |
-| Chat message item | Author, text, time | E | Not started |
-| Message form | Name field, text field, send button, inline message line; enabled, disabled, with error | D, E | Not started |
-| Inline message | Error and information, for rejections and the rate limit | D, E | Not started |
-| Friendly message | Text in place of a panel's content | B, C, A4 | Not started |
-| Empty line | Short text for an empty list | C, D, E | Not started |
+| Live post item | Avatar, author, "Live" badge, time, content | D | Basic version done: `Live Post Item` |
+| Chat message item | Avatar, author, time and the text in a bubble | E | Basic version done: `Chat Message Item` |
+| Message form | Name field on top; below it the text field with an icon-only round send button beside it, both 48 high; inline message line; enabled, disabled, with error | D, E | Done: `Message Form` (placeholders by override; the disabled look is an override of fills; the inline message is off by default) |
+| Text input | Normal, disabled by override | D, E | Done: `Text Input` |
+| Button | Primary, icon only, round 48 by 48; disabled by override. It has no visible text, so it needs an accessible name ("Publish" or "Send") at implementation | D, E | Done: `Button Primary` |
+| Inline message | Error, with an icon | D, E | Done: `Inline Message` |
+| Friendly message | Text and an icon in place of a panel's content or a page | A4, B, C | Done: `Friendly Message` |
+| Empty line | Short text for an empty list | C, D, E | Done: `Empty Line` |
 
 ### Screen Templates
 
 | Template | Covers |
 |---|---|
-| Three-panel page (header + three columns) | A1, A3 |
+| Three-panel page (header + three columns) | A1 |
 | Single-column page (header + stacked panels) | A2 |
+| Header + stacked forms | A3 |
+| Header + centered message | A4 |
 | Panel content states | B, C, D, E |
 
 ---
@@ -148,14 +154,16 @@ Each phase ends with a screenshot and a review before the next begins. The goal 
 
 | Phase | Work | Deliverable | Status |
 |---|---|---|---|
-| 0 | Decide the theme and define the color and font variables in `social.pen` | Variables ready | Not started |
-| 1 | Base components: panel frame, header, connection status, message form, inline message, friendly message, empty line | Row of components on the canvas | Not started |
-| 2 | Page frame: A1, A2, A3 and A4 | The three-panel page, wide and narrow | Not started |
+| 0 | Decide the theme and define the color and font variables in `social.pen` | Variables ready | Done: the Happy theme (warm, rounded, light only), 38 variables |
+| 1 | Base components: panel frame, header, connection status, message form, inline message, friendly message, empty line | Row of components on the canvas | Done, plus basic versions of the four content items so A1 can show them |
+| 2 | Page frame: A1, A2, A3 and A4 | The three-panel page, wide and narrow | Done |
 | 3 | Weather panel: B1 to B3 | Weather readout and its states | Not started |
 | 4 | Social feed: C1 to C6 (requires post card and feed status row) | Feed with all its states | Not started |
 | 5 | Live posts: D1 to D4 (requires live post item) | Publish form and live list | Not started |
 | 6 | Global chat: E1 to E4 (requires chat message item) | Chat panel | Not started |
 | 7 | Review: both widths, all states, against the design files | Screens match the contracts | Not started |
+
+The four content items drawn in phase 1 are the basic look only; phases 3 to 6 add their states and may change them.
 
 Minimum order if scope must be cut: phases 0 to 2, then 5 and 6 (the live part is what the brief grades hardest), then 4 and 3.
 
@@ -172,9 +180,11 @@ Minimum order if scope must be cut: phases 0 to 2, then 5 and 6 (the live part i
 
 ## Open Items and Questions
 
-- Theme and palette are undecided (phase 0).
+- The theme is a proposal to review: palette, the two fonts and the radius.
+- The presentation additions listed under Current State are not in the `design.md` files yet: the post card puts the author above the title, and live posts carry a "Live" badge. They need to go through the `design.md` files once the look is approved.
 - Iconography is undecided: icons for the temperature and wind are an open question in `weather-panel.design.md`.
 - Wording of the friendly messages (weather unavailable, feed degraded) and of the rejection messages is not final.
 - The stacking breakpoint is decided at implementation.
 - Accessibility (focus after sending, announcing incoming messages) is open in the design files and not drawn here.
+- The `.pen` file changes only in the Pencil app until it is saved there: the tools edit the open document in memory, so the file must be saved before committing.
 - The `.pen` file is encrypted: it cannot be compared with `git diff`. Each commit stores it whole, so it should be committed per phase and not on every change.
