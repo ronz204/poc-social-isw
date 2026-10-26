@@ -12,7 +12,6 @@
     "dev:client": "bun build source/infra/client/app.ts --outdir public/js --target browser --watch",
     "dev:css": "tailwindcss -i source/infra/styles/app.css -o public/css/app.css --watch=always"
   },
-
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
     "@types/bun": "latest",
@@ -27,6 +26,7 @@
     "@elysia/static": "^1.4.11",
     "dockdi": "^1.0.4",
     "elysia": "^1.4.30",
+    "geoip-lite": "^2.0.3",
     "ofetch": "^1.5.1",
     "zod": "^4.6.7"
   }
