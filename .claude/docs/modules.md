@@ -22,7 +22,7 @@ Live publish and chat:
 ## Non-obvious behavior
 
 - Location lookup: on a local machine the client IP is a loopback address (`127.0.0.1` or `::1`) and yields no location, so the weather panel needs a fixed default location plus a friendly note saying it is a default; otherwise weather never works in development.
-- Feed: posts come from two sources (the read-only fake-data API and visitors publishing live). Whether they share one list, and how ids stay distinct between the two, is undecided (see structure.md).
+- Feed: posts come from two sources (the read-only fake-data API and visitors publishing live). They are kept as two separate lists, never merged: live posts show above the API posts, newest first, so their ids never need to avoid the API's numeric ids.
 
 ## Shared guarantees
 

@@ -44,10 +44,9 @@ One process, no database, no background workers. The brief's four responsibiliti
 | Caching | Short-TTL cache of weather and feed responses; invalidated by expiry only | Avoids hitting both free APIs on every page visit. Mechanism undecided. |
 | Rate limiting | Applied to publish and chat events | Any visitor can broadcast to all; limits flooding. Mechanism undecided. |
 | Secrets | None required; environment config follows the committed sample file | Both external APIs are keyless. |
-| State | Live posts and chat history are plain in-memory collections, shared by every connection to the one process | Required by the brief (no database). A restart empties them, only a single instance is supported (a second would keep its own history and miss the first one's broadcasts), and growth is unbounded unless a limit is added, which is not decided. |
+| State | Live posts and chat history are plain in-memory collections, shared by every connection to the one process | Required by the brief (no database). A restart empties them, only a single instance is supported (a second would keep its own history and miss the first one's broadcasts), and the live posts history is bounded to the most recent posts; the chat history's bound is not decided. |
 
 ## Open architecture decisions
 
 - **geoip-lite under Bun.** The library is chosen, but its compatibility with Bun is not verified, and the data-refresh step (license key, where the key lives, whether the data is committed) is not decided. A short spike under Bun settles both; if it fails, ip-api.com (HTTP only on the free tier, 45 requests per minute, non-commercial) is the fallback behind the same interface.
 - **Error handling in server-rendered pages.** The brief requires a try/catch around each external call with a friendly message in the view. An Elysia error handler is request-level, so it cannot render a page with only the weather panel degraded; per-call degradation is needed for the panels, while the global handler can remain the last-resort fallback. Whether to formalize this as a rule is undecided.
-- **Live posts vs. fetched posts.** Whether visitor posts merge into the same feed list as the fake-data API's posts, and how their ids avoid colliding with the API's numeric ids.
