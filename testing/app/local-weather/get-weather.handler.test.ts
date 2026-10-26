@@ -31,7 +31,7 @@ const readerStub = (answer: () => Promise<WeatherReading>) => {
 };
 
 describe("GetWeatherHandler", () => {
-  it("uses the default location, flagged as default, when the lookup finds nothing", async () => {
+  it("uses default when lookup finds nothing", async () => {
     const { reader, calls } = readerStub(async () => reading);
 
     const result = await new GetWeatherHandler(locatorReturning(null), reader).execute({ ip: "127.0.0.1" });
@@ -44,7 +44,7 @@ describe("GetWeatherHandler", () => {
     expect(calls).toEqual([DEFAULT_PLACE]);
   });
 
-  it("uses the found coordinates, flagged as not default, when the lookup resolves", async () => {
+  it("uses found coordinates when lookup resolves", async () => {
     const { reader, calls } = readerStub(async () => reading);
 
     const result = await new GetWeatherHandler(locatorReturning(madrid), reader).execute({ ip: "8.8.8.8" });
@@ -53,7 +53,7 @@ describe("GetWeatherHandler", () => {
     expect(calls).toEqual([madrid]);
   });
 
-  it("falls back to the default location when the lookup throws", async () => {
+  it("falls back to default when lookup throws", async () => {
     const locator: ILocationLocator = {
       locate: () => {
         throw new Error("lookup exploded");
@@ -66,7 +66,7 @@ describe("GetWeatherHandler", () => {
     expect(result).toMatchObject({ status: "ok", location: { isDefault: true } });
   });
 
-  it("carries the place name when the lookup provides one", async () => {
+  it("carries the place name", async () => {
     const named: Place = { ...madrid, name: "Madrid" };
     const { reader } = readerStub(async () => reading);
 
@@ -75,7 +75,7 @@ describe("GetWeatherHandler", () => {
     expect(result).toMatchObject({ status: "ok", location: { name: "Madrid" } });
   });
 
-  it("leaves the name out when the lookup provides none", async () => {
+  it("leaves the name out", async () => {
     const { reader } = readerStub(async () => reading);
 
     const result = await new GetWeatherHandler(locatorReturning(madrid), reader).execute({ ip: "8.8.8.8" });
@@ -83,7 +83,7 @@ describe("GetWeatherHandler", () => {
     expect(result.status === "ok" && result.location.name).toBeUndefined();
   });
 
-  it("returns unavailable when the reader fails with a reading error", async () => {
+  it("unavailable on reading error", async () => {
     const { reader } = readerStub(async () => {
       throw new ReadingError("reading_unavailable");
     });
@@ -93,7 +93,7 @@ describe("GetWeatherHandler", () => {
     });
   });
 
-  it("returns unavailable, without throwing, when the reader fails with anything else", async () => {
+  it("unavailable on any other failure", async () => {
     const { reader } = readerStub(async () => {
       throw new TypeError("unexpected");
     });

@@ -27,7 +27,7 @@ describe("OpenMeteoReadingAdapter", () => {
     expect(reading).toEqual({ temperature: 24.5, windSpeed: 12.3 });
   });
 
-  it("queries by coordinates only, never by the place name", async () => {
+  it("queries by coordinates only", async () => {
     const { fetcher, calls } = fetcherStub(() => okPayload);
 
     await new OpenMeteoReadingAdapter(fetcher).read(sanJose);
@@ -37,7 +37,7 @@ describe("OpenMeteoReadingAdapter", () => {
     expect(JSON.stringify(call)).not.toContain("San");
   });
 
-  it("asks for the temperature in degrees Celsius explicitly", async () => {
+  it("requests Celsius", async () => {
     const { fetcher, calls } = fetcherStub(() => okPayload);
 
     await new OpenMeteoReadingAdapter(fetcher).read(sanJose);
@@ -45,7 +45,7 @@ describe("OpenMeteoReadingAdapter", () => {
     expect(calls[0]?.options.query).toMatchObject({ temperature_unit: "celsius" });
   });
 
-  it("asks for the wind speed in kilometres per hour explicitly", async () => {
+  it("requests km/h", async () => {
     const { fetcher, calls } = fetcherStub(() => okPayload);
 
     await new OpenMeteoReadingAdapter(fetcher).read(sanJose);
@@ -53,7 +53,7 @@ describe("OpenMeteoReadingAdapter", () => {
     expect(calls[0]?.options.query).toMatchObject({ wind_speed_unit: "kmh" });
   });
 
-  it("sets a short timeout so a hung API cannot stall the page", async () => {
+  it("sets a short timeout", async () => {
     const { fetcher, calls } = fetcherStub(() => okPayload);
 
     await new OpenMeteoReadingAdapter(fetcher).read(sanJose);
@@ -61,7 +61,7 @@ describe("OpenMeteoReadingAdapter", () => {
     expect(calls[0]?.options.timeout).toBe(3000);
   });
 
-  it("fails with a reading error when the request fails or times out", async () => {
+  it("fails on request error or timeout", async () => {
     const { fetcher } = fetcherStub(() => {
       throw new Error("network down");
     });
@@ -79,7 +79,7 @@ describe("OpenMeteoReadingAdapter", () => {
     ["temperature missing", { current: { wind_speed_10m: 1 } }],
     ["temperature as text", { current: { temperature_2m: "warm", wind_speed_10m: 1 } }],
     ["wind speed missing", { current: { temperature_2m: 20 } }],
-  ])("fails with a reading error when the payload is malformed: %s", async (_label, payload) => {
+  ])("rejects a malformed payload: %s", async (_label, payload) => {
     const { fetcher } = fetcherStub(() => payload);
 
     await expect(new OpenMeteoReadingAdapter(fetcher).read(sanJose)).rejects.toMatchObject({

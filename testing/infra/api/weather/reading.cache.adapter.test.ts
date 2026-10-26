@@ -31,7 +31,7 @@ const setup = (answer: () => Promise<WeatherReading> = async () => reading) => {
 };
 
 describe("CachedReadingAdapter", () => {
-  it("calls the inner reader once for two reads of the same coordinates inside the TTL", async () => {
+  it("reads once inside the TTL", async () => {
     const { cache, calls, advance } = setup();
 
     const first = await cache.read(sanJose);
@@ -42,7 +42,7 @@ describe("CachedReadingAdapter", () => {
     expect(second).toEqual(first);
   });
 
-  it("calls the inner reader again once the cached reading is as old as the TTL", async () => {
+  it("reads again after the TTL", async () => {
     const { cache, calls, advance } = setup();
 
     await cache.read(sanJose);
@@ -52,7 +52,7 @@ describe("CachedReadingAdapter", () => {
     expect(calls()).toBe(2);
   });
 
-  it("keeps a reading until it expires, whatever else is read meanwhile", async () => {
+  it("keeps a reading until expiry", async () => {
     const { cache, calls, advance } = setup();
 
     await cache.read(sanJose);
@@ -73,7 +73,7 @@ describe("CachedReadingAdapter", () => {
     expect(calls()).toBe(2);
   });
 
-  it("does not cache a failure, so a recovered API shows up on the next read", async () => {
+  it("does not cache a failure", async () => {
     let failing = true;
     const { cache, calls } = setup(async () => {
       if (failing) throw new ReadingError("reading_unavailable");
