@@ -7,10 +7,10 @@ import { socialFeedPlugin } from "@app/social-feed/social-feed.plugin";
 import { globalChatSocket } from "@app/global-chat/global-chat.socket";
 import { livePostsSocket } from "@app/live-posts/live-posts.socket";
 import { realtimePlugin } from "@app/realtime/realtime.plugin";
-import { GlobalChatDock } from "@infra/bloc/global-chat.dock";
-import { LivePostsDock } from "@infra/bloc/live-posts.dock";
-import { WeatherDock } from "@infra/bloc/weather.dock";
-import { FeedDock } from "@infra/bloc/feed.dock";
+import { GlobalChatDock } from "@app/global-chat/global-chat.dock";
+import { LivePostsDock } from "@app/live-posts/live-posts.dock";
+import { WeatherDock } from "@infra/api/weather/weather.dock";
+import { FeedDock } from "@infra/api/feed/feed.dock";
 import { PostCards } from "@infra/views/components/feed-posts.component";
 import { HomeView } from "@infra/views/home.view";
 

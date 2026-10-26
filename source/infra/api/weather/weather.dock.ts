@@ -1,9 +1,9 @@
 import { token, type Module } from "dockdi";
 import { GetWeatherHandler } from "@app/local-weather/get-weather/get-weather.handler";
 import type { ILocationLocator, IReadingReader } from "@core/local-weather";
-import { GeoipLocationAdapter } from "../api/weather/location.geoip.adapter";
-import { CachedReadingAdapter } from "../api/weather/reading.cache.adapter";
-import { OpenMeteoReadingAdapter } from "../api/weather/reading.meteo.adapter";
+import { GeoipLocationAdapter } from "./location.geoip.adapter";
+import { CachedReadingAdapter } from "./reading.cache.adapter";
+import { OpenMeteoReadingAdapter } from "./reading.meteo.adapter";
 
 const READING_TTL_MS = 10 * 60 * 1000;
 

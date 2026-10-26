@@ -1,9 +1,9 @@
 import { token, type Module } from "dockdi";
-import { ListPostsHandler } from "@app/live-posts/list-posts/list-posts.handler";
-import { PublishPostHandler } from "@app/live-posts/publish-post/publish-post.handler";
+import { ListPostsHandler } from "./list-posts/list-posts.handler";
+import { PublishPostHandler } from "./publish-post/publish-post.handler";
 import type { IClock, ILivePostRepository, IPostIdIssuer } from "@core/live-posts";
-import { MemoryPostStore } from "./post.store";
-import { ClientHub } from "./client.hub";
+import { MemoryPostStore } from "@infra/bloc/post.store";
+import { ClientHub } from "@infra/bloc/client.hub";
 
 export class LivePostsDock {
   // tokens

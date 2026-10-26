@@ -1,8 +1,8 @@
 import { token, type Module } from "dockdi";
-import { ListMessagesHandler } from "@app/global-chat/list-messages/list-messages.handler";
-import { SendMessageHandler } from "@app/global-chat/send-message/send-message.handler";
+import { ListMessagesHandler } from "./list-messages/list-messages.handler";
+import { SendMessageHandler } from "./send-message/send-message.handler";
 import type { IChatClock, IChatIdIssuer, IChatMessageRepository } from "@core/global-chat";
-import { MemoryChatStore } from "./chat.store";
+import { MemoryChatStore } from "@infra/bloc/chat.store";
 
 export class GlobalChatDock {
   // tokens

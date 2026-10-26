@@ -1,9 +1,9 @@
 import { Container, token } from "dockdi";
 import { env } from "@env";
-import { FeedDock } from "@infra/bloc/feed.dock";
-import { GlobalChatDock } from "@infra/bloc/global-chat.dock";
-import { LivePostsDock } from "@infra/bloc/live-posts.dock";
-import { WeatherDock } from "@infra/bloc/weather.dock";
+import { FeedDock } from "@infra/api/feed/feed.dock";
+import { GlobalChatDock } from "@app/global-chat/global-chat.dock";
+import { LivePostsDock } from "@app/live-posts/live-posts.dock";
+import { WeatherDock } from "@infra/api/weather/weather.dock";
 
 export const EnvToken = token<typeof env>("Env");
 

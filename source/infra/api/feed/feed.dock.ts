@@ -1,8 +1,8 @@
 import { token, type Module } from "dockdi";
 import { GetFeedPageHandler } from "@app/social-feed/get-feed-page/get-feed-page.handler";
 import type { IFeedReader } from "@core/social-feed";
-import { CachedFeedAdapter } from "../api/feed/feed.cache.adapter";
-import { HttpFeedAdapter } from "../api/feed/feed.http.adapter";
+import { CachedFeedAdapter } from "./feed.cache.adapter";
+import { HttpFeedAdapter } from "./feed.http.adapter";
 
 const FEED_TTL_MS = 5 * 60 * 1000;
 
