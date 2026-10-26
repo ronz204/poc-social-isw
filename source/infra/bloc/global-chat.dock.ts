@@ -5,28 +5,30 @@ import type { IChatClock, IChatIdIssuer, IChatMessageRepository } from "@core/gl
 import { MemoryChatStore } from "../store/chat.memory-store";
 import { SlidingWindowLimiter } from "./rate-limiter";
 
-// Ten messages every ten seconds per connection: more permissive than the posts limit.
 const CHAT_LIMIT = 10;
 const CHAT_WINDOW_MS = 10_000;
 
-export const ChatMessageRepositoryToken = token<IChatMessageRepository>("ChatMessageRepository");
-export const ChatIdIssuerToken = token<IChatIdIssuer>("ChatIdIssuer");
-export const ChatClockToken = token<IChatClock>("ChatClock");
-export const ChatLimiterToken = token<SlidingWindowLimiter>("ChatLimiter");
-export const SendMessageHandlerToken = token<SendMessageHandler>("SendMessageHandler");
-export const ListMessagesHandlerToken = token<ListMessagesHandler>("ListMessagesHandler");
+export class GlobalChatDock {
+  // tokens
+  static readonly messageRepository = token<IChatMessageRepository>("GlobalChatDock.messageRepository");
+  static readonly idIssuer = token<IChatIdIssuer>("GlobalChatDock.idIssuer");
+  static readonly clock = token<IChatClock>("GlobalChatDock.clock");
+  static readonly limiter = token<SlidingWindowLimiter>("GlobalChatDock.limiter");
+  static readonly sendMessage = token<SendMessageHandler>("GlobalChatDock.sendMessage");
+  static readonly listMessages = token<ListMessagesHandler>("GlobalChatDock.listMessages");
 
-export const globalChatDock: Module = (container) => {
-  // Store and limiter are one instance for the whole process: a second one would keep its own state.
-  container.bind(ChatMessageRepositoryToken).toFactory(() => new MemoryChatStore()).inSingleton();
-  container
-    .bind(ChatLimiterToken)
-    .toFactory(() => new SlidingWindowLimiter(CHAT_LIMIT, CHAT_WINDOW_MS))
-    .inSingleton();
-  container.bind(ChatIdIssuerToken).toValue({ next: () => crypto.randomUUID() });
-  container.bind(ChatClockToken).toValue({ now: () => new Date() });
-  container
-    .bind(SendMessageHandlerToken)
-    .toClass(SendMessageHandler, [ChatMessageRepositoryToken, ChatIdIssuerToken, ChatClockToken]);
-  container.bind(ListMessagesHandlerToken).toClass(ListMessagesHandler, [ChatMessageRepositoryToken]);
-};
+  // module
+  static readonly module: Module = (container) => {
+    container.bind(GlobalChatDock.messageRepository).toFactory(() => new MemoryChatStore()).inSingleton();
+    container
+      .bind(GlobalChatDock.limiter)
+      .toFactory(() => new SlidingWindowLimiter(CHAT_LIMIT, CHAT_WINDOW_MS))
+      .inSingleton();
+    container.bind(GlobalChatDock.idIssuer).toValue({ next: () => crypto.randomUUID() });
+    container.bind(GlobalChatDock.clock).toValue({ now: () => new Date() });
+    container
+      .bind(GlobalChatDock.sendMessage)
+      .toClass(SendMessageHandler, [GlobalChatDock.messageRepository, GlobalChatDock.idIssuer, GlobalChatDock.clock]);
+    container.bind(GlobalChatDock.listMessages).toClass(ListMessagesHandler, [GlobalChatDock.messageRepository]);
+  };
+}

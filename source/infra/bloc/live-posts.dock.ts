@@ -6,30 +6,32 @@ import { MemoryPostStore } from "../store/post.memory-store";
 import { ClientHub } from "./client.hub";
 import { SlidingWindowLimiter } from "./rate-limiter";
 
-// Five messages every ten seconds per connection.
 const PUBLISH_LIMIT = 5;
 const PUBLISH_WINDOW_MS = 10_000;
 
-export const LivePostRepositoryToken = token<ILivePostRepository>("LivePostRepository");
-export const PostIdIssuerToken = token<IPostIdIssuer>("PostIdIssuer");
-export const ClockToken = token<IClock>("Clock");
-export const ClientHubToken = token<ClientHub>("ClientHub");
-export const PublishLimiterToken = token<SlidingWindowLimiter>("PublishLimiter");
-export const PublishPostHandlerToken = token<PublishPostHandler>("PublishPostHandler");
-export const ListPostsHandlerToken = token<ListPostsHandler>("ListPostsHandler");
+export class LivePostsDock {
+  // tokens
+  static readonly postRepository = token<ILivePostRepository>("LivePostsDock.postRepository");
+  static readonly postIdIssuer = token<IPostIdIssuer>("LivePostsDock.postIdIssuer");
+  static readonly clock = token<IClock>("LivePostsDock.clock");
+  static readonly clientHub = token<ClientHub>("LivePostsDock.clientHub");
+  static readonly publishLimiter = token<SlidingWindowLimiter>("LivePostsDock.publishLimiter");
+  static readonly publishPost = token<PublishPostHandler>("LivePostsDock.publishPost");
+  static readonly listPosts = token<ListPostsHandler>("LivePostsDock.listPosts");
 
-export const livePostsDock: Module = (container) => {
-  // Store, hub and limiter are one instance for the whole process: a second one would keep its own state.
-  container.bind(LivePostRepositoryToken).toFactory(() => new MemoryPostStore()).inSingleton();
-  container.bind(ClientHubToken).toFactory(() => new ClientHub()).inSingleton();
-  container
-    .bind(PublishLimiterToken)
-    .toFactory(() => new SlidingWindowLimiter(PUBLISH_LIMIT, PUBLISH_WINDOW_MS))
-    .inSingleton();
-  container.bind(PostIdIssuerToken).toValue({ next: () => crypto.randomUUID() });
-  container.bind(ClockToken).toValue({ now: () => new Date() });
-  container
-    .bind(PublishPostHandlerToken)
-    .toClass(PublishPostHandler, [LivePostRepositoryToken, PostIdIssuerToken, ClockToken]);
-  container.bind(ListPostsHandlerToken).toClass(ListPostsHandler, [LivePostRepositoryToken]);
-};
+  // module
+  static readonly module: Module = (container) => {
+    container.bind(LivePostsDock.postRepository).toFactory(() => new MemoryPostStore()).inSingleton();
+    container.bind(LivePostsDock.clientHub).toFactory(() => new ClientHub()).inSingleton();
+    container
+      .bind(LivePostsDock.publishLimiter)
+      .toFactory(() => new SlidingWindowLimiter(PUBLISH_LIMIT, PUBLISH_WINDOW_MS))
+      .inSingleton();
+    container.bind(LivePostsDock.postIdIssuer).toValue({ next: () => crypto.randomUUID() });
+    container.bind(LivePostsDock.clock).toValue({ now: () => new Date() });
+    container
+      .bind(LivePostsDock.publishPost)
+      .toClass(PublishPostHandler, [LivePostsDock.postRepository, LivePostsDock.postIdIssuer, LivePostsDock.clock]);
+    container.bind(LivePostsDock.listPosts).toClass(ListPostsHandler, [LivePostsDock.postRepository]);
+  };
+}

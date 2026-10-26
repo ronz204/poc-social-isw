@@ -6,14 +6,17 @@ import { HttpFeedAdapter } from "./feed.http.adapter";
 
 const FEED_TTL_MS = 5 * 60 * 1000;
 
-export const FeedReaderToken = token<IFeedReader>("FeedReader");
-export const GetFeedPageHandlerToken = token<GetFeedPageHandler>("GetFeedPageHandler");
+export class FeedDock {
+  // tokens
+  static readonly feedReader = token<IFeedReader>("FeedDock.feedReader");
+  static readonly getFeedPage = token<GetFeedPageHandler>("FeedDock.getFeedPage");
 
-export const feedDock: Module = (container) => {
-  // One cache instance for the whole process, so every visit shares it.
-  container
-    .bind(FeedReaderToken)
-    .toFactory(() => new CachedFeedAdapter(new HttpFeedAdapter(), FEED_TTL_MS))
-    .inSingleton();
-  container.bind(GetFeedPageHandlerToken).toClass(GetFeedPageHandler, [FeedReaderToken]);
-};
+  // module
+  static readonly module: Module = (container) => {
+    container
+      .bind(FeedDock.feedReader)
+      .toFactory(() => new CachedFeedAdapter(new HttpFeedAdapter(), FEED_TTL_MS))
+      .inSingleton();
+    container.bind(FeedDock.getFeedPage).toClass(GetFeedPageHandler, [FeedDock.feedReader]);
+  };
+}
