@@ -1,7 +1,9 @@
 import { Html } from "@elysia/html";
+import type { GetWeatherOutput } from "@app/local-weather/get-weather/get-weather.schema";
+import { WeatherPanel } from "./components/weather-panel.component";
 
 // Placeholder page; the three-panel layout replaces it in the page-shell slice.
-export const HomeView = () => (
+export const HomeView = ({ weather }: { weather: GetWeatherOutput }) => (
   <html lang="en">
     <head>
       <meta charset="utf-8" />
@@ -10,6 +12,9 @@ export const HomeView = () => (
     </head>
     <body class="bg-slate-100 text-slate-900">
       <h1 class="p-4 text-2xl font-bold">poc-social-isw</h1>
+      <div class="max-w-xs p-4">
+        <WeatherPanel weather={weather} />
+      </div>
       <script src="/public/js/app.js"></script>
     </body>
   </html>
