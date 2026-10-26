@@ -6,7 +6,7 @@ Build progress of poc-social-isw, step by step; it tracks work done, not decisio
 
 ## Overview
 
-**Overall progress: 24 / 32 tasks — 75%**
+**Overall progress: 25 / 32 tasks — 78%**
 
 | # | Step | Status | Progress |
 |---|---|---|---|
@@ -14,7 +14,7 @@ Build progress of poc-social-isw, step by step; it tracks work done, not decisio
 | 2 | [Weather panel](#2--weather-panel) | ✅ Done | 5/5 — 100% |
 | 3 | [Social feed](#3--social-feed) | ✅ Done | 5/5 — 100% |
 | 4 | [Live posts](#4--live-posts) | ✅ Done | 5/5 — 100% |
-| 5 | [Global chat](#5--global-chat) | 🔄 In progress | 4/5 — 80% |
+| 5 | [Global chat](#5--global-chat) | ✅ Done | 5/5 — 100% |
 | 6 | [Page shell](#6--page-shell) | 🔄 In progress | 1/4 — 25% |
 | 7 | [Delivery](#7--delivery) | 🔲 Not started | 0/4 — 0% |
 
@@ -69,7 +69,7 @@ Slice: `deltas/global-chat.spec.md`. Shares the WebSocket transport with live po
 - [x] Write `global-chat.design.md` with the chat panel's message list, the input, and the states for empty history and a rejected message.
 - [x] Write the tests first for message validation, escaping of visitor text, history on connect and delivery to every connected client.
 - [x] Implement the chat handler on the shared WebSocket, the in-memory message store, the rate limiting and the client script that sends and renders messages.
-- [ ] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
+- [x] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
 
 ## 6 — Page shell
 
