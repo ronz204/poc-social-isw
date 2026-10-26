@@ -6,13 +6,13 @@ Build progress of poc-social-isw, step by step; it tracks work done, not decisio
 
 ## Overview
 
-**Overall progress: 16 / 32 tasks — 50%**
+**Overall progress: 19 / 32 tasks — 59%**
 
 | # | Step | Status | Progress |
 |---|---|---|---|
 | 1 | [Foundation](#1--foundation) | ✅ Done | 4/4 — 100% |
 | 2 | [Weather panel](#2--weather-panel) | ✅ Done | 5/5 — 100% |
-| 3 | [Social feed](#3--social-feed) | 🔄 In progress | 2/5 — 40% |
+| 3 | [Social feed](#3--social-feed) | ✅ Done | 5/5 — 100% |
 | 4 | [Live posts](#4--live-posts) | 🔄 In progress | 2/5 — 40% |
 | 5 | [Global chat](#5--global-chat) | 🔄 In progress | 2/5 — 40% |
 | 6 | [Page shell](#6--page-shell) | 🔄 In progress | 1/4 — 25% |
@@ -47,9 +47,9 @@ Slice: `deltas/social-feed.spec.md`.
 
 - [x] Specify the slice with intent, the `Post` and `User` shapes, how author is joined to post, and the behavior when the fake-data API fails.
 - [x] Write `social-feed.design.md` with how a post card shows title, content and author, plus the loading, empty and degraded states.
-- [ ] Write the tests first for the join of posts to authors, the schema validation of both API responses, and the degraded result on failure.
-- [ ] Implement the ofetch calls to `/posts` and `/users`, the mapping to typed shapes, the TTL cache and the rendered feed panel.
-- [ ] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
+- [x] Write the tests first for the join of posts to authors, the schema validation of both API responses, and the degraded result on failure.
+- [x] Implement the ofetch calls to `/posts` and `/users`, the mapping to typed shapes, the TTL cache and the rendered feed panel.
+- [x] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
 
 ## 4 — Live posts
 
