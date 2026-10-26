@@ -4,7 +4,8 @@ import { ListMessagesHandler } from "@app/global-chat/list-messages/list-message
 import { SendMessageHandler } from "@app/global-chat/send-message/send-message.handler";
 import { MAX_CHAT_TEXT } from "@app/global-chat/send-message/send-message.schema";
 import { ListPostsHandler } from "@app/live-posts/list-posts/list-posts.handler";
-import { livePostsSocket, type SocketClient } from "@app/live-posts/live-posts.socket";
+import { livePostsSocket } from "@app/live-posts/live-posts.socket";
+import type { SocketClient } from "@app/realtime/realtime.contracts";
 import { PublishPostHandler } from "@app/live-posts/publish-post/publish-post.handler";
 import { ClientHub } from "@infra/bloc/client.hub";
 import { SlidingWindowLimiter } from "@infra/bloc/sliding-window.limiter";

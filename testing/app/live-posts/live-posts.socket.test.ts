@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ListPostsHandler } from "@app/live-posts/list-posts/list-posts.handler";
-import { livePostsSocket, type SocketClient } from "@app/live-posts/live-posts.socket";
+import { livePostsSocket } from "@app/live-posts/live-posts.socket";
+import type { SocketClient } from "@app/realtime/realtime.contracts";
 import { PublishPostHandler } from "@app/live-posts/publish-post/publish-post.handler";
 import { MAX_TEXT } from "@app/live-posts/publish-post/publish-post.schema";
 import { ClientHub } from "@infra/bloc/client.hub";

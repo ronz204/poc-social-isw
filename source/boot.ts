@@ -6,8 +6,8 @@ import { localWeatherPlugin } from "@app/local-weather/local-weather.plugin";
 import { socialFeedPlugin } from "@app/social-feed/social-feed.plugin";
 import { globalChatSocket } from "@app/global-chat/global-chat.socket";
 import { livePostsSocket } from "@app/live-posts/live-posts.socket";
+import { realtimePlugin } from "@app/realtime/realtime.plugin";
 import { GlobalChatDock } from "@infra/bloc/global-chat.dock";
-import { livePostsPlugin } from "@infra/bloc/live-posts.plugin";
 import { LivePostsDock } from "@infra/bloc/live-posts.dock";
 import { WeatherDock } from "@infra/bloc/weather.dock";
 import { FeedDock } from "@infra/bloc/feed.dock";
@@ -37,7 +37,7 @@ new Elysia()
   .use(staticPlugin({ assets: "public", prefix: "/public" }))
   .use(localWeatherPlugin(container.resolve(WeatherDock.getWeather)))
   .use(socialFeedPlugin(container.resolve(FeedDock.getFeedPage)))
-  .use(livePostsPlugin(postsSocket, chatSocket, [publishLimiter, chatLimiter]))
+  .use(realtimePlugin(postsSocket, chatSocket, [publishLimiter, chatLimiter]))
   .get("/", async ({ request, server, weatherFor, feedPage }) => {
     // Weather and the first feed page are requested together.
     const [weather, feed] = await Promise.all([

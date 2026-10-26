@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { SocketClient, SocketHub } from "@app/live-posts/live-posts.socket";
+import type { SocketClient, SocketHub } from "@app/realtime/realtime.contracts";
 import type { ListMessagesHandler } from "./list-messages/list-messages.handler";
 import type { SendMessageHandler } from "./send-message/send-message.handler";
 import { sendMessageInput } from "./send-message/send-message.schema";

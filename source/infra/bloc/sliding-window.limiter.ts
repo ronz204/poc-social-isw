@@ -1,7 +1,7 @@
-import type { PublishLimiter } from "@app/live-posts/live-posts.socket";
+import type { ClientLimiter } from "@app/realtime/realtime.contracts";
 
 // Sliding window per connection: at most `limit` messages in the last `windowMs`.
-export class SlidingWindowLimiter implements PublishLimiter {
+export class SlidingWindowLimiter implements ClientLimiter {
   private readonly hits = new Map<string, number[]>();
 
   constructor(

@@ -1,4 +1,4 @@
-import type { SocketClient, SocketHub } from "@app/live-posts/live-posts.socket";
+import type { SocketClient, SocketHub } from "@app/realtime/realtime.contracts";
 
 // Every open connection; a broadcast reaches all of them and one failing send never stops the rest.
 export class ClientHub implements SocketHub {

@@ -1,23 +1,8 @@
 import { z } from "zod";
+import type { PublishLimiter, SocketClient, SocketHub } from "@app/realtime/realtime.contracts";
 import type { ListPostsHandler } from "./list-posts/list-posts.handler";
 import type { PublishPostHandler } from "./publish-post/publish-post.handler";
 import { publishPostInput } from "./publish-post/publish-post.schema";
-
-// What the socket needs from a connection, so a test hands it a plain object instead of a real socket.
-export interface SocketClient {
-  readonly id: string;
-  send(text: string): void;
-}
-
-export interface SocketHub {
-  add(client: SocketClient): void;
-  remove(client: SocketClient): void;
-  broadcast(text: string): void;
-}
-
-export interface PublishLimiter {
-  allow(clientId: string): boolean;
-}
 
 // The one message a client sends here; the `type` tells posts from chat on the shared connection.
 export const publishPostMessage = publishPostInput.extend({ type: z.literal("post") });
