@@ -14,8 +14,8 @@ Each screen belongs to a delta under `deltas/`, which holds its full contract.
 |---|---|---|
 | `page-shell` | `.spec.md` + `.design.md` | A1 to A4 |
 | `weather-panel` | `.spec.md` + `.design.md` | B1 to B3 |
-| `social-feed` | `.spec.md` + `.design.md` | C1 to C6 |
-| `live-posts` | `.spec.md` + `.design.md` | D1 to D4 |
+| `social-feed` | `.spec.md` + `.design.md` | C1 to C3, C5, C6 |
+| `live-posts` | `.spec.md` + `.design.md` | D1 to D3 |
 | `global-chat` | `.spec.md` + `.design.md` | E1 to E4 |
 
 ---
@@ -23,7 +23,7 @@ Each screen belongs to a delta under `deltas/`, which holds its full contract.
 ## Current State in Pencil
 
 - Single working file: `design/social.pen`, versioned in the repo. It is the source of truth for all slices, so tokens are defined once and components are reused across screens.
-- Phases 0 to 6 are drawn: the theme variables, the base components, screens A1 to A4 (frames `A1 Home Wide`, `A2 Home Narrow`, `A3 Connection States`, `A4 Error Page`), the weather states B1 to B3 (frames `B1 Weather Resolved`, `B2 Weather Default Location`, `B3 Weather Unavailable`) the feed states C1 to C6 (frames `C1 Feed Post Cards` to `C6 Feed Empty`) the live posts states D1 to D4 (frames `D1 Live Posts Form And List` to `D4 Publish Rate Limited`) and the chat states E1 to E4 (frames `E1 Chat List And Form` to `E4 Chat Scrolled Up`), under a `Components` section.
+- Phases 0 to 6 are drawn: the theme variables, the base components, screens A1 to A4 (frames `A1 Home Wide`, `A2 Home Narrow`, `A3 Connection States`, `A4 Error Page`), the weather states B1 to B3 (frames `B1 Weather Resolved`, `B2 Weather Default Location`, `B3 Weather Unavailable`) the feed states C1 to C3, C5 and C6 (frames `C1 Feed Post Cards` to `C6 Feed Empty`) the live posts states D1 to D3 (frames `D1 Live Posts Form And List` to `D3 Publish Rejected`) and the chat states E1 to E4 (frames `E1 Chat List And Form` to `E4 Chat Scrolled Up`), under a `Components` section.
 - Color variables (hex): `bg` (warm cream), `surface`, `border`, `border-control`, `text-primary`, `text-secondary`, `muted`, `accent` (coral), `accent-tint`, `accent-border`, `on-accent`, `disabled`, `disabled-bg`, `neutral-bg`, `sun` and `sun-warm` (the weather card gradient), four avatar pairs `av1-bg`/`av1-fg` to `av4-bg`/`av4-fg`, and the `success`, `warning` and `error` pairs (`*-bg`, `*-text`). Font variables: `font-ui` (Nunito) and `font-display` (Fredoka). Number variables: `space-xs` to `space-xl`, `radius-sm` (12), `radius-md` (20) and `radius-pill`.
 - The app is named Happy. The theme is a warm, rounded proposal, light only: cream background, white panels with a soft shadow, a coral accent, a sunny weather card. The design files leave colors and theme out on purpose, and the page is styled with the Tailwind build, so the values must be carried into it at implementation.
 - The presentation additions (avatars, the "Live" badge, chat bubbles, the logo tile, panel icons, the round icon-only send button and the weather panel that hugs its content) are recorded in the `design.md` files.
@@ -61,37 +61,35 @@ There is no loading state: the weather arrives inside the page response.
 
 ### C. Social Feed (`social-feed`)
 
-Status: done. C1 to C6 are drawn in `social.pen`, each in the 684 wide desktop center panel and in the 358 wide narrow layout. Only the API posts area is drawn inside the Feed panel; the publish form and the live posts above it belong to D. The degraded wording is "Posts are not available right now".
+Status: done. C1 to C3, C5 and C6 are drawn in `social.pen` (C4, the load-more failure with a Retry button, was dropped and the ids were not renumbered), each in the 684 wide desktop center panel and in the 358 wide narrow layout. Only the API posts area is drawn inside the Feed panel; the publish form and the live posts above it belong to D. The degraded wording is "Posts are not available right now".
 
 | ID | Screen | Purpose | States |
 |---|---|---|---|
 | C1 | Post cards | Title, content and author name on each card, after the live posts in the center panel | First page shown |
 | C2 | Loading more | The status row under the last card while the next page is fetched | "Loading more posts" |
 | C3 | End of feed | The status row once the last page is shown | "No more posts" |
-| C4 | Load more failed | The status row when the next-page request fails | "Could not load more posts" with a Retry button |
 | C5 | Feed degraded | A friendly message in place of the cards when the posts API fails | Degraded |
 | C6 | Feed empty | The posts API returned nothing to show | "No posts to show" |
 
 ### D. Live Posts (`live-posts`)
 
-Status: done. D1 to D4 are drawn in `social.pen`, each in the 684 wide desktop center panel and in the 358 wide narrow layout. Each frame shows the publish form and the live list inside the Feed panel, without the API posts. D1 holds two variants (form enabled and form disabled). In D3 and D4 the name field keeps the visitor's name and the text field is empty, as after a send. The rejected wording is "Your name and message can't be empty, and the message can't pass 280 characters."; the rate-limit message uses the warning tint with a clock icon: "You're posting too fast. Please wait a moment and try again."
+Status: done. D1 to D3 are drawn in `social.pen` (D4, rate limited, was dropped with the rate limiter), each in the 684 wide desktop center panel and in the 358 wide narrow layout. Each frame shows the publish form and the live list inside the Feed panel, without the API posts. D1 holds two variants (form enabled and form disabled). In D3 the name field keeps the visitor's name and the text field is empty, as after a send. The rejected wording is "Your name and message can't be empty, and the message can't pass 280 characters."
 
 | ID | Screen | Purpose | States |
 |---|---|---|---|
 | D1 | Publish form and live list | Name, text and a Publish button with a message line, above the live posts newest first; each post shows author, content and time | With posts, form disabled |
 | D2 | Live list, empty | The list before anyone has published | "No live posts yet" |
 | D3 | Publish rejected | The inline message under the form when the post is invalid | Rejected |
-| D4 | Publish rate limited | The inline message asking the visitor to wait | Rate limited |
 
 ### E. Global Chat (`global-chat`)
 
-Status: done. E1 to E4 are drawn in `social.pen`, each in a 380 wide desktop column and in the 358 wide narrow layout, as a chat panel 560 high with the list scrolling above the form. E1 holds two variants (form enabled and form disabled), and E3 holds the rejected and the rate-limited messages, with the name kept and the text empty. The rejected wording is "Your name and message can't be empty, and the message can't pass 200 characters."; the rate-limit message is "You're sending messages too fast. Please wait a moment and try again." In E4 the list shows older messages with a scroll thumb near the top and the newest ones out of view, with no "new messages" hint.
+Status: done. E1 to E4 are drawn in `social.pen`, each in a 380 wide desktop column and in the 358 wide narrow layout, as a chat panel 560 high with the list scrolling above the form. E1 holds two variants (form enabled and form disabled), and E3 holds the rejected message, with the name kept and the text empty. The rejected wording is "Your name and message can't be empty, and the message can't pass 200 characters."; In E4 the list shows older messages with a scroll thumb near the top and the newest ones out of view, with no "new messages" hint.
 
 | ID | Screen | Purpose | States |
 |---|---|---|---|
 | E1 | Chat list and form | Messages oldest to newest with author, text and time, scrolling on their own; the form (name, text, Send, message line) at the bottom | With messages, form disabled |
 | E2 | Chat, empty | The list before anyone has written | "No messages yet" |
-| E3 | Message rejected | The inline message under the form when the message is invalid or rate limited | Rejected, rate limited |
+| E3 | Message rejected | The inline message under the form when the message is invalid | Rejected |
 | E4 | Chat, scrolled up | The visitor has scrolled up to read; an arriving message does not move the list | Scrolled up |
 
 ### Out of Scope
@@ -118,7 +116,7 @@ The "Status" column states whether the component is already in the `Components` 
 | Panel frame | Icon tile, title and a body that scrolls on its own | A to E | Done: `Panel Frame` (the body is replaced per panel) |
 | Weather readout | Gradient card with the temperature, wind chip, optional place name, optional default-location note | B | Done: `Weather Readout` (the place row and the note are switched on or off by override) |
 | Post card | Avatar and author, title, content | C | Done: `Post Card` |
-| Feed status row | Loading, end, failed with Retry (empty is the absence of the row) | C | Done: `Feed Status Row` (icon and text by override; the Retry button is off by default) |
+| Feed status row | Loading and end (empty is the absence of the row) | C | Done: `Feed Status Row` (icon and text by override) |
 | Live post item | Avatar, author, "Live" badge, time, content | D | Done: `Live Post Item` |
 | Chat message item | Avatar, author, time and the text in a bubble | E | Done: `Chat Message Item` |
 | Message form | Name field on top; below it the text field with an icon-only round send button beside it, both 48 high; inline message line; enabled, disabled, with error | D, E | Done: `Message Form` (placeholders by override; the disabled look is an override of fills; the inline message is off by default) |
@@ -158,8 +156,8 @@ Each phase ends with a screenshot and a review before the next begins. The goal 
 | 1 | Base components: panel frame, header, connection status, message form, inline message, friendly message, empty line | Row of components on the canvas | Done, plus basic versions of the four content items so A1 can show them |
 | 2 | Page frame: A1, A2, A3 and A4 | The three-panel page, wide and narrow | Done |
 | 3 | Weather panel: B1 to B3 | Weather readout and its states | Done |
-| 4 | Social feed: C1 to C6 (requires post card and feed status row) | Feed with all its states | Done |
-| 5 | Live posts: D1 to D4 (requires live post item) | Publish form and live list | Done |
+| 4 | Social feed: C1 to C3, C5 and C6 (requires post card and feed status row) | Feed with all its states | Done |
+| 5 | Live posts: D1 to D3 (requires live post item) | Publish form and live list | Done |
 | 6 | Global chat: E1 to E4 (requires chat message item) | Chat panel | Done |
 | 7 | Review: both widths, all states, against the design files | Screens match the contracts | Not started |
 
