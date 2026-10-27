@@ -30,39 +30,35 @@ Non-goals:
 | Panels | Weather, feed and chat, all present in the HTML whatever the outcomes |
 | Degradation | An external-data panel shows its data or its friendly message, as its own slice's outcome says (weather `unavailable`, feed friendly message) |
 | Client socket | One connection per page; each message goes to the posts list or the chat list by its `type` |
-| Reconnect | After an unexpected close, the client retries with a growing wait; once reconnected, the server sends both histories again |
+| Reconnect | After an unexpected close, the client retries after 1 s, doubling the wait each failed attempt up to 10 s, and starting over once open; once reconnected, the server sends both histories again and they replace the lists |
 
-The endpoint and message envelope are decided when the first of the live-posts and global-chat slices is implemented. This slice owns the client side of that decision.
+The endpoint and message envelope are decided by the live-posts and global-chat slices. This slice owns the client side: the connection and the routing by `type`.
 
 ## Invariants
 
-1. When the home page is requested, the server starts the weather and feed requests without waiting for one to finish before starting the other. [none]
-2. If the weather outcome is `unavailable`, then the page still renders the feed and chat panels and the weather panel shows its friendly message. [none]
-3. If the feed fails, then the page still renders the weather and chat panels and the feed panel shows its friendly message. [none]
-4. If both external APIs fail, then the page still answers with status 200 and the three panels. [none]
-5. The home page always contains the three panels, whatever the data outcomes. [none]
-6. If a failure happens outside the per-panel handling, then the visitor sees a generic friendly error page instead of a stack trace. [none]
-7. The home page HTML never embeds live posts or chat history. [none]
-8. When the WebSocket closes unexpectedly, the client retries with a growing wait until it reconnects. [none]
-9. When a socket message arrives, the client routes it by `type` to exactly one of the posts list or the chat list, and ignores an unknown type. [none]
+1. When the home page is requested, the server starts the weather and feed requests without waiting for one to finish before starting the other. [test: testing/infra/views/home.route.test.ts "starts the feed request without waiting for the weather one"]
+2. If the weather outcome is `unavailable`, then the page still renders the feed and chat panels and the weather panel shows its friendly message. [test: testing/infra/views/home.route.test.ts "keeps the feed and chat panels when the weather is unavailable"]
+3. If the feed fails, then the page still renders the weather and chat panels and the feed panel shows its friendly message. [test: testing/infra/views/home.route.test.ts "keeps the weather and chat panels when the feed fails"]
+4. If both external APIs fail, then the page still answers with status 200 and the three panels. [test: testing/infra/views/home.route.test.ts "answers 200 with the three panels when both APIs fail"]
+5. The home page always contains the three panels, whatever the data outcomes. [test: testing/infra/views/home.route.test.ts "always contains the three panels when the data is fine"]
+6. If a failure happens outside the per-panel handling, then the visitor sees a generic friendly error page instead of a stack trace. [test: testing/infra/views/home.route.test.ts "shows a friendly error page, not a stack trace, when something outside the panels fails"]
+7. The home page HTML never embeds live posts or chat history. [test: testing/infra/views/home.route.test.ts "leaves the live lists empty in the HTML: history arrives over the socket"]
+8. When the WebSocket closes unexpectedly, the client retries with a growing wait until it reconnects. [test: testing/infra/client/connection.test.ts "retries with a growing wait after an unexpected close, until it reconnects"]
+9. When a socket message arrives, the client routes it by `type` to exactly one of the posts list or the chat list, and ignores an unknown type. [test: testing/infra/client/connection.test.ts "routes each message to exactly one of the posts or the chat listener"]
+10. When a history message arrives, the client replaces the content of that list instead of adding to it, so a history re-sent after a reconnect shows no item twice. [test: testing/infra/client/history.test.tsx]
 
 ## Deferred / Open questions
 
-- Testing gap: every invariant is tagged `[none]` because no code exists yet. The executor writes the tests at implementation time.
-- Per-call timeouts for the two APIs. The weather slice lists its own; the feed's is undecided, and both must be short enough that a hung API cannot stall the render.
-- Reconnect wait schedule: start and cap values.
-- After a reconnect, the re-sent histories must replace the lists, not append to them, or items show twice. Confirm at implementation and promote it to an invariant.
-- WebSocket endpoint and message envelope, shared with live-posts and global-chat.
-- Mechanism of the last-resort handler (invariant 6) in the server framework.
+- Client-script tests run in a simulated DOM, not a real browser; the layout and header status are verified by the design's manual criteria.
 
 ## Acceptance criteria
 
-1. Given the weather API is down and the feed API is up, when the home page loads, then it answers 200, the weather panel shows its message and the feed lists posts. [none]
-2. Given the feed API is down and the weather API is up, when the home page loads, then it answers 200, the feed panel shows its message and the weather panel shows the reading. [none]
-3. Given both APIs are down, when the home page loads, then it answers 200 with the three panels. [none]
-4. Given a weather API that answers slowly, when the home page loads, then the feed request is not held back by it. [none]
-5. Given an open connection, when it is killed, then the client reconnects and receives both histories again. [none]
-6. Given a socket message with an unknown `type`, when it arrives, then the client ignores it without an error. [none]
+1. Given the weather API is down and the feed API is up, when the home page loads, then it answers 200, the weather panel shows its message and the feed lists posts. [test: testing/infra/views/home.route.test.ts "keeps the feed and chat panels when the weather is unavailable"]
+2. Given the feed API is down and the weather API is up, when the home page loads, then it answers 200, the feed panel shows its message and the weather panel shows the reading. [test: testing/infra/views/home.route.test.ts "keeps the weather and chat panels when the feed fails"]
+3. Given both APIs are down, when the home page loads, then it answers 200 with the three panels. [test: testing/infra/views/home.route.test.ts "answers 200 with the three panels when both APIs fail"]
+4. Given a weather API that answers slowly, when the home page loads, then the feed request is not held back by it. [test: testing/infra/views/home.route.test.ts "starts the feed request without waiting for the weather one"]
+5. Given an open connection, when it is killed, then the client reconnects and receives both histories again. [test: testing/infra/client/connection.test.ts "retries with a growing wait after an unexpected close, until it reconnects"]
+6. Given a socket message with an unknown `type`, when it arrives, then the client ignores it without an error. [test: testing/infra/client/connection.test.ts "ignores a message of unknown type, or one that is not JSON, without an error"]
 
 ---
 

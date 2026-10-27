@@ -15,9 +15,9 @@ The brief names Express, EJS and Axios/fetch; this project deliberately uses a d
 | Rendering | Elysia's HTML plugin | Replaces EJS: views are TypeScript, so the "100% TypeScript" requirement covers templates too. |
 | HTTP client | ofetch | Replaces Axios/fetch; used for every external API call. |
 | Validation | zod | Schemas at every trust boundary (see Cross-cutting patterns). |
-| Realtime | Elysia's built-in WebSocket on Bun, one connection per page shared by posts and chat | No separate WebSocket library to justify or configure; one connection carries typed messages instead of one socket per feature. To be confirmed at implementation. |
+| Realtime | Elysia's built-in WebSocket on Bun, one connection per page shared by posts and chat | No separate WebSocket library to justify or configure; one connection carries typed messages instead of one socket per feature. |
 | Client scripts | TypeScript compiled with `bun build` to static assets | The brief requires client code in TypeScript too. |
-| Tests | vitest | Configured to resolve the tsconfig path aliases. |
+| Tests | vitest, with a simulated DOM for the client scripts | Configured to resolve the tsconfig path aliases. |
 | DI container | dockdi | Type-first: typed tokens whose dependency tuples the compiler checks, no decorators or reflection. Resolution is synchronous, so async setup happens before the container is built. |
 | IP geolocation | geoip-lite | Offline lookup: no network failure and no rate limit. Verified under Bun: installs, loads in about 0.25 s and resolves IPv4, IPv6 and IPv4-mapped IPv6 to coordinates and a timezone. The bundled data is used as shipped, with no license key and no refresh step: it is a snapshot, accurate to country or region level, which is enough to pick a weather location. Loopback and private addresses resolve to nothing, which feeds the default-location fallback. Used behind an interface so the provider can still be swapped. |
 

@@ -15,7 +15,7 @@ Build progress of poc-social-isw, step by step; it tracks work done, not decisio
 | 3 | [Social feed](#3--social-feed) | ✅ Done | 5/5 — 100% |
 | 4 | [Live posts](#4--live-posts) | ✅ Done | 5/5 — 100% |
 | 5 | [Global chat](#5--global-chat) | ✅ Done | 5/5 — 100% |
-| 6 | [Page shell](#6--page-shell) | 🔄 In progress | 1/4 — 25% |
+| 6 | [Page shell](#6--page-shell) | ✅ Done | 4/4 — 100% |
 | 7 | [Delivery](#7--delivery) | 🔲 Not started | 0/4 — 0% |
 
 Status legend: 🔲 Not started · 🔄 In progress · ✅ Done (only once every task under it is checked).
@@ -76,9 +76,9 @@ Slice: `deltas/global-chat.spec.md`. Shares the WebSocket transport with live po
 Slice: `deltas/page-shell.spec.md`.
 
 - [x] Write the spec and the design for the three-panel page and for how one failed panel degrades without touching the other two.
-- [ ] Build the server-rendered three-panel layout with weather on the left, the feed in the center and the chat on the right, plus the stylesheet.
-- [ ] Make each panel load independently so that when one external API is unreachable the page still renders and the matching panel shows its friendly message.
-- [ ] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
+- [x] Build the server-rendered three-panel layout with weather on the left, the feed in the center and the chat on the right, plus the stylesheet.
+- [x] Make each panel load independently so that when one external API is unreachable the page still renders and the matching panel shows its friendly message.
+- [x] Run the sentinel check of the spec and the design against the implementation and fix any drift it reports.
 
 ## 7 — Delivery
 

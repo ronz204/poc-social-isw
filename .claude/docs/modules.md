@@ -1,6 +1,6 @@
 # Modules
 
-Behavior that spans components or would surprise a reader. No application code exists yet, so everything below is the designed behavior from the brief and the confirmed decisions, not observed behavior; check it against the code once it lands.
+Behavior that spans components or would surprise a reader. Everything below is the designed behavior from the brief and the confirmed decisions; check it against the code when a slice changes.
 
 ---
 
