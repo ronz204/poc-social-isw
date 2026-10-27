@@ -48,7 +48,7 @@ export const HomeView = ({ weather, feed }: { weather: GetWeatherOutput; feed: G
           <Chat />
         </Panel>
       </div>
-      <script src="/public/js/app.js"></script>
+      <script type="module" src="/public/js/app.js"></script>
     </body>
   </html>
 );
