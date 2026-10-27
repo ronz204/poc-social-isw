@@ -1,0 +1,13 @@
+<%# A titled white card. EJS has no children, so the caller passes the inner HTML as content (the string include() returns).
+    On wide screens the page itself does not scroll, so body lets a panel scroll on its own. -%>
+<section id="<%= id %>" class="flex min-h-0 flex-col rounded-panel border border-border bg-surface shadow-panel <%= cls %>">
+  <h2 class="flex items-center gap-2.5 px-5.5 pt-4.5 pb-2 font-display text-[19px] font-semibold">
+    <span class="flex size-7.5 items-center justify-center rounded-[10px] bg-accent-tint text-accent">
+      <%- include('icon', { name: icon, cls: 'size-4' }) %>
+    </span>
+    <%= title %>
+  </h2>
+  <div class="flex min-h-0 flex-1 flex-col gap-3.5 px-5.5 pt-2 pb-5.5 <%= body %>">
+    <%- content %>
+  </div>
+</section>

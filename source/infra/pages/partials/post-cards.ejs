@@ -1,0 +1,11 @@
+<%# One card per API post, every API text through the escaping output tag (third-party data). Also the fragment GET /feed returns. -%>
+<% for (const post of posts) { -%>
+<article class="flex flex-col gap-2.5 rounded-panel border border-border bg-surface p-4.5">
+  <div class="flex items-center gap-2.5">
+    <span class="flex size-9 items-center justify-center rounded-full font-display text-sm font-semibold <%= avatarTone(post.author) %>"><%= initials(post.author) %></span>
+    <span class="text-sm font-extrabold"><%= post.author %></span>
+  </div>
+  <h3 class="font-display text-[17px] leading-tight font-semibold"><%= post.title %></h3>
+  <p class="text-sm leading-normal text-text-secondary"><%= post.content %></p>
+</article>
+<% } -%>

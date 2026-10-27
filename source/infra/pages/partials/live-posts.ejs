@@ -1,0 +1,6 @@
+<%# The publish form and the list the client script fills as posts arrive. -%>
+<section class="flex flex-col gap-3.5">
+  <%- include('message-form', { id: 'live', textPlaceholder: "What's on your mind?", sendLabel: 'Publish' }) %>
+  <%- include('empty-line', { id: 'live-empty', text: 'No live posts yet' }) %>
+  <div id="live-list" class="flex flex-col gap-3.5"></div>
+</section>

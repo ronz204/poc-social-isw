@@ -1,0 +1,22 @@
+<%# The escaping output tag is used for the place name, which comes from a third-party data set. -%>
+<% if (weather.status === "unavailable") { -%>
+<%- include('friendly-message', { icon: 'cloud-off', text: 'Weather is not available right now' }) %>
+<% } else { -%>
+<% const { location, reading } = weather; -%>
+<div class="flex flex-col gap-2.5 rounded-panel bg-linear-[160deg,var(--color-sun),var(--color-sun-warm)] p-5">
+  <% if (location.name) { -%>
+  <p class="flex items-center gap-1.5 text-sm font-bold">
+    <%- include('icon', { name: 'map-pin', cls: 'size-4' }) %>
+    <span><%= location.name %></span>
+  </p>
+  <% } -%>
+  <p class="font-display text-[64px] leading-[1.2] font-bold"><%= Math.round(reading.temperature) %>°C</p>
+  <p class="flex w-fit items-center gap-2 rounded-full bg-white/70 px-3 py-1.75 text-sm font-bold">
+    <%- include('icon', { name: 'wind', cls: 'size-4' }) %>
+    Wind <%= Math.round(reading.windSpeed) %> km/h
+  </p>
+  <% if (location.isDefault) { -%>
+  <p class="text-xs font-semibold">Showing San José (default location)</p>
+  <% } -%>
+</div>
+<% } -%>

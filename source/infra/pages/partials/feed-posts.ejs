@@ -1,0 +1,13 @@
+<%# The API posts area: the first page and the status row the client script drives. -%>
+<% if (feed.status === "unavailable") { -%>
+<%- include('friendly-message', { icon: 'cloud-off', text: 'Posts are not available right now' }) %>
+<% } else if (feed.posts.length === 0) { -%>
+<%- include('friendly-message', { icon: 'sparkles', text: 'No posts to show' }) %>
+<% } else { -%>
+<section class="flex flex-col gap-3.5">
+  <div id="feed-posts" class="flex flex-col gap-3.5">
+    <%- include('post-cards', { posts: feed.posts }) %>
+  </div>
+  <p id="feed-status" class="py-3.5 text-center text-[13px] font-bold text-muted" data-has-more="<%= feed.hasMore %>"><%= feed.hasMore ? "" : "No more posts" %></p>
+</section>
+<% } -%>

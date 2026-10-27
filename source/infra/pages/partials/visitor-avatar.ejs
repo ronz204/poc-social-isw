@@ -1,0 +1,5 @@
+<%# The visitor's own avatar: a plain user icon until there is a name. The client script swaps the icon for the initials and the idle colors for the name's pair. -%>
+<span data-visitor-avatar class="flex shrink-0 items-center justify-center rounded-full font-display font-semibold <%= idleTone %> <%= cls %>">
+  <%- include('icon', { name: 'user', cls: 'size-4' }) %>
+  <span data-initials hidden></span>
+</span>

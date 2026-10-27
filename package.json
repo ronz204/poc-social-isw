@@ -5,12 +5,15 @@
   "scripts": {
     "start": "bun run start:elysia",
     "start:elysia": "bun run build && bun source/boot.elysia.ts",
+    "start:express": "bun run build && bun source/boot.express.ts",
     "dev": "bun run dev:elysia",
     "dev:elysia": "bun run --parallel dev:server:elysia dev:client dev:css",
+    "dev:express": "bun run --parallel dev:server:express dev:client dev:css",
     "build": "bun run build:client && bun run build:css",
     "build:client": "bun build source/infra/client/app.ts --outdir public/js --target browser",
     "build:css": "tailwindcss -i source/infra/styles/app.css -o public/css/app.css --minify",
     "dev:server:elysia": "bun --watch source/boot.elysia.ts",
+    "dev:server:express": "bun --watch source/boot.express.ts",
     "dev:client": "bun build source/infra/client/app.ts --outdir public/js --target browser --watch",
     "dev:css": "tailwindcss -i source/infra/styles/app.css -o public/css/app.css --watch=always"
   },

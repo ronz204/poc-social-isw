@@ -1,0 +1,13 @@
+<%# The last-resort page: no detail of the failure reaches the visitor. -%>
+<!doctype html>
+<html lang="en">
+<%- include('partials/head') %>
+<body class="flex min-h-dvh flex-col">
+  <%- include('partials/header', { connection: false }) %>
+  <main class="flex flex-1 items-center justify-center p-4">
+    <div class="max-w-sm">
+      <%- include('partials/friendly-message', { icon: 'triangle-alert', text: 'Something went wrong. Please try again in a moment.' }) %>
+    </div>
+  </main>
+</body>
+</html>

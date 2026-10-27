@@ -1,0 +1,7 @@
+<%# The calm card shown in place of a panel's content when its data is not available. -%>
+<div class="flex flex-col items-center gap-3 rounded-panel bg-neutral-bg p-6 text-center">
+  <span class="flex size-12 items-center justify-center rounded-full bg-surface text-muted">
+    <%- include('icon', { name: icon, cls: 'size-6' }) %>
+  </span>
+  <p class="text-sm font-semibold text-text-secondary"><%= text %></p>
+</div>

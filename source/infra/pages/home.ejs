@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<%- include('partials/head') %>
+<body class="flex min-h-dvh flex-col lg:h-dvh lg:overflow-hidden">
+  <%- include('partials/header', { connection: true }) %>
+  <%# Narrow screens stack feed, weather, chat with order-*; from lg up the source order is the column order. -%>
+  <div class="flex flex-1 flex-col gap-4 p-4 lg:grid lg:min-h-0 lg:grid-cols-[320px_1fr_380px] lg:gap-6 lg:p-6">
+    <%- include('partials/panel', {
+      id: 'weather-panel', icon: 'cloud-sun', title: 'Weather',
+      cls: 'order-2 lg:order-0 lg:self-start', body: '',
+      content: include('partials/weather-panel', { weather }),
+    }) %>
+    <%- include('partials/panel', {
+      id: 'feed-panel', icon: 'newspaper', title: 'Feed',
+      cls: 'order-1 lg:order-0', body: 'scroll-soft lg:overflow-y-auto',
+      content: include('partials/live-posts') + include('partials/feed-posts', { feed }),
+    }) %>
+    <%- include('partials/panel', {
+      id: 'chat-panel', icon: 'messages-square', title: 'Chat',
+      cls: 'order-3 lg:order-0', body: '',
+      content: include('partials/chat'),
+    }) %>
+  </div>
+  <script type="module" src="/public/js/app.js"></script>
+</body>
+</html>
