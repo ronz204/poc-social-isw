@@ -2,6 +2,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Html } from "@elysia/html";
 import { Chat } from "@infra/views/components/chat.component";
+import { Header } from "@infra/views/components/header.component";
 import { LivePosts } from "@infra/views/components/live-posts.component";
 
 // The scripts talk to the page only through this connection, so the test plays the server.
@@ -22,9 +23,11 @@ const message = (id: string) => ({ id, author: "Ana", text: `message ${id}`, tim
 
 beforeEach(async () => {
   for (const key of Object.keys(listeners)) delete listeners[key];
+  localStorage.clear();
   vi.resetModules();
   document.body.innerHTML = await (
     <div>
+      <Header connection />
       <LivePosts />
       <Chat />
     </div>
@@ -63,15 +66,37 @@ describe("history after a reconnect", () => {
   });
 });
 
-describe("forms follow the connection", () => {
-  it("disables both forms while closed and enables them once open", () => {
-    const controls = () => Array.from(document.querySelectorAll<HTMLInputElement | HTMLButtonElement>("form input, form button"));
+describe("forms follow the connection and the name", () => {
+  const controls = () =>
+    Array.from(document.querySelectorAll<HTMLInputElement | HTMLButtonElement>("form input, form button"));
+  const setName = (text: string) => {
+    const field = document.getElementById("visitor-name") as HTMLInputElement;
+    field.value = text;
+    field.dispatchEvent(new Event("input", { bubbles: true }));
+  };
+
+  it("keeps both forms disabled without a name, even while connected", () => {
     expect(controls().every((control) => control.disabled)).toBe(true);
 
     emit("open");
+
+    expect(controls().every((control) => control.disabled)).toBe(true);
+  });
+
+  it("enables them once connected and named, and disables them when the connection closes", () => {
+    emit("open");
+    setName("Ana");
     expect(controls().every((control) => !control.disabled)).toBe(true);
 
     emit("close");
     expect(controls().every((control) => control.disabled)).toBe(true);
+  });
+
+  it("asks for the name in the text fields until there is one", () => {
+    const placeholders = () => ["live-text", "chat-text"].map((id) => (document.getElementById(id) as HTMLInputElement).placeholder);
+    expect(placeholders()).toEqual(["Set your name first", "Set your name first"]);
+
+    setName("Ana");
+    expect(placeholders()).toEqual(["What's on your mind?", "Write a message"]);
   });
 });

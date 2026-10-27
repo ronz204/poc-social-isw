@@ -1,12 +1,14 @@
 import { Html } from "@elysia/html";
 import { Icon } from "./icon.component";
+import { VisitorAvatar } from "./visitor-avatar.component";
 
 const FIELD =
-  "flex items-center gap-2.5 rounded-field border border-border-control bg-bg px-3.5 py-3 text-muted has-disabled:bg-disabled-bg has-disabled:text-disabled";
+  "flex flex-1 items-center rounded-field border border-border-control bg-bg px-3.5 py-3 text-muted has-[:disabled]:bg-disabled-bg has-[:disabled]:text-disabled";
 const INPUT =
   "min-w-0 flex-1 bg-transparent text-sm text-text-primary outline-none placeholder:text-muted disabled:placeholder:text-disabled";
 
-// The name and text fields with the round send button, shared by the publish form and the chat form.
+// The visitor's avatar, the text field and the round send button, shared by the publish form and the chat form.
+// The author name is not asked here: it comes from the header field.
 // The client script fills `#<id>-error` with the server's error; the pill hides itself while it is empty.
 export const MessageForm = ({
   id,
@@ -18,12 +20,9 @@ export const MessageForm = ({
   sendLabel: string;
 }) => (
   <form id={`${id}-form`} class="flex flex-col gap-2.5">
-    <label class={FIELD}>
-      <Icon name="user" class="size-4" />
-      <input id={`${id}-name`} name="name" maxlength="30" placeholder="Your name" class={INPUT} />
-    </label>
     <div class="flex items-center gap-2.5">
-      <label class={`${FIELD} flex-1`}>
+      <VisitorAvatar class="size-9 text-sm" />
+      <label class={FIELD}>
         <input id={`${id}-text`} name="text" placeholder={textPlaceholder} class={INPUT} />
       </label>
       <button

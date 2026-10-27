@@ -100,4 +100,12 @@ describe("home route", () => {
     expect(body).toMatch(/id="live-list"[^>]*><\/div>/);
     expect(body).toMatch(/id="chat-list"[^>]*><\/div>/);
   });
+
+  it("asks for the visitor name once, in the header, and not in each form", async () => {
+    const body = await (await load(weatherHandler(async () => WEATHER_OK), feedHandler(async () => FEED_OK))).text();
+
+    expect(body.match(/id="visitor-name"/g)).toHaveLength(1);
+    expect(body).not.toContain('id="live-name"');
+    expect(body).not.toContain('id="chat-name"');
+  });
 });

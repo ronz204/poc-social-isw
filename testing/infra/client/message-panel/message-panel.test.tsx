@@ -2,6 +2,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Html } from "@elysia/html";
 import { Chat } from "@infra/views/components/chat.component";
+import { Header } from "@infra/views/components/header.component";
 import { LivePosts } from "@infra/views/components/live-posts.component";
 
 // The scripts talk to the page only through this connection, so the test plays the server.
@@ -20,6 +21,10 @@ vi.mock("@infra/client/page-shell/socket", () => ({ connection: fakeConnection }
 const emit = (kind: string, data?: unknown) => listeners[kind]?.forEach((listener) => listener(data));
 const value = (id: string) => (document.getElementById(id) as HTMLInputElement).value;
 const type = (id: string, text: string) => ((document.getElementById(id) as HTMLInputElement).value = text);
+const setName = (text: string) => {
+  type("visitor-name", text);
+  document.getElementById("visitor-name")!.dispatchEvent(new Event("input", { bubbles: true }));
+};
 const submit = (id: string) => (document.getElementById(id) as HTMLFormElement).requestSubmit();
 const texts = (id: string) => Array.from(document.querySelectorAll(`#${id} > *`)).map((item) => item.textContent);
 
@@ -30,6 +35,7 @@ beforeEach(async () => {
   vi.resetModules();
   document.body.innerHTML = await (
     <div>
+      <Header connection />
       <LivePosts />
       <Chat />
     </div>
@@ -37,35 +43,30 @@ beforeEach(async () => {
   await import("@infra/client/live-posts/live-posts");
   await import("@infra/client/global-chat/global-chat");
   emit("open");
+  setName("Ana");
 });
 
 describe("sending from a form", () => {
-  it("sends its own message type with the name and the text, then clears only the text", () => {
-    type("live-name", "Ana");
+  it("sends its own message type with the header name and the text, then clears only the text", () => {
     type("live-text", "hello");
     submit("live-form");
 
     expect(send).toHaveBeenCalledWith(JSON.stringify({ type: "post", name: "Ana", text: "hello" }));
     expect(value("live-text")).toBe("");
-    expect(value("live-name")).toBe("Ana");
+    expect(value("visitor-name")).toBe("Ana");
 
-    type("chat-name", "Ana");
     type("chat-text", "hi");
     submit("chat-form");
 
     expect(send).toHaveBeenLastCalledWith(JSON.stringify({ type: "chat", name: "Ana", text: "hi" }));
   });
 
-  it("saves the name for the next visit and prefills both forms with it", async () => {
-    type("live-name", "Luis");
-    type("live-text", "hello");
-    submit("live-form");
+  it("sends the name as it is when the visitor changes it, and the trimmed form of it", () => {
+    setName("  Luis  ");
+    type("chat-text", "hi");
+    submit("chat-form");
 
-    expect(localStorage.getItem("visitor-name")).toBe("Luis");
-
-    vi.resetModules();
-    await import("@infra/client/global-chat/global-chat");
-    expect(value("chat-name")).toBe("Luis");
+    expect(send).toHaveBeenCalledWith(JSON.stringify({ type: "chat", name: "Luis", text: "hi" }));
   });
 });
 
@@ -77,7 +78,6 @@ describe("a rejected message", () => {
     expect(document.getElementById("live-error")!.textContent).toContain("280 characters");
     expect(document.getElementById("chat-error")!.textContent).toContain("200 characters");
 
-    type("live-name", "Ana");
     type("live-text", "ok");
     submit("live-form");
 

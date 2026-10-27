@@ -1,11 +1,9 @@
 import { byId } from "../dom";
 import { connection } from "../page-shell/socket";
-
-// One saved name for both forms.
-const NAME_KEY = "visitor-name";
+import { visitor } from "../page-shell/visitor-name";
 
 interface MessagePanelOptions<T> {
-  prefix: string; // the ids of the panel start with it: -form, -name, -text, -error, -empty and -list
+  prefix: string; // the ids of the panel start with it: -form, -text, -error, -empty and -list
   sends: string; // the `type` of the message its form sends
   invalid: string; // what the visitor reads when the server rejects a message
   render: (item: T) => HTMLElement;
@@ -15,33 +13,35 @@ interface MessagePanelOptions<T> {
 // What a panel of live items does: its form talks to the connection, and its list shows what arrives.
 export const bindMessagePanel = <T>({ prefix, sends, invalid, render, newestFirst }: MessagePanelOptions<T>) => {
   const form = byId<HTMLFormElement>(`${prefix}-form`);
-  const nameField = byId<HTMLInputElement>(`${prefix}-name`);
   const textField = byId<HTMLInputElement>(`${prefix}-text`);
   const errorLine = byId(`${prefix}-error`);
   const empty = byId(`${prefix}-empty`);
   const list = byId(`${prefix}-list`);
 
-  // The saved name is a convenience: a browser that cannot store it still works.
-  try {
-    nameField.value = localStorage.getItem(NAME_KEY) ?? "";
-  } catch {}
-
-  const setEnabled = (enabled: boolean) => {
+  // The form works while the connection is open and the visitor has a name; without one it says so.
+  const placeholder = textField.placeholder;
+  let connected = false;
+  const refresh = () => {
+    const named = visitor.name() !== "";
     form.querySelectorAll<HTMLInputElement | HTMLButtonElement>("input, button").forEach((control) => {
-      control.disabled = !enabled;
+      control.disabled = !(connected && named);
     });
+    textField.placeholder = named ? placeholder : "Set your name first";
   };
-  setEnabled(false);
-  connection.onOpen(() => setEnabled(true));
-  connection.onClose(() => setEnabled(false));
+  connection.onOpen(() => {
+    connected = true;
+    refresh();
+  });
+  connection.onClose(() => {
+    connected = false;
+    refresh();
+  });
+  visitor.onChange(refresh);
+  refresh();
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    const name = nameField.value;
-    connection.send(JSON.stringify({ type: sends, name, text: textField.value }));
-    try {
-      localStorage.setItem(NAME_KEY, name);
-    } catch {}
+    connection.send(JSON.stringify({ type: sends, name: visitor.name(), text: textField.value }));
     errorLine.textContent = "";
     textField.value = "";
   });
