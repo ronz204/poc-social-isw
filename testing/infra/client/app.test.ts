@@ -13,23 +13,27 @@ const fakeConnection = {
 vi.mock("@infra/client/socket", () => ({ connection: fakeConnection }));
 
 const emit = (kind: string) => listeners[kind]?.forEach((listener) => listener());
-const statusText = () => document.querySelector("#connection-status")!.textContent;
+const shown = () => [
+  document.querySelector("#connection-status")!.textContent,
+  document.querySelector<HTMLElement>("#connection")!.dataset.state,
+];
 
 beforeEach(async () => {
   for (const key of Object.keys(listeners)) delete listeners[key];
   vi.resetModules();
-  document.body.innerHTML = '<span id="connection-status">Connecting</span>';
+  document.body.innerHTML =
+    '<div id="connection" data-state="connecting"><span id="connection-status">Connecting</span></div>';
   await import("@infra/client/app");
 });
 
-describe("header connection status", () => {
-  it("follows the connection", () => {
-    expect(statusText()).toBe("Connecting");
+describe("header connection pill", () => {
+  it("shows the label and the state of the connection", () => {
+    expect(shown()).toEqual(["Connecting", "connecting"]);
 
     emit("open");
-    expect(statusText()).toBe("Connected");
+    expect(shown()).toEqual(["Connected", "open"]);
 
     emit("close");
-    expect(statusText()).toBe("Offline, retrying");
+    expect(shown()).toEqual(["Offline, retrying", "closed"]);
   });
 });
