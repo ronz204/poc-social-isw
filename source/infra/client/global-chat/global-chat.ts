@@ -1,5 +1,5 @@
-import { chatItem, type ClientChatMessage } from "./chat.render";
-import { connection } from "./socket";
+import { chatItem, type ClientChatMessage } from "./global-chat.render";
+import { connection } from "../page-shell/socket";
 
 const form = document.querySelector<HTMLFormElement>("#chat-form");
 const list = document.querySelector<HTMLElement>("#chat-messages");

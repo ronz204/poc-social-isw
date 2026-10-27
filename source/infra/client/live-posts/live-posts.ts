@@ -1,4 +1,4 @@
-import { connection } from "./socket";
+import { connection } from "../page-shell/socket";
 import { postItem, type ClientPost } from "./live-posts.render";
 
 const form = document.querySelector<HTMLFormElement>("#live-form");

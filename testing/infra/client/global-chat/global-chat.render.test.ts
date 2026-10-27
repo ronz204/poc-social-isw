@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { chatItem } from "@infra/client/chat.render";
+import { chatItem } from "@infra/client/global-chat/global-chat.render";
 
 // A minimal document: elements keep their text, and any markup assignment fails the test.
 const makeElement = (tag: string) => {

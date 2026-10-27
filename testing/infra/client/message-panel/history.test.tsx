@@ -14,7 +14,7 @@ const fakeConnection = {
   onPosts: (listener: Listener) => (listeners.posts = [...(listeners.posts ?? []), listener]),
   onChat: (listener: Listener) => (listeners.chat = [...(listeners.chat ?? []), listener]),
 };
-vi.mock("@infra/client/socket", () => ({ connection: fakeConnection }));
+vi.mock("@infra/client/page-shell/socket", () => ({ connection: fakeConnection }));
 
 const emit = (kind: string, data?: unknown) => listeners[kind]?.forEach((listener) => listener(data));
 const post = (id: string) => ({ id, author: "Ana", content: `post ${id}`, time: "09:30 AM" });
@@ -29,8 +29,8 @@ beforeEach(async () => {
       <Chat />
     </div>
   );
-  await import("@infra/client/live-posts");
-  await import("@infra/client/chat");
+  await import("@infra/client/live-posts/live-posts");
+  await import("@infra/client/global-chat/global-chat");
 });
 
 describe("history after a reconnect", () => {

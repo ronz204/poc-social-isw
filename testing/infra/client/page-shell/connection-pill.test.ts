@@ -10,7 +10,7 @@ const fakeConnection = {
   onPosts: vi.fn(),
   onChat: vi.fn(),
 };
-vi.mock("@infra/client/socket", () => ({ connection: fakeConnection }));
+vi.mock("@infra/client/page-shell/socket", () => ({ connection: fakeConnection }));
 
 const emit = (kind: string) => listeners[kind]?.forEach((listener) => listener());
 const shown = () => [
@@ -23,7 +23,7 @@ beforeEach(async () => {
   vi.resetModules();
   document.body.innerHTML =
     '<div id="connection" data-state="connecting"><span id="connection-status">Connecting</span></div>';
-  await import("@infra/client/app");
+  await import("@infra/client/page-shell/connection-pill");
 });
 
 describe("header connection pill", () => {

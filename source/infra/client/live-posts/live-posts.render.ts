@@ -1,4 +1,4 @@
-import { avatarTone, initials } from "../avatar";
+import { avatarTone, initials } from "@infra/avatar";
 
 export interface ClientPost {
   id: string;

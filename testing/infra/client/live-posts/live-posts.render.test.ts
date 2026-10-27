@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { postItem } from "@infra/client/live-posts.render";
+import { postItem } from "@infra/client/live-posts/live-posts.render";
 
 // A minimal document: elements keep their text, and any markup assignment fails the test.
 const makeElement = (tag: string) => {

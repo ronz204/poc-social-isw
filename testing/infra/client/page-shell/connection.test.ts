@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { createConnection, reconnectDelay } from "@infra/client/connection";
+import { createConnection, reconnectDelay } from "@infra/client/page-shell/connection";
 
 // Just what the connection uses of a WebSocket; the test drives its events by hand.
 class FakeSocket {
