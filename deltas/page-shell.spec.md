@@ -43,9 +43,9 @@ The endpoint and message envelope are decided by the live-posts and global-chat 
 5. The home page always contains the three panels, whatever the data outcomes. [test: testing/infra/views/home.route.test.ts "always contains the three panels when the data is fine"]
 6. If a failure happens outside the per-panel handling, then the visitor sees a generic friendly error page instead of a stack trace. [test: testing/infra/views/home.route.test.ts "shows a friendly error page, not a stack trace, when something outside the panels fails"]
 7. The home page HTML never embeds live posts or chat history. [test: testing/infra/views/home.route.test.ts "leaves the live lists empty in the HTML: history arrives over the socket"]
-8. When the WebSocket closes unexpectedly, the client retries with a growing wait until it reconnects. [test: testing/infra/client/connection.test.ts "retries with a growing wait after an unexpected close, until it reconnects"]
-9. When a socket message arrives, the client routes it by `type` to exactly one of the posts list or the chat list, and ignores an unknown type. [test: testing/infra/client/connection.test.ts "routes each message to exactly one of the posts or the chat listener"]
-10. When a history message arrives, the client replaces the content of that list instead of adding to it, so a history re-sent after a reconnect shows no item twice. [test: testing/infra/client/history.test.tsx]
+8. When the WebSocket closes unexpectedly, the client retries with a growing wait until it reconnects. [test: testing/infra/client/page-shell/connection.test.ts "retries with a growing wait after an unexpected close, until it reconnects"]
+9. When a socket message arrives, the client routes it by `type` to exactly one of the posts list or the chat list, and ignores an unknown type. [test: testing/infra/client/page-shell/connection.test.ts "routes each message to exactly one of the posts or the chat listener"]
+10. When a history message arrives, the client replaces the content of that list instead of adding to it, so a history re-sent after a reconnect shows no item twice. [test: testing/infra/client/message-panel/history.test.tsx]
 
 ## Deferred / Open questions
 
@@ -57,8 +57,8 @@ The endpoint and message envelope are decided by the live-posts and global-chat 
 2. Given the feed API is down and the weather API is up, when the home page loads, then it answers 200, the feed panel shows its message and the weather panel shows the reading. [test: testing/infra/views/home.route.test.ts "keeps the weather and chat panels when the feed fails"]
 3. Given both APIs are down, when the home page loads, then it answers 200 with the three panels. [test: testing/infra/views/home.route.test.ts "answers 200 with the three panels when both APIs fail"]
 4. Given a weather API that answers slowly, when the home page loads, then the feed request is not held back by it. [test: testing/infra/views/home.route.test.ts "starts the feed request without waiting for the weather one"]
-5. Given an open connection, when it is killed, then the client reconnects and receives both histories again. [test: testing/infra/client/connection.test.ts "retries with a growing wait after an unexpected close, until it reconnects"]
-6. Given a socket message with an unknown `type`, when it arrives, then the client ignores it without an error. [test: testing/infra/client/connection.test.ts "ignores a message of unknown type, or one that is not JSON, without an error"]
+5. Given an open connection, when it is killed, then the client reconnects and receives both histories again. [test: testing/infra/client/page-shell/connection.test.ts "retries with a growing wait after an unexpected close, until it reconnects"]
+6. Given a socket message with an unknown `type`, when it arrives, then the client ignores it without an error. [test: testing/infra/client/page-shell/connection.test.ts "ignores a message of unknown type, or one that is not JSON, without an error"]
 
 ---
 
