@@ -4,48 +4,47 @@ import type { GetWeatherOutput } from "@app/local-weather/get-weather/get-weathe
 import type { GetFeedPageOutput } from "@app/social-feed/get-feed-page/get-feed-page.schema";
 import { Chat } from "./components/chat.component";
 import { FeedPosts } from "./components/feed-posts.component";
+import { Head } from "./components/head.component";
+import { Header } from "./components/header.component";
+import { Icon, type IconName } from "./components/icon.component";
 import { LivePosts } from "./components/live-posts.component";
 import { WeatherPanel } from "./components/weather-panel.component";
 
-// A titled column. On wide screens the page itself does not scroll, so each panel scrolls on its own.
-const Panel = ({ id, icon, title, class: extra, children }: PropsWithChildren<{ id: string; icon: string; title: string; class: string }>) => (
-  <section id={id} class={`flex min-h-0 flex-col gap-3 lg:p-4 ${extra}`}>
-    <h2 class="flex items-center gap-2 text-lg font-bold">
-      <span aria-hidden="true">{icon}</span>
+// A titled white card. On wide screens the page itself does not scroll, so `body` lets a panel scroll on its own.
+const Panel = ({
+  id,
+  icon,
+  title,
+  class: extra,
+  body,
+  children,
+}: PropsWithChildren<{ id: string; icon: IconName; title: string; class: string; body: string }>) => (
+  <section id={id} class={`flex min-h-0 flex-col rounded-panel border border-border bg-surface shadow-panel ${extra}`}>
+    <h2 class="flex items-center gap-2.5 px-[22px] pt-[18px] pb-2 font-display text-[19px] font-semibold">
+      <span class="flex size-[30px] items-center justify-center rounded-[10px] bg-accent-tint text-accent">
+        <Icon name={icon} class="size-4" />
+      </span>
       {title}
     </h2>
-    {children}
+    <div class={`flex min-h-0 flex-1 flex-col gap-3.5 px-[22px] pt-2 pb-[22px] ${body}`}>{children}</div>
   </section>
 );
 
 // Narrow screens stack feed, weather, chat with `order-*`; from `lg` up the source order is the column order.
 export const HomeView = ({ weather, feed }: { weather: GetWeatherOutput; feed: GetFeedPageOutput }) => (
   <html lang="en">
-    <head>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <title>Happy</title>
-      <link rel="stylesheet" href="/public/css/app.css" />
-    </head>
-    <body class="flex min-h-dvh flex-col bg-slate-100 text-slate-900 lg:h-dvh lg:overflow-hidden">
-      <header class="flex items-center justify-between bg-white px-4 py-3 shadow-sm">
-        <div class="flex items-center gap-2">
-          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 font-bold text-white">H</span>
-          <span class="text-xl font-bold">Happy</span>
-        </div>
-        <span id="connection-status" class="text-sm text-slate-600" role="status">
-          Connecting
-        </span>
-      </header>
-      <div class="flex flex-1 flex-col gap-4 p-4 lg:grid lg:min-h-0 lg:grid-cols-[18rem_1fr_24rem] lg:gap-0 lg:p-0">
-        <Panel id="weather-panel" icon="🌤" title="Weather" class="order-2 lg:order-none lg:self-start">
+    <Head />
+    <body class="flex min-h-dvh flex-col lg:h-dvh lg:overflow-hidden">
+      <Header connection />
+      <div class="flex flex-1 flex-col gap-4 p-4 lg:grid lg:min-h-0 lg:grid-cols-[320px_1fr_380px] lg:gap-6 lg:p-6">
+        <Panel id="weather-panel" icon="cloud-sun" title="Weather" class="order-2 lg:order-none lg:self-start" body="">
           <WeatherPanel weather={weather} />
         </Panel>
-        <Panel id="feed-panel" icon="📰" title="Feed" class="order-1 lg:order-none lg:overflow-y-auto">
+        <Panel id="feed-panel" icon="newspaper" title="Feed" class="order-1 lg:order-none" body="scroll-soft lg:overflow-y-auto">
           <LivePosts />
           <FeedPosts feed={feed} />
         </Panel>
-        <Panel id="chat-panel" icon="💬" title="Chat" class="order-3 lg:order-none">
+        <Panel id="chat-panel" icon="messages-square" title="Chat" class="order-3 lg:order-none" body="">
           <Chat />
         </Panel>
       </div>

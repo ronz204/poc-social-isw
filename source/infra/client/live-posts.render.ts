@@ -1,18 +1,11 @@
+import { avatarTone, initials } from "../avatar";
+
 export interface ClientPost {
   id: string;
   author: string;
   content: string;
   time: string;
 }
-
-// Two initials drawn from the author name; decoration only.
-const initials = (name: string) =>
-  name
-    .split(" ")
-    .slice(0, 2)
-    .map((word) => word.charAt(0))
-    .join("")
-    .toUpperCase();
 
 const part = (tag: string, className: string, text: string) => {
   const element = document.createElement(tag);
@@ -22,18 +15,28 @@ const part = (tag: string, className: string, text: string) => {
   return element;
 };
 
+const row = (className: string, ...children: HTMLElement[]) => {
+  const element = document.createElement("div");
+  element.className = className;
+  element.append(...children);
+  return element;
+};
+
 // One live post as a DOM element; every visitor string is set with textContent.
 export const postItem = (post: ClientPost) => {
-  const header = document.createElement("div");
-  header.className = "flex items-center gap-2";
-  header.append(
-    part("span", "flex h-8 w-8 items-center justify-center rounded-full bg-indigo-300 text-xs font-bold", initials(post.author)),
-    part("span", "text-sm font-medium", post.author),
-    part("span", "rounded-full bg-indigo-600 px-2 text-xs text-white", "Live"),
-    part("span", "ml-auto text-xs text-slate-500", post.time),
+  const author = row(
+    "flex items-center gap-2.5",
+    part("span", `flex size-9 items-center justify-center rounded-full font-display text-sm font-semibold ${avatarTone(post.author)}`, initials(post.author)),
+    part("span", "text-sm font-extrabold", post.author),
   );
+  const badge = row(
+    "flex items-center gap-[5px] rounded-full bg-accent px-2 py-[3px] text-on-accent",
+    part("span", "size-1.5 rounded-full bg-on-accent", ""),
+    part("span", "text-[11px] font-extrabold", "Live"),
+  );
+  const meta = row("flex items-center gap-2", badge, part("span", "text-xs font-semibold text-muted", post.time));
   const item = document.createElement("article");
-  item.className = "rounded-2xl bg-indigo-50 p-4 shadow-sm";
-  item.append(header, part("p", "mt-2 text-slate-700", post.content));
+  item.className = "flex flex-col gap-2.5 rounded-panel border border-accent-border bg-accent-tint p-[18px]";
+  item.append(row("flex items-center justify-between", author, meta), part("p", "text-[15px] leading-[1.45]", post.content));
   return item;
 };

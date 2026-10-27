@@ -2,11 +2,17 @@ import "./live-posts";
 import "./chat";
 import { connection } from "./socket";
 
+// The header pill: its label and its `data-state` (which the stylesheet colors) follow the connection.
 // Not named `status`: in the bundled classic script that would be `window.status`, which only keeps strings.
+const connectionPill = document.querySelector<HTMLElement>("#connection");
 const connectionStatus = document.querySelector<HTMLElement>("#connection-status");
-if (connectionStatus) {
-  connection.onOpen(() => (connectionStatus.textContent = "Connected"));
-  connection.onClose(() => (connectionStatus.textContent = "Offline, retrying"));
+if (connectionPill && connectionStatus) {
+  const show = (state: string, label: string) => {
+    connectionPill.dataset.state = state;
+    connectionStatus.textContent = label;
+  };
+  connection.onOpen(() => show("open", "Connected"));
+  connection.onClose(() => show("closed", "Offline, retrying"));
 }
 
 const feed = document.querySelector<HTMLElement>("#feed-posts");
