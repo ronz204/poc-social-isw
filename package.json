@@ -7,7 +7,6 @@
     "dev": "bun run --parallel dev:server dev:client dev:css",
     "build": "bun run build:client && bun run build:css",
     "build:client": "bun build source/infra/client/app.ts --outdir public/js --target browser",
-    "theme": "bun source/infra/styles/theme.gen.ts",
     "build:css": "tailwindcss -i source/infra/styles/app.css -o public/css/app.css --minify",
     "dev:server": "bun --watch source/boot.ts",
     "dev:client": "bun build source/infra/client/app.ts --outdir public/js --target browser --watch",
