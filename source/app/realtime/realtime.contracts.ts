@@ -9,3 +9,7 @@ export interface SocketHub {
   remove(client: SocketClient): void;
   broadcast(text: string): void;
 }
+
+// On the shared connection a chat message goes to the chat socket, everything else to the posts socket.
+export const isChatMessage = (data: unknown) =>
+  typeof data === "object" && data !== null && "type" in data && data.type === "chat";
