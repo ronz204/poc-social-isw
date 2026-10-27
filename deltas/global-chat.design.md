@@ -17,7 +17,7 @@ Non-goals:
 Top to bottom inside the panel:
 
 - **Message list:** oldest at the top, newest at the bottom, scrolling on its own. Each message shows a round avatar with the author's initials, then the author name and the formatted time, with the text in a bubble under them.
-- **Chat form:** at the bottom, a name field on its own row; under it the text field with a round, icon-only send button beside it, both the same height; an inline message line for errors.
+- **Chat form:** at the bottom, the visitor's avatar, the text field and a round, icon-only send button, all the same height; an inline message line for errors. The name comes from the header field (see page-shell.design.md).
 
 ## States
 
@@ -29,9 +29,9 @@ Top to bottom inside the panel:
 
 ## Interactions
 
-- When the visitor submits the form with a name and a text while connected, the client sends the chat message; the rules are in global-chat.spec.md (Contract and invariant 3).
+- When the visitor submits the form with a text while connected and a name set in the header, the client sends the chat message; the rules are in global-chat.spec.md (Contract and invariant 3).
 - The send button has no visible text, so it carries the accessible name "Send".
-- When the form is sent, the text field is cleared and the name field keeps its value; the name is saved in the browser and shared with the publish form. If the browser cannot store it, the form still works.
+- When the form is sent, the text field is cleared. The name is kept and saved by the header field, shared with the publish form.
 - When a message arrives and the visitor is at the bottom of the list, the list scrolls to show it.
 - When a message arrives and the visitor has scrolled up to read, the list does not move.
 - When the server answers with an error, the text already cleared is not restored.
@@ -45,9 +45,9 @@ There are no confirmation steps. Author name and text are shown as text, never a
 | WebSocket chat history on connect | The initial list |
 | WebSocket chat broadcast | New items at the bottom |
 | WebSocket error reply to a chat message | The inline message line |
-| Browser storage of the visitor's name | Prefilling the name field |
+| The header name field | The author name of each chat message |
 
-It writes the chat message (name and text) and the saved name.
+It writes the chat message (name and text).
 
 ## Deferred / Open questions
 
@@ -64,8 +64,8 @@ It writes the chat message (name and text) and the saved name.
 4. Given the visitor has scrolled up, when a message arrives, then the scroll position does not change. [manual: scroll up and send from the other browser]
 5. Given no messages exist, when the page loads, then the list says "No messages yet". [manual: restart the server and load the page]
 6. Given an empty text, when the visitor sends, then the message line shows an error and the other browser receives nothing. [manual: send an empty text]
-7. Given a filled form, when the visitor sends, then the text field is empty and the name field still holds the name. [manual: send and look at the form]
+7. Given a filled form, when the visitor sends, then the text field is empty and the header still holds the name. [manual: send and look at the form]
 
 ---
 
-Last updated: 2026-10-26.
+Last updated: 2026-10-27.

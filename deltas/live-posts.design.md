@@ -17,7 +17,7 @@ Non-goals:
 
 Top of the center panel, top to bottom:
 
-- **Publish form:** a name field on its own row; under it the text field with a round, icon-only send button beside it, both the same height; an inline message line under them for errors.
+- **Publish form:** the visitor's avatar, the text field and a round, icon-only send button, all the same height; an inline message line under them for errors. The name comes from the header field (see page-shell.design.md).
 - **Live posts list:** newest first. Each post shows a round avatar with the author's initials, the author name, a "Live" badge, the formatted time and the content. The tinted background and the badge tell live posts apart from the API posts below.
 
 The API posts follow below the list (social-feed.design.md).
@@ -32,9 +32,9 @@ The API posts follow below the list (social-feed.design.md).
 
 ## Interactions
 
-- When the visitor submits the form with a name and a text while connected, the client sends the post message; the rules are in live-posts.spec.md (Contract and invariant 3).
+- When the visitor submits the form with a text while connected and a name set in the header, the client sends the post message; the rules are in live-posts.spec.md (Contract and invariant 3).
 - The send button has no visible text, so it carries the accessible name "Publish".
-- When the form is sent, the text field is cleared and the name field keeps its value; the name is saved in the browser and prefilled on the next visit and in the chat form. The saved name is a convenience: if the browser cannot store it, the form still works.
+- When the form is sent, the text field is cleared. The name is kept and saved by the header field, shared with the chat form.
 - When a post arrives, from the visitor or from anyone else, it is added at the top of the list.
 - When the server answers with an error, the text already cleared is not restored.
 
@@ -47,9 +47,9 @@ There are no confirmation steps. Author name and text are shown as text, never a
 | WebSocket history message on connect | The initial list |
 | WebSocket post broadcast | New items at the top |
 | WebSocket error reply to a publish | The inline message line |
-| Browser storage of the visitor's name | Prefilling the name field |
+| The header name field | The author name of each publish message |
 
-It writes the publish message (name and text) and the saved name.
+It writes the publish message (name and text).
 
 ## Deferred / Open questions
 
@@ -65,9 +65,9 @@ It writes the publish message (name and text) and the saved name.
 3. Given no posts have been published, when the page loads, then the list says "No live posts yet". [manual: restart the server and load the page]
 4. Given an empty text, when the visitor submits, then the message line shows an error and nothing appears in the list of the other browser. [manual: submit with an empty text]
 5. Given a text of `<script>`, when it is published, then both browsers show the characters as text. [manual: publish `<script>alert(1)</script>`]
-6. Given a filled form, when the visitor publishes, then the text field is empty and the name field still holds the name. [manual: publish and look at the form]
-7. Given a name was used, when the page is reloaded, then both forms are prefilled with it. [manual: reload the page]
+6. Given a filled form, when the visitor publishes, then the text field is empty and the header still holds the name. [manual: publish and look at the form]
+7. Given a name was used, when the page is reloaded, then the header holds it and both forms are enabled. [manual: reload the page]
 
 ---
 
-Last updated: 2026-10-26.
+Last updated: 2026-10-27.

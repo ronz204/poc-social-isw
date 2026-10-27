@@ -289,6 +289,60 @@
                   "fontWeight": "600"
                 }
               ]
+            },
+            {
+              "type": "frame",
+              "id": "eWZ4p",
+              "name": "Name Chip",
+              "reusable": true,
+              "fill": "$neutral-bg",
+              "cornerRadius": "$radius-pill",
+              "gap": 8,
+              "padding": [
+                4,
+                12,
+                4,
+                4
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "id": "A7dTL",
+                  "type": "ref",
+                  "ref": "W3m2sP",
+                  "name": "Avatar",
+                  "width": 28,
+                  "height": 28,
+                  "fill": "$av4-bg",
+                  "descendants": {
+                    "JiEjq": {
+                      "content": "A",
+                      "fontSize": 12,
+                      "fill": "$av4-fg"
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "p9U0pR",
+                  "name": "Name",
+                  "fill": "$text-primary",
+                  "content": "Ana",
+                  "fontFamily": "$font-ui",
+                  "fontSize": 14,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "icon",
+                  "id": "pnAMp",
+                  "name": "Edit Icon",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "pencil",
+                  "library": "lucide",
+                  "fill": "$muted"
+                }
+              ]
             }
           ]
         },
@@ -359,10 +413,25 @@
                   ]
                 },
                 {
-                  "id": "P6sjaP",
-                  "type": "ref",
-                  "ref": "qbGKp",
-                  "name": "Connection Status"
+                  "type": "frame",
+                  "id": "ZneYu",
+                  "name": "Right",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "id": "UYpeU",
+                      "type": "ref",
+                      "ref": "eWZ4p",
+                      "name": "Name Chip"
+                    },
+                    {
+                      "id": "P6sjaP",
+                      "type": "ref",
+                      "ref": "qbGKp",
+                      "name": "Connection Status"
+                    }
+                  ]
                 }
               ]
             },
@@ -467,13 +536,6 @@
               "gap": 10,
               "children": [
                 {
-                  "id": "i0v7t7",
-                  "type": "ref",
-                  "ref": "J4oPvr",
-                  "name": "Name Field",
-                  "width": "fill_container"
-                },
-                {
                   "type": "frame",
                   "id": "gkTGt",
                   "name": "Text Row",
@@ -481,6 +543,19 @@
                   "gap": 10,
                   "alignItems": "center",
                   "children": [
+                    {
+                      "id": "woNed",
+                      "type": "ref",
+                      "ref": "W3m2sP",
+                      "name": "Your Avatar",
+                      "fill": "$av4-bg",
+                      "descendants": {
+                        "JiEjq": {
+                          "content": "A",
+                          "fill": "$av4-fg"
+                        }
+                      }
+                    },
                     {
                       "id": "QrESK",
                       "type": "ref",
@@ -492,6 +567,9 @@
                       "descendants": {
                         "BtUb3": {
                           "enabled": false
+                        },
+                        "Q9PpI": {
+                          "content": "What's on your mind?"
                         }
                       }
                     },
@@ -940,44 +1018,97 @@
                   "fontFamily": "$font-ui",
                   "fontSize": 13,
                   "fontWeight": "700"
-                },
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "XKadE",
+              "name": "Header Narrow",
+              "reusable": true,
+              "width": 390,
+              "fill": "$surface",
+              "stroke": "$border",
+              "strokeWidth": {
+                "bottom": 1
+              },
+              "layout": "vertical",
+              "gap": 10,
+              "padding": [
+                14,
+                16
+              ],
+              "children": [
                 {
                   "type": "frame",
-                  "id": "c1dqU",
-                  "x": 0,
-                  "y": 0,
-                  "name": "Retry Button",
-                  "enabled": false,
-                  "fill": "$accent-tint",
-                  "cornerRadius": "$radius-pill",
-                  "gap": 6,
-                  "padding": [
-                    7,
-                    14
-                  ],
+                  "id": "xbeDy",
+                  "name": "Top Row",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
                   "alignItems": "center",
                   "children": [
                     {
-                      "type": "icon",
-                      "id": "ST3mL",
-                      "name": "Icon",
-                      "width": 14,
-                      "height": 14,
-                      "icon": "refresh-cw",
-                      "library": "lucide",
-                      "fill": "$accent"
+                      "type": "frame",
+                      "id": "kgxZ9",
+                      "name": "Brand",
+                      "gap": 10,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "aUm6w",
+                          "name": "Logo Tile",
+                          "width": 38,
+                          "height": 38,
+                          "fill": "$accent",
+                          "cornerRadius": 12,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "yAZ7l",
+                              "name": "Logo Icon",
+                              "width": 24,
+                              "height": 24,
+                              "icon": "smile",
+                              "library": "lucide",
+                              "fill": "$on-accent"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "X63dAp",
+                          "name": "App Name",
+                          "fill": "$text-primary",
+                          "content": "Happy",
+                          "fontFamily": "$font-display",
+                          "fontSize": 22,
+                          "fontWeight": "700"
+                        }
+                      ]
                     },
                     {
-                      "type": "text",
-                      "id": "d4Oawa",
-                      "name": "Label",
-                      "fill": "$accent",
-                      "content": "Retry",
-                      "fontFamily": "$font-ui",
-                      "fontSize": 13,
-                      "fontWeight": "800"
+                      "id": "U3t8aD",
+                      "type": "ref",
+                      "ref": "qbGKp",
+                      "name": "Connection Status"
                     }
                   ]
+                },
+                {
+                  "id": "QNGI3",
+                  "type": "ref",
+                  "ref": "eWZ4p",
+                  "name": "Name Chip",
+                  "width": "fill_container",
+                  "descendants": {
+                    "p9U0pR": {
+                      "width": "fill_container",
+                      "textGrowth": "fixed-width"
+                    }
+                  }
                 }
               ]
             }
@@ -1089,9 +1220,6 @@
                       "name": "Publish Form",
                       "width": "fill_container",
                       "descendants": {
-                        "i0v7t7/Q9PpI": {
-                          "content": "Your name"
-                        },
                         "QrESK": {
                           "height": 48
                         },
@@ -1449,9 +1577,6 @@
                       "name": "Chat Form",
                       "width": "fill_container",
                       "descendants": {
-                        "i0v7t7/Q9PpI": {
-                          "content": "Your name"
-                        },
                         "QrESK": {
                           "height": 48
                         },
@@ -1483,16 +1608,11 @@
       "layout": "vertical",
       "children": [
         {
-          "id": "cDRaw",
+          "id": "FV0u5",
           "type": "ref",
-          "ref": "ufn3p",
+          "ref": "XKadE",
           "name": "Header",
-          "width": "fill_container",
-          "descendants": {
-            "Md9u5": {
-              "fontSize": 22
-            }
-          }
+          "width": "fill_container"
         },
         {
           "type": "frame",
@@ -1538,9 +1658,6 @@
                       "name": "Publish Form",
                       "width": "fill_container",
                       "descendants": {
-                        "i0v7t7/Q9PpI": {
-                          "content": "Your name"
-                        },
                         "QrESK": {
                           "height": 48
                         },
@@ -1829,9 +1946,6 @@
                       "name": "Chat Form",
                       "width": "fill_container",
                       "descendants": {
-                        "i0v7t7/Q9PpI": {
-                          "content": "Your name"
-                        },
                         "QrESK": {
                           "height": 48
                         },
@@ -1888,19 +2002,7 @@
               "type": "ref",
               "ref": "ufn3p",
               "name": "Header",
-              "width": "fill_container",
-              "descendants": {
-                "P6sjaP": {
-                  "fill": "$warning-bg"
-                },
-                "P6sjaP/Q2PSp": {
-                  "fill": "$warning-text"
-                },
-                "P6sjaP/Cby04": {
-                  "content": "Connecting",
-                  "fill": "$warning-text"
-                }
-              }
+              "width": "fill_container"
             },
             {
               "id": "OOY9t",
@@ -1909,16 +2011,6 @@
               "name": "Publish Form",
               "width": "fill_container",
               "descendants": {
-                "i0v7t7": {
-                  "fill": "$disabled-bg"
-                },
-                "i0v7t7/BtUb3": {
-                  "fill": "$disabled"
-                },
-                "i0v7t7/Q9PpI": {
-                  "content": "Your name",
-                  "fill": "$disabled"
-                },
                 "QrESK": {
                   "height": 48,
                   "fill": "$disabled-bg"
@@ -1952,16 +2044,6 @@
               "name": "Chat Form",
               "width": "fill_container",
               "descendants": {
-                "i0v7t7": {
-                  "fill": "$disabled-bg"
-                },
-                "i0v7t7/BtUb3": {
-                  "fill": "$disabled"
-                },
-                "i0v7t7/Q9PpI": {
-                  "content": "Your name",
-                  "fill": "$disabled"
-                },
                 "QrESK": {
                   "height": 48,
                   "fill": "$disabled-bg"
@@ -2014,19 +2096,7 @@
               "type": "ref",
               "ref": "ufn3p",
               "name": "Header",
-              "width": "fill_container",
-              "descendants": {
-                "P6sjaP": {
-                  "fill": "$success-bg"
-                },
-                "P6sjaP/Q2PSp": {
-                  "fill": "$success-text"
-                },
-                "P6sjaP/Cby04": {
-                  "content": "Connected",
-                  "fill": "$success-text"
-                }
-              }
+              "width": "fill_container"
             },
             {
               "id": "y14kGy",
@@ -2035,9 +2105,6 @@
               "name": "Publish Form",
               "width": "fill_container",
               "descendants": {
-                "i0v7t7/Q9PpI": {
-                  "content": "Your name"
-                },
                 "QrESK": {
                   "height": 48
                 },
@@ -2056,9 +2123,6 @@
               "name": "Chat Form",
               "width": "fill_container",
               "descendants": {
-                "i0v7t7/Q9PpI": {
-                  "content": "Your name"
-                },
                 "QrESK": {
                   "height": 48
                 },
@@ -2096,19 +2160,7 @@
               "type": "ref",
               "ref": "ufn3p",
               "name": "Header",
-              "width": "fill_container",
-              "descendants": {
-                "P6sjaP": {
-                  "fill": "$error-bg"
-                },
-                "P6sjaP/Q2PSp": {
-                  "fill": "$error-text"
-                },
-                "P6sjaP/Cby04": {
-                  "content": "Offline, retrying",
-                  "fill": "$error-text"
-                }
-              }
+              "width": "fill_container"
             },
             {
               "id": "JhfQH",
@@ -2117,16 +2169,6 @@
               "name": "Publish Form",
               "width": "fill_container",
               "descendants": {
-                "i0v7t7": {
-                  "fill": "$disabled-bg"
-                },
-                "i0v7t7/BtUb3": {
-                  "fill": "$disabled"
-                },
-                "i0v7t7/Q9PpI": {
-                  "content": "Your name",
-                  "fill": "$disabled"
-                },
                 "QrESK": {
                   "height": 48,
                   "fill": "$disabled-bg"
@@ -2213,16 +2255,6 @@
               "name": "Chat Form",
               "width": "fill_container",
               "descendants": {
-                "i0v7t7": {
-                  "fill": "$disabled-bg"
-                },
-                "i0v7t7/BtUb3": {
-                  "fill": "$disabled"
-                },
-                "i0v7t7/Q9PpI": {
-                  "content": "Your name",
-                  "fill": "$disabled"
-                },
                 "QrESK": {
                   "height": 48,
                   "fill": "$disabled-bg"
@@ -2272,6 +2304,9 @@
           "name": "Header",
           "width": "fill_container",
           "descendants": {
+            "UYpeU": {
+              "enabled": false
+            },
             "P6sjaP": {
               "enabled": false
             }
@@ -3767,273 +3802,6 @@
     },
     {
       "type": "frame",
-      "id": "t9Ffy",
-      "x": 0,
-      "y": 7191,
-      "name": "C4 Feed Load More Failed",
-      "fill": "$bg",
-      "layout": "vertical",
-      "gap": 32,
-      "padding": 40,
-      "children": [
-        {
-          "type": "frame",
-          "id": "RhEnP",
-          "name": "Row",
-          "gap": 40,
-          "children": [
-            {
-              "type": "frame",
-              "id": "i4rL2a",
-              "name": "Load more failed · desktop Column",
-              "width": 684,
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "euKoL",
-                  "name": "Annotation",
-                  "fill": "$muted",
-                  "content": "LOAD MORE FAILED · DESKTOP",
-                  "fontFamily": "$font-ui",
-                  "fontSize": 12,
-                  "fontWeight": "800",
-                  "letterSpacing": 1.2
-                },
-                {
-                  "id": "u1rel",
-                  "type": "ref",
-                  "ref": "vrYI7",
-                  "name": "Feed Panel",
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "descendants": {
-                    "ea8JL": {
-                      "icon": "newspaper"
-                    },
-                    "g57m1": {
-                      "content": "Feed"
-                    },
-                    "aTDuO": {
-                      "type": "frame",
-                      "id": "pNsLu",
-                      "name": "Body",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 14,
-                      "padding": [
-                        8,
-                        22,
-                        22,
-                        22
-                      ],
-                      "children": [
-                        {
-                          "id": "HW4od",
-                          "type": "ref",
-                          "ref": "l3ICc2",
-                          "name": "Post Card",
-                          "width": "fill_container",
-                          "descendants": {
-                            "jZhvY": {
-                              "fill": "$av4-bg"
-                            },
-                            "jZhvY/JiEjq": {
-                              "content": "LG",
-                              "fill": "$av4-fg"
-                            },
-                            "oE12X": {
-                              "content": "Leanne Graham"
-                            },
-                            "b6DmQ": {
-                              "content": "sunt aut facere repellat provident occaecati"
-                            },
-                            "M3OgGX": {
-                              "content": "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae ut ut quas totam"
-                            }
-                          }
-                        },
-                        {
-                          "id": "i4dyC",
-                          "type": "ref",
-                          "ref": "l3ICc2",
-                          "name": "Post Card",
-                          "width": "fill_container",
-                          "descendants": {
-                            "jZhvY": {
-                              "fill": "$av4-bg"
-                            },
-                            "jZhvY/JiEjq": {
-                              "content": "EH",
-                              "fill": "$av4-fg"
-                            },
-                            "oE12X": {
-                              "content": "Ervin Howell"
-                            },
-                            "b6DmQ": {
-                              "content": "qui est esse"
-                            },
-                            "M3OgGX": {
-                              "content": "est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque"
-                            }
-                          }
-                        },
-                        {
-                          "id": "UbOD8",
-                          "type": "ref",
-                          "ref": "al2W3",
-                          "name": "Feed Status Row",
-                          "width": "fill_container",
-                          "descendants": {
-                            "ftrD5": {
-                              "icon": "circle-alert",
-                              "fill": "$error-text"
-                            },
-                            "di6cX": {
-                              "content": "Could not load more posts",
-                              "fill": "$error-text"
-                            },
-                            "c1dqU": {
-                              "enabled": true
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "bLaDu",
-              "name": "Load more failed · mobile Column",
-              "width": 358,
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "IvvXz",
-                  "name": "Annotation",
-                  "fill": "$muted",
-                  "content": "LOAD MORE FAILED · MOBILE",
-                  "fontFamily": "$font-ui",
-                  "fontSize": 12,
-                  "fontWeight": "800",
-                  "letterSpacing": 1.2
-                },
-                {
-                  "id": "NR3K4",
-                  "type": "ref",
-                  "ref": "vrYI7",
-                  "name": "Feed Panel",
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "descendants": {
-                    "ea8JL": {
-                      "icon": "newspaper"
-                    },
-                    "g57m1": {
-                      "content": "Feed"
-                    },
-                    "aTDuO": {
-                      "type": "frame",
-                      "id": "XPGW6",
-                      "name": "Body",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 14,
-                      "padding": [
-                        8,
-                        22,
-                        22,
-                        22
-                      ],
-                      "children": [
-                        {
-                          "id": "X9YBJ",
-                          "type": "ref",
-                          "ref": "l3ICc2",
-                          "name": "Post Card",
-                          "width": "fill_container",
-                          "descendants": {
-                            "jZhvY": {
-                              "fill": "$av4-bg"
-                            },
-                            "jZhvY/JiEjq": {
-                              "content": "LG",
-                              "fill": "$av4-fg"
-                            },
-                            "oE12X": {
-                              "content": "Leanne Graham"
-                            },
-                            "b6DmQ": {
-                              "content": "sunt aut facere repellat provident occaecati"
-                            },
-                            "M3OgGX": {
-                              "content": "quia et suscipit suscipit recusandae consequuntur expedita et cum reprehenderit molestiae ut ut quas totam"
-                            }
-                          }
-                        },
-                        {
-                          "id": "lme1B",
-                          "type": "ref",
-                          "ref": "l3ICc2",
-                          "name": "Post Card",
-                          "width": "fill_container",
-                          "descendants": {
-                            "jZhvY": {
-                              "fill": "$av4-bg"
-                            },
-                            "jZhvY/JiEjq": {
-                              "content": "EH",
-                              "fill": "$av4-fg"
-                            },
-                            "oE12X": {
-                              "content": "Ervin Howell"
-                            },
-                            "b6DmQ": {
-                              "content": "qui est esse"
-                            },
-                            "M3OgGX": {
-                              "content": "est rerum tempore vitae sequi sint nihil reprehenderit dolor beatae ea dolores neque"
-                            }
-                          }
-                        },
-                        {
-                          "id": "VSP5q",
-                          "type": "ref",
-                          "ref": "al2W3",
-                          "name": "Feed Status Row",
-                          "width": "fill_container",
-                          "descendants": {
-                            "ftrD5": {
-                              "icon": "circle-alert",
-                              "fill": "$error-text"
-                            },
-                            "di6cX": {
-                              "content": "Could not load more posts",
-                              "fill": "$error-text"
-                            },
-                            "c1dqU": {
-                              "enabled": true
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
       "id": "uEjEj",
       "x": 0,
       "y": 7926,
@@ -4417,9 +4185,6 @@
                           "name": "Publish Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "What's on your mind?"
                             }
@@ -4535,9 +4300,6 @@
                           "name": "Publish Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "What's on your mind?"
                             }
@@ -4661,16 +4423,6 @@
                           "name": "Publish Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7": {
-                              "fill": "$disabled-bg"
-                            },
-                            "i0v7t7/BtUb3": {
-                              "fill": "$disabled"
-                            },
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name",
-                              "fill": "$disabled"
-                            },
                             "QrESK": {
                               "fill": "$disabled-bg"
                             },
@@ -4802,16 +4554,6 @@
                           "name": "Publish Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7": {
-                              "fill": "$disabled-bg"
-                            },
-                            "i0v7t7/BtUb3": {
-                              "fill": "$disabled"
-                            },
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name",
-                              "fill": "$disabled"
-                            },
                             "QrESK": {
                               "fill": "$disabled-bg"
                             },
@@ -4964,9 +4706,6 @@
                           "name": "Publish Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "What's on your mind?"
                             }
@@ -5047,9 +4786,6 @@
                           "name": "Publish Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "What's on your mind?"
                             }
@@ -5151,10 +4887,6 @@
                           "name": "Publish Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Maria Solis",
-                              "fill": "$text-primary"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "What's on your mind?"
                             },
@@ -5276,10 +5008,6 @@
                           "name": "Publish Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Maria Solis",
-                              "fill": "$text-primary"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "What's on your mind?"
                             },
@@ -5318,289 +5046,6 @@
                         },
                         {
                           "id": "qkLzq",
-                          "type": "ref",
-                          "ref": "hxUKg",
-                          "name": "Live Post",
-                          "width": "fill_container",
-                          "descendants": {
-                            "p2Bl9D": {
-                              "fill": "$av1-bg"
-                            },
-                            "p2Bl9D/JiEjq": {
-                              "content": "LM",
-                              "fill": "$av1-fg"
-                            },
-                            "xyPGB": {
-                              "content": "Luis Mora"
-                            },
-                            "QTwi5": {
-                              "content": "10:40"
-                            },
-                            "sUdFX": {
-                              "content": "Testing the live feed with two browsers."
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "y9JchR",
-      "x": 0,
-      "y": 10910,
-      "name": "D4 Publish Rate Limited",
-      "fill": "$bg",
-      "layout": "vertical",
-      "gap": 32,
-      "padding": 40,
-      "children": [
-        {
-          "type": "frame",
-          "id": "f0uxA",
-          "name": "Row",
-          "gap": 40,
-          "children": [
-            {
-              "type": "frame",
-              "id": "tjNzG",
-              "name": "Rate limited · desktop Column",
-              "width": 684,
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "XEY94",
-                  "name": "Annotation",
-                  "fill": "$muted",
-                  "content": "RATE LIMITED · DESKTOP",
-                  "fontFamily": "$font-ui",
-                  "fontSize": 12,
-                  "fontWeight": "800",
-                  "letterSpacing": 1.2
-                },
-                {
-                  "id": "J3RwV",
-                  "type": "ref",
-                  "ref": "vrYI7",
-                  "name": "Feed Panel",
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "descendants": {
-                    "ea8JL": {
-                      "icon": "newspaper"
-                    },
-                    "g57m1": {
-                      "content": "Feed"
-                    },
-                    "aTDuO": {
-                      "type": "frame",
-                      "id": "HKbAt",
-                      "name": "Body",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 14,
-                      "padding": [
-                        8,
-                        22,
-                        22,
-                        22
-                      ],
-                      "children": [
-                        {
-                          "id": "T0pLCE",
-                          "type": "ref",
-                          "ref": "IivK3",
-                          "name": "Publish Form",
-                          "width": "fill_container",
-                          "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Maria Solis",
-                              "fill": "$text-primary"
-                            },
-                            "QrESK/Q9PpI": {
-                              "content": "What's on your mind?"
-                            },
-                            "JxviI": {
-                              "enabled": true,
-                              "fill": "$warning-bg"
-                            },
-                            "JxviI/oK1JE": {
-                              "icon": "clock",
-                              "fill": "$warning-text"
-                            },
-                            "JxviI/dzBIy": {
-                              "content": "You're posting too fast. Please wait a moment and try again.",
-                              "fill": "$warning-text"
-                            }
-                          }
-                        },
-                        {
-                          "id": "FIbCv",
-                          "type": "ref",
-                          "ref": "hxUKg",
-                          "name": "Live Post",
-                          "width": "fill_container",
-                          "descendants": {
-                            "p2Bl9D": {
-                              "fill": "$av1-bg"
-                            },
-                            "p2Bl9D/JiEjq": {
-                              "content": "MS",
-                              "fill": "$av1-fg"
-                            },
-                            "xyPGB": {
-                              "content": "Maria Solis"
-                            },
-                            "QTwi5": {
-                              "content": "10:42"
-                            },
-                            "sUdFX": {
-                              "content": "Hello from Costa Rica!"
-                            }
-                          }
-                        },
-                        {
-                          "id": "SVmUM",
-                          "type": "ref",
-                          "ref": "hxUKg",
-                          "name": "Live Post",
-                          "width": "fill_container",
-                          "descendants": {
-                            "p2Bl9D": {
-                              "fill": "$av1-bg"
-                            },
-                            "p2Bl9D/JiEjq": {
-                              "content": "LM",
-                              "fill": "$av1-fg"
-                            },
-                            "xyPGB": {
-                              "content": "Luis Mora"
-                            },
-                            "QTwi5": {
-                              "content": "10:40"
-                            },
-                            "sUdFX": {
-                              "content": "Testing the live feed with two browsers."
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "gRTlm",
-              "name": "Rate limited · mobile Column",
-              "width": 358,
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "UFzt8",
-                  "name": "Annotation",
-                  "fill": "$muted",
-                  "content": "RATE LIMITED · MOBILE",
-                  "fontFamily": "$font-ui",
-                  "fontSize": 12,
-                  "fontWeight": "800",
-                  "letterSpacing": 1.2
-                },
-                {
-                  "id": "s0dQ5E",
-                  "type": "ref",
-                  "ref": "vrYI7",
-                  "name": "Feed Panel",
-                  "width": "fill_container",
-                  "height": "fit_content",
-                  "descendants": {
-                    "ea8JL": {
-                      "icon": "newspaper"
-                    },
-                    "g57m1": {
-                      "content": "Feed"
-                    },
-                    "aTDuO": {
-                      "type": "frame",
-                      "id": "bctGV",
-                      "name": "Body",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 14,
-                      "padding": [
-                        8,
-                        22,
-                        22,
-                        22
-                      ],
-                      "children": [
-                        {
-                          "id": "STzqU",
-                          "type": "ref",
-                          "ref": "IivK3",
-                          "name": "Publish Form",
-                          "width": "fill_container",
-                          "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Maria Solis",
-                              "fill": "$text-primary"
-                            },
-                            "QrESK/Q9PpI": {
-                              "content": "What's on your mind?"
-                            },
-                            "JxviI": {
-                              "enabled": true,
-                              "fill": "$warning-bg"
-                            },
-                            "JxviI/oK1JE": {
-                              "icon": "clock",
-                              "fill": "$warning-text"
-                            },
-                            "JxviI/dzBIy": {
-                              "content": "You're posting too fast. Please wait a moment and try again.",
-                              "fill": "$warning-text"
-                            }
-                          }
-                        },
-                        {
-                          "id": "b5QHD",
-                          "type": "ref",
-                          "ref": "hxUKg",
-                          "name": "Live Post",
-                          "width": "fill_container",
-                          "descendants": {
-                            "p2Bl9D": {
-                              "fill": "$av1-bg"
-                            },
-                            "p2Bl9D/JiEjq": {
-                              "content": "MS",
-                              "fill": "$av1-fg"
-                            },
-                            "xyPGB": {
-                              "content": "Maria Solis"
-                            },
-                            "QTwi5": {
-                              "content": "10:42"
-                            },
-                            "sUdFX": {
-                              "content": "Hello from Costa Rica!"
-                            }
-                          }
-                        },
-                        {
-                          "id": "JTmke",
                           "type": "ref",
                           "ref": "hxUKg",
                           "name": "Live Post",
@@ -5916,9 +5361,6 @@
                           "name": "Chat Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "Write a message"
                             }
@@ -6195,9 +5637,6 @@
                           "name": "Chat Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "Write a message"
                             }
@@ -6482,16 +5921,6 @@
                           "name": "Chat Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7": {
-                              "fill": "$disabled-bg"
-                            },
-                            "i0v7t7/BtUb3": {
-                              "fill": "$disabled"
-                            },
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name",
-                              "fill": "$disabled"
-                            },
                             "QrESK": {
                               "fill": "$disabled-bg"
                             },
@@ -6784,16 +6213,6 @@
                           "name": "Chat Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7": {
-                              "fill": "$disabled-bg"
-                            },
-                            "i0v7t7/BtUb3": {
-                              "fill": "$disabled"
-                            },
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name",
-                              "fill": "$disabled"
-                            },
                             "QrESK": {
                               "fill": "$disabled-bg"
                             },
@@ -6926,9 +6345,6 @@
                           "name": "Chat Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "Write a message"
                             }
@@ -7024,9 +6440,6 @@
                           "name": "Chat Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "Write a message"
                             }
@@ -7324,10 +6737,6 @@
                           "name": "Chat Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Ana Vega",
-                              "fill": "$text-primary"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "Write a message"
                             },
@@ -7610,10 +7019,6 @@
                           "name": "Chat Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Ana Vega",
-                              "fill": "$text-primary"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "Write a message"
                             },
@@ -7622,598 +7027,6 @@
                             },
                             "JxviI/dzBIy": {
                               "content": "Your name and message can't be empty, and the message can't pass 200 characters."
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "dFrdf",
-          "name": "Row",
-          "gap": 40,
-          "children": [
-            {
-              "type": "frame",
-              "id": "Ptjyw",
-              "name": "Rate limited · desktop Column",
-              "width": 380,
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "e0jLN",
-                  "name": "Annotation",
-                  "fill": "$muted",
-                  "content": "RATE LIMITED · DESKTOP",
-                  "fontFamily": "$font-ui",
-                  "fontSize": 12,
-                  "fontWeight": "800",
-                  "letterSpacing": 1.2
-                },
-                {
-                  "id": "dzY1I",
-                  "type": "ref",
-                  "ref": "vrYI7",
-                  "name": "Chat Panel",
-                  "width": "fill_container",
-                  "height": 560,
-                  "descendants": {
-                    "ea8JL": {
-                      "icon": "messages-square"
-                    },
-                    "g57m1": {
-                      "content": "Chat"
-                    },
-                    "aTDuO": {
-                      "type": "frame",
-                      "id": "cjn9Z",
-                      "name": "Body",
-                      "clip": true,
-                      "width": "fill_container",
-                      "height": "fill_container",
-                      "layout": "vertical",
-                      "gap": 14,
-                      "padding": [
-                        8,
-                        22,
-                        22,
-                        22
-                      ],
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "oFszO",
-                          "name": "Message List",
-                          "clip": true,
-                          "width": "fill_container",
-                          "height": "fill_container",
-                          "layout": "vertical",
-                          "gap": 16,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "id": "bUDwy",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av4-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "AV",
-                                  "fill": "$av4-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Ana Vega"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:28"
-                                },
-                                "REaQM": {
-                                  "content": "Good morning!"
-                                }
-                              }
-                            },
-                            {
-                              "id": "JX6nD",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av1-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "LM",
-                                  "fill": "$av1-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Luis Mora"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:29"
-                                },
-                                "REaQM": {
-                                  "content": "Morning Ana, ready for the demo?"
-                                }
-                              }
-                            },
-                            {
-                              "id": "YC5gd",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av4-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "AV",
-                                  "fill": "$av4-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Ana Vega"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:30"
-                                },
-                                "REaQM": {
-                                  "content": "Hi everyone"
-                                }
-                              }
-                            },
-                            {
-                              "id": "ImgwY",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av1-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "LM",
-                                  "fill": "$av1-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Luis Mora"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:31"
-                                },
-                                "REaQM": {
-                                  "content": "Hey Ana! Anyone seeing the live posts?"
-                                }
-                              }
-                            },
-                            {
-                              "id": "qLy9P",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av1-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "MS",
-                                  "fill": "$av1-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Maria Solis"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:32"
-                                },
-                                "REaQM": {
-                                  "content": "Yes, they show up right away"
-                                }
-                              }
-                            },
-                            {
-                              "id": "C2rzh",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av4-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "AV",
-                                  "fill": "$av4-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Ana Vega"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:33"
-                                },
-                                "REaQM": {
-                                  "content": "Nice, the weather panel says 24°C"
-                                }
-                              }
-                            },
-                            {
-                              "id": "Yke3F",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av1-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "LM",
-                                  "fill": "$av1-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Luis Mora"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:35"
-                                },
-                                "REaQM": {
-                                  "content": "Warm today"
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        {
-                          "id": "JWQJj",
-                          "type": "ref",
-                          "ref": "IivK3",
-                          "name": "Chat Form",
-                          "width": "fill_container",
-                          "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Ana Vega",
-                              "fill": "$text-primary"
-                            },
-                            "QrESK/Q9PpI": {
-                              "content": "Write a message"
-                            },
-                            "JxviI": {
-                              "enabled": true,
-                              "fill": "$warning-bg"
-                            },
-                            "JxviI/oK1JE": {
-                              "icon": "clock",
-                              "fill": "$warning-text"
-                            },
-                            "JxviI/dzBIy": {
-                              "content": "You're sending messages too fast. Please wait a moment and try again.",
-                              "fill": "$warning-text"
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "tZcgb",
-              "name": "Rate limited · mobile Column",
-              "width": 358,
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "aPJiL",
-                  "name": "Annotation",
-                  "fill": "$muted",
-                  "content": "RATE LIMITED · MOBILE",
-                  "fontFamily": "$font-ui",
-                  "fontSize": 12,
-                  "fontWeight": "800",
-                  "letterSpacing": 1.2
-                },
-                {
-                  "id": "VURWp",
-                  "type": "ref",
-                  "ref": "vrYI7",
-                  "name": "Chat Panel",
-                  "width": "fill_container",
-                  "height": 560,
-                  "descendants": {
-                    "ea8JL": {
-                      "icon": "messages-square"
-                    },
-                    "g57m1": {
-                      "content": "Chat"
-                    },
-                    "aTDuO": {
-                      "type": "frame",
-                      "id": "Z3q5q",
-                      "name": "Body",
-                      "clip": true,
-                      "width": "fill_container",
-                      "height": "fill_container",
-                      "layout": "vertical",
-                      "gap": 14,
-                      "padding": [
-                        8,
-                        22,
-                        22,
-                        22
-                      ],
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "iNJBe",
-                          "name": "Message List",
-                          "clip": true,
-                          "width": "fill_container",
-                          "height": "fill_container",
-                          "layout": "vertical",
-                          "gap": 16,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "id": "f93XqR",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av4-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "AV",
-                                  "fill": "$av4-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Ana Vega"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:28"
-                                },
-                                "REaQM": {
-                                  "content": "Good morning!"
-                                }
-                              }
-                            },
-                            {
-                              "id": "WajUk",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av1-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "LM",
-                                  "fill": "$av1-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Luis Mora"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:29"
-                                },
-                                "REaQM": {
-                                  "content": "Morning Ana, ready for the demo?"
-                                }
-                              }
-                            },
-                            {
-                              "id": "I67b6b",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av4-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "AV",
-                                  "fill": "$av4-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Ana Vega"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:30"
-                                },
-                                "REaQM": {
-                                  "content": "Hi everyone"
-                                }
-                              }
-                            },
-                            {
-                              "id": "ozlam",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av1-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "LM",
-                                  "fill": "$av1-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Luis Mora"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:31"
-                                },
-                                "REaQM": {
-                                  "content": "Hey Ana! Anyone seeing the live posts?"
-                                }
-                              }
-                            },
-                            {
-                              "id": "nwcdL",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av1-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "MS",
-                                  "fill": "$av1-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Maria Solis"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:32"
-                                },
-                                "REaQM": {
-                                  "content": "Yes, they show up right away"
-                                }
-                              }
-                            },
-                            {
-                              "id": "v6ng6",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av4-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "AV",
-                                  "fill": "$av4-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Ana Vega"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:33"
-                                },
-                                "REaQM": {
-                                  "content": "Nice, the weather panel says 24°C"
-                                }
-                              }
-                            },
-                            {
-                              "id": "eHjXn",
-                              "type": "ref",
-                              "ref": "B9Qu8",
-                              "name": "Chat Message",
-                              "width": "fill_container",
-                              "descendants": {
-                                "OYPvj": {
-                                  "fill": "$av1-bg",
-                                  "width": 32,
-                                  "height": 32
-                                },
-                                "OYPvj/JiEjq": {
-                                  "content": "LM",
-                                  "fill": "$av1-fg",
-                                  "fontSize": 12
-                                },
-                                "RRAIw": {
-                                  "content": "Luis Mora"
-                                },
-                                "mJJ8n": {
-                                  "content": "10:35"
-                                },
-                                "REaQM": {
-                                  "content": "Warm today"
-                                }
-                              }
-                            }
-                          ]
-                        },
-                        {
-                          "id": "FE326",
-                          "type": "ref",
-                          "ref": "IivK3",
-                          "name": "Chat Form",
-                          "width": "fill_container",
-                          "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Ana Vega",
-                              "fill": "$text-primary"
-                            },
-                            "QrESK/Q9PpI": {
-                              "content": "Write a message"
-                            },
-                            "JxviI": {
-                              "enabled": true,
-                              "fill": "$warning-bg"
-                            },
-                            "JxviI/oK1JE": {
-                              "icon": "clock",
-                              "fill": "$warning-text"
-                            },
-                            "JxviI/dzBIy": {
-                              "content": "You're sending messages too fast. Please wait a moment and try again.",
-                              "fill": "$warning-text"
                             }
                           }
                         }
@@ -8520,9 +7333,6 @@
                           "name": "Chat Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "Write a message"
                             }
@@ -8810,9 +7620,6 @@
                           "name": "Chat Form",
                           "width": "fill_container",
                           "descendants": {
-                            "i0v7t7/Q9PpI": {
-                              "content": "Your name"
-                            },
                             "QrESK/Q9PpI": {
                               "content": "Write a message"
                             }
@@ -8823,6 +7630,186 @@
                   }
                 }
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "EZYkB",
+      "x": 0,
+      "y": 7191,
+      "name": "A5 No Name",
+      "width": 512,
+      "fill": "$bg",
+      "layout": "vertical",
+      "padding": 40,
+      "children": [
+        {
+          "type": "frame",
+          "id": "x6vOXf",
+          "name": "State no name",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "BzCQW",
+              "name": "Annotation",
+              "fill": "$muted",
+              "content": "NO NAME",
+              "fontFamily": "$font-ui",
+              "fontSize": 12,
+              "fontWeight": "800",
+              "letterSpacing": 1.2
+            },
+            {
+              "id": "ZQHVf",
+              "type": "ref",
+              "ref": "ufn3p",
+              "name": "Header",
+              "width": "fill_container",
+              "padding": [
+                14,
+                16
+              ],
+              "descendants": {
+                "UYpeU": {
+                  "id": "u8G2hc",
+                  "type": "ref",
+                  "ref": "J4oPvr",
+                  "name": "Name Field",
+                  "width": 136,
+                  "padding": [
+                    9,
+                    14
+                  ]
+                },
+                "P6sjaP": {
+                  "fill": "$success-bg"
+                },
+                "P6sjaP/Q2PSp": {
+                  "fill": "$success-text"
+                },
+                "P6sjaP/Cby04": {
+                  "content": "Connected",
+                  "fill": "$success-text"
+                }
+              }
+            },
+            {
+              "id": "xM3PB",
+              "type": "ref",
+              "ref": "IivK3",
+              "name": "Publish Form",
+              "width": "fill_container",
+              "descendants": {
+                "woNed": {
+                  "type": "frame",
+                  "id": "nlLdj",
+                  "name": "No Name Avatar",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "$neutral-bg",
+                  "cornerRadius": "$radius-pill",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "b4391a",
+                      "name": "User Icon",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "user",
+                      "library": "lucide",
+                      "fill": "$disabled"
+                    }
+                  ]
+                },
+                "QrESK": {
+                  "height": 48,
+                  "fill": "$disabled-bg"
+                },
+                "QrESK/Q9PpI": {
+                  "content": "Set your name first",
+                  "fill": "$disabled"
+                },
+                "D6Tpk": {
+                  "fill": "$disabled-bg",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "enabled": false,
+                    "color": "#000000"
+                  }
+                },
+                "D6Tpk/JMBtO": {
+                  "content": "Publish",
+                  "fill": "$disabled"
+                },
+                "D6Tpk/c3Jbpm": {
+                  "fill": "$disabled"
+                }
+              }
+            },
+            {
+              "id": "jwEZ1",
+              "type": "ref",
+              "ref": "IivK3",
+              "name": "Chat Form",
+              "width": "fill_container",
+              "descendants": {
+                "woNed": {
+                  "type": "frame",
+                  "id": "R7xSdE",
+                  "name": "No Name Avatar",
+                  "width": 36,
+                  "height": 36,
+                  "fill": "$neutral-bg",
+                  "cornerRadius": "$radius-pill",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "Zlq7k",
+                      "name": "User Icon",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "user",
+                      "library": "lucide",
+                      "fill": "$disabled"
+                    }
+                  ]
+                },
+                "QrESK": {
+                  "height": 48,
+                  "fill": "$disabled-bg"
+                },
+                "QrESK/Q9PpI": {
+                  "content": "Set your name first",
+                  "fill": "$disabled"
+                },
+                "D6Tpk": {
+                  "fill": "$disabled-bg",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "enabled": false,
+                    "color": "#000000"
+                  }
+                },
+                "D6Tpk/JMBtO": {
+                  "content": "Send",
+                  "fill": "$disabled"
+                },
+                "D6Tpk/c3Jbpm": {
+                  "fill": "$disabled"
+                }
+              }
             }
           ]
         }
