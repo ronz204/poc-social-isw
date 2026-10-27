@@ -1,0 +1,37 @@
+/* Generated from design/tokens.json by `bun run theme`; edit the tokens, not this file. */
+@theme {
+  --color-bg: #FFF6EC;
+  --color-surface: #FFFFFF;
+  --color-border: #F1E2D1;
+  --color-border-control: #E2CFBA;
+  --color-text-primary: #2A1F1A;
+  --color-text-secondary: #5A4A40;
+  --color-muted: #7A6858;
+  --color-accent: #D9421F;
+  --color-accent-tint: #FFEAE2;
+  --color-on-accent: #FFFFFF;
+  --color-disabled: #A8998C;
+  --color-disabled-bg: #F3EBE2;
+  --color-neutral-bg: #F6EEE4;
+  --color-success-bg: #DDF3E7;
+  --color-success-text: #14613F;
+  --color-warning-bg: #FFEFC7;
+  --color-warning-text: #7A5200;
+  --color-error-bg: #FCE4E4;
+  --color-error-text: #A12B2B;
+  --font-ui: "Nunito", sans-serif;
+  --font-display: "Fredoka", sans-serif;
+  --radius-field: 12px;
+  --radius-panel: 20px;
+  --color-accent-border: #FFCDBD;
+  --color-sun: #FFD25E;
+  --color-sun-warm: #FF9F6B;
+  --color-av1-bg: #FFD9CC;
+  --color-av1-fg: #8A2B12;
+  --color-av2-bg: #D3EFE3;
+  --color-av2-fg: #14614A;
+  --color-av3-bg: #DCE2FF;
+  --color-av3-fg: #2F3FA0;
+  --color-av4-bg: #FFEBB0;
+  --color-av4-fg: #7A5A00;
+}

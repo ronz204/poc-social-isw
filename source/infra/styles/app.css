@@ -1,44 +1,9 @@
 @import "tailwindcss";
 
-/* The tokens of design/social.pen, copied by hand: the Pencil file is the source of truth. */
+@import "./theme.css";
+
+/* Effects are not variables in the design, so they live here. */
 @theme {
-  --color-bg: #fff6ec;
-  --color-surface: #ffffff;
-  --color-border: #f1e2d1;
-  --color-border-control: #e2cfba;
-  --color-text-primary: #2a1f1a;
-  --color-text-secondary: #5a4a40;
-  --color-muted: #7a6858;
-  --color-accent: #d9421f;
-  --color-accent-tint: #ffeae2;
-  --color-accent-border: #ffcdbd;
-  --color-on-accent: #ffffff;
-  --color-disabled: #a8998c;
-  --color-disabled-bg: #f3ebe2;
-  --color-neutral-bg: #f6eee4;
-  --color-sun: #ffd25e;
-  --color-sun-warm: #ff9f6b;
-  --color-av1-bg: #ffd9cc;
-  --color-av1-fg: #8a2b12;
-  --color-av2-bg: #d3efe3;
-  --color-av2-fg: #14614a;
-  --color-av3-bg: #dce2ff;
-  --color-av3-fg: #2f3fa0;
-  --color-av4-bg: #ffebb0;
-  --color-av4-fg: #7a5a00;
-  --color-success-bg: #ddf3e7;
-  --color-success-text: #14613f;
-  --color-warning-bg: #ffefc7;
-  --color-warning-text: #7a5200;
-  --color-error-bg: #fce4e4;
-  --color-error-text: #a12b2b;
-
-  --font-ui: "Nunito", sans-serif;
-  --font-display: "Fredoka", sans-serif;
-
-  --radius-field: 12px;
-  --radius-panel: 20px;
-
   --shadow-panel: 0 4px 16px #2a1f1a0f;
   --shadow-send: 0 4px 12px #d9421f40;
 }
