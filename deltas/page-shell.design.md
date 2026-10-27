@@ -60,7 +60,6 @@ The page writes only publish and chat messages.
 
 - Breakpoint value for stacking.
 - Accessibility: focus after sending, live announcement of incoming messages.
-- The theme.
 
 ## Acceptance criteria
 
