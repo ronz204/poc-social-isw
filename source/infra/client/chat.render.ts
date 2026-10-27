@@ -27,7 +27,7 @@ export const chatItem = (message: ClientChatMessage) => {
   body.className = "flex min-w-0 flex-col gap-1";
   body.append(
     header,
-    part("p", "rounded-[4px_16px_16px_16px] bg-neutral-bg px-[13px] py-[9px] text-sm leading-[1.4] break-words", message.text),
+    part("p", "rounded-[4px_16px_16px_16px] bg-neutral-bg px-3.25 py-2.25 text-sm leading-[1.4] wrap-break-word", message.text),
   );
   const item = document.createElement("article");
   item.className = "flex gap-2.5";

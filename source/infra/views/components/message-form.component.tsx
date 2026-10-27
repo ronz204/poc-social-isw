@@ -2,7 +2,7 @@ import { Html } from "@elysia/html";
 import { Icon } from "./icon.component";
 
 const FIELD =
-  "flex items-center gap-2.5 rounded-field border border-border-control bg-bg px-3.5 py-3 text-muted has-[:disabled]:bg-disabled-bg has-[:disabled]:text-disabled";
+  "flex items-center gap-2.5 rounded-field border border-border-control bg-bg px-3.5 py-3 text-muted has-disabled:bg-disabled-bg has-disabled:text-disabled";
 const INPUT =
   "min-w-0 flex-1 bg-transparent text-sm text-text-primary outline-none placeholder:text-muted disabled:placeholder:text-disabled";
 

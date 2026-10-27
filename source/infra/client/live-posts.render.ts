@@ -30,13 +30,13 @@ export const postItem = (post: ClientPost) => {
     part("span", "text-sm font-extrabold", post.author),
   );
   const badge = row(
-    "flex items-center gap-[5px] rounded-full bg-accent px-2 py-[3px] text-on-accent",
+    "flex items-center gap-1.25 rounded-full bg-accent px-2 py-0.75 text-on-accent",
     part("span", "size-1.5 rounded-full bg-on-accent", ""),
     part("span", "text-[11px] font-extrabold", "Live"),
   );
   const meta = row("flex items-center gap-2", badge, part("span", "text-xs font-semibold text-muted", post.time));
   const item = document.createElement("article");
-  item.className = "flex flex-col gap-2.5 rounded-panel border border-accent-border bg-accent-tint p-[18px]";
+  item.className = "flex flex-col gap-2.5 rounded-panel border border-accent-border bg-accent-tint p-4.5";
   item.append(row("flex items-center justify-between", author, meta), part("p", "text-[15px] leading-[1.45]", post.content));
   return item;
 };

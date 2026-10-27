@@ -7,7 +7,7 @@ import { FriendlyMessage } from "./friendly-message.component";
 export const PostCards = ({ posts }: { posts: FeedPost[] }) => (
   <>
     {posts.map((post) => (
-      <article class="flex flex-col gap-2.5 rounded-panel border border-border bg-surface p-[18px]">
+      <article class="flex flex-col gap-2.5 rounded-panel border border-border bg-surface p-4.5">
         <div class="flex items-center gap-2.5">
           <span
             class={`flex size-9 items-center justify-center rounded-full font-display text-sm font-semibold ${avatarTone(post.author)}`}

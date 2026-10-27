@@ -20,13 +20,13 @@ const Panel = ({
   children,
 }: PropsWithChildren<{ id: string; icon: IconName; title: string; class: string; body: string }>) => (
   <section id={id} class={`flex min-h-0 flex-col rounded-panel border border-border bg-surface shadow-panel ${extra}`}>
-    <h2 class="flex items-center gap-2.5 px-[22px] pt-[18px] pb-2 font-display text-[19px] font-semibold">
-      <span class="flex size-[30px] items-center justify-center rounded-[10px] bg-accent-tint text-accent">
+    <h2 class="flex items-center gap-2.5 px-5.5 pt-4.5 pb-2 font-display text-[19px] font-semibold">
+      <span class="flex size-7.5 items-center justify-center rounded-[10px] bg-accent-tint text-accent">
         <Icon name={icon} class="size-4" />
       </span>
       {title}
     </h2>
-    <div class={`flex min-h-0 flex-1 flex-col gap-3.5 px-[22px] pt-2 pb-[22px] ${body}`}>{children}</div>
+    <div class={`flex min-h-0 flex-1 flex-col gap-3.5 px-5.5 pt-2 pb-5.5 ${body}`}>{children}</div>
   </section>
 );
 
@@ -37,14 +37,14 @@ export const HomeView = ({ weather, feed }: { weather: GetWeatherOutput; feed: G
     <body class="flex min-h-dvh flex-col lg:h-dvh lg:overflow-hidden">
       <Header connection />
       <div class="flex flex-1 flex-col gap-4 p-4 lg:grid lg:min-h-0 lg:grid-cols-[320px_1fr_380px] lg:gap-6 lg:p-6">
-        <Panel id="weather-panel" icon="cloud-sun" title="Weather" class="order-2 lg:order-none lg:self-start" body="">
+        <Panel id="weather-panel" icon="cloud-sun" title="Weather" class="order-2 lg:order-0 lg:self-start" body="">
           <WeatherPanel weather={weather} />
         </Panel>
-        <Panel id="feed-panel" icon="newspaper" title="Feed" class="order-1 lg:order-none" body="scroll-soft lg:overflow-y-auto">
+        <Panel id="feed-panel" icon="newspaper" title="Feed" class="order-1 lg:order-0" body="scroll-soft lg:overflow-y-auto">
           <LivePosts />
           <FeedPosts feed={feed} />
         </Panel>
-        <Panel id="chat-panel" icon="messages-square" title="Chat" class="order-3 lg:order-none" body="">
+        <Panel id="chat-panel" icon="messages-square" title="Chat" class="order-3 lg:order-0" body="">
           <Chat />
         </Panel>
       </div>

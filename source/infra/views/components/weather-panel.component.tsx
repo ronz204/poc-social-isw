@@ -19,7 +19,7 @@ export const WeatherPanel = ({ weather }: { weather: GetWeatherOutput }) => {
         </p>
       )}
       <p class="font-display text-[64px] leading-[1.2] font-bold">{Math.round(reading.temperature)}°C</p>
-      <p class="flex w-fit items-center gap-2 rounded-full bg-white/70 px-3 py-[7px] text-sm font-bold">
+      <p class="flex w-fit items-center gap-2 rounded-full bg-white/70 px-3 py-1.75 text-sm font-bold">
         <Icon name="wind" class="size-4" />
         Wind {Math.round(reading.windSpeed)} km/h
       </p>
