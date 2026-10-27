@@ -1,5 +1,5 @@
 import { chatItem, type ClientChatMessage } from "./chat.render";
-import { socket } from "./connection";
+import { connection } from "./socket";
 
 const form = document.querySelector<HTMLFormElement>("#chat-form");
 const list = document.querySelector<HTMLElement>("#chat-messages");
@@ -38,20 +38,23 @@ if (form && list && empty && message && nameField && textField) {
   };
 
   setEnabled(false);
-  socket.addEventListener("open", () => setEnabled(true));
-  socket.addEventListener("close", () => setEnabled(false));
-  socket.addEventListener("message", (event) => {
-    const data = JSON.parse(event.data as string) as ServerMessage | { type: string };
-    // The history arrives oldest first, so appending each leaves the newest at the bottom.
-    if (data.type === "chat-history") (data as { messages: ClientChatMessage[] }).messages.forEach(show);
-    else if (data.type === "chat") show((data as { message: ClientChatMessage }).message);
+  connection.onOpen(() => setEnabled(true));
+  connection.onClose(() => setEnabled(false));
+  connection.onChat((data: ServerMessage) => {
+    // The history replaces the list, so one re-sent after a reconnect never shows a message twice.
+    // It arrives oldest first, so appending each leaves the newest at the bottom.
+    if (data.type === "chat-history") {
+      list.replaceChildren();
+      empty.hidden = data.messages.length > 0;
+      data.messages.forEach(show);
+    } else if (data.type === "chat") show(data.message);
     else if (data.type === "chat-error") message.textContent = INVALID;
   });
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const name = nameField.value;
-    socket.send(JSON.stringify({ type: "chat", name, text: textField.value }));
+    connection.send(JSON.stringify({ type: "chat", name, text: textField.value }));
     try {
       localStorage.setItem(NAME_KEY, name);
     } catch {}

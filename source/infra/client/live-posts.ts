@@ -1,4 +1,4 @@
-import { socket } from "./connection";
+import { connection } from "./socket";
 import { postItem, type ClientPost } from "./live-posts.render";
 
 const form = document.querySelector<HTMLFormElement>("#live-form");
@@ -33,21 +33,23 @@ if (form && list && empty && message && nameField && textField) {
   };
 
   setEnabled(false);
-  socket.addEventListener("open", () => setEnabled(true));
-  socket.addEventListener("close", () => setEnabled(false));
-  socket.addEventListener("message", (event) => {
-    const data = JSON.parse(event.data as string) as ServerMessage;
-    // The history arrives oldest first, so showing each at the top leaves the newest first.
-    if (data.type === "history") data.posts.forEach(show);
-    else if (data.type === "post") show(data.post);
-    // Chat messages share the connection and are not this script's.
+  connection.onOpen(() => setEnabled(true));
+  connection.onClose(() => setEnabled(false));
+  connection.onPosts((data: ServerMessage) => {
+    // The history replaces the list, so one re-sent after a reconnect never shows a post twice.
+    // It arrives oldest first, so showing each at the top leaves the newest first.
+    if (data.type === "history") {
+      list.replaceChildren();
+      empty.hidden = data.posts.length > 0;
+      data.posts.forEach(show);
+    } else if (data.type === "post") show(data.post);
     else if (data.type === "error") message.textContent = INVALID;
   });
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const name = nameField.value;
-    socket.send(JSON.stringify({ type: "post", name, text: textField.value }));
+    connection.send(JSON.stringify({ type: "post", name, text: textField.value }));
     try {
       localStorage.setItem(NAME_KEY, name);
     } catch {}

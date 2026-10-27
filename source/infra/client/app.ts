@@ -1,5 +1,13 @@
 import "./live-posts";
 import "./chat";
+import { connection } from "./socket";
+
+// Not named `status`: in the bundled classic script that would be `window.status`, which only keeps strings.
+const connectionStatus = document.querySelector<HTMLElement>("#connection-status");
+if (connectionStatus) {
+  connection.onOpen(() => (connectionStatus.textContent = "Connected"));
+  connection.onClose(() => (connectionStatus.textContent = "Offline, retrying"));
+}
 
 const feed = document.querySelector<HTMLElement>("#feed-posts");
 const feedStatus = document.querySelector<HTMLElement>("#feed-status");
