@@ -1,4 +1,5 @@
 import { avatarTone, initials } from "@infra/avatar";
+import { part } from "../dom";
 
 export interface ClientPost {
   id: string;
@@ -6,14 +7,6 @@ export interface ClientPost {
   content: string;
   time: string;
 }
-
-const part = (tag: string, className: string, text: string) => {
-  const element = document.createElement(tag);
-  element.className = className;
-  // Visitor text goes in as text, never as markup.
-  element.textContent = text;
-  return element;
-};
 
 const row = (className: string, ...children: HTMLElement[]) => {
   const element = document.createElement("div");

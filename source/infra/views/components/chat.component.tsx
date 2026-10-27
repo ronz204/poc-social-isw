@@ -7,7 +7,7 @@ export const Chat = () => (
   <section class="flex min-h-0 flex-1 flex-col gap-3.5">
     <div class="flex min-h-0 flex-1 flex-col">
       <EmptyLine id="chat-empty" text="No messages yet" />
-      <div id="chat-messages" class="scroll-soft flex max-h-96 min-h-0 flex-col gap-4 overflow-y-auto lg:max-h-none lg:flex-1"></div>
+      <div id="chat-list" class="scroll-soft flex max-h-96 min-h-0 flex-col gap-4 overflow-y-auto lg:max-h-none lg:flex-1"></div>
     </div>
     <MessageForm id="chat" textPlaceholder="Write a message" sendLabel="Send" />
   </section>

@@ -38,14 +38,14 @@ describe("history after a reconnect", () => {
     emit("posts", { type: "history", posts: [post("1"), post("2")] });
     emit("posts", { type: "history", posts: [post("1"), post("2")] });
 
-    expect(document.querySelectorAll("#live-posts > *")).toHaveLength(2);
+    expect(document.querySelectorAll("#live-list > *")).toHaveLength(2);
   });
 
   it("replaces the chat messages instead of showing them twice", () => {
     emit("chat", { type: "chat-history", messages: [message("1"), message("2")] });
     emit("chat", { type: "chat-history", messages: [message("1"), message("2")] });
 
-    expect(document.querySelectorAll("#chat-messages > *")).toHaveLength(2);
+    expect(document.querySelectorAll("#chat-list > *")).toHaveLength(2);
   });
 
   it("brings the empty notes back when the re-sent history is empty", () => {
@@ -59,7 +59,7 @@ describe("history after a reconnect", () => {
 
     expect(document.querySelector<HTMLElement>("#live-empty")!.hidden).toBe(false);
     expect(document.querySelector<HTMLElement>("#chat-empty")!.hidden).toBe(false);
-    expect(document.querySelectorAll("#live-posts > *, #chat-messages > *")).toHaveLength(0);
+    expect(document.querySelectorAll("#live-list > *, #chat-list > *")).toHaveLength(0);
   });
 });
 

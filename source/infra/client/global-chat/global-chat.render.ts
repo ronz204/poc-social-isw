@@ -1,4 +1,5 @@
 import { avatarTone, initials } from "@infra/avatar";
+import { part } from "../dom";
 
 export interface ClientChatMessage {
   id: string;
@@ -6,14 +7,6 @@ export interface ClientChatMessage {
   text: string;
   time: string;
 }
-
-const part = (tag: string, className: string, text: string) => {
-  const element = document.createElement(tag);
-  element.className = className;
-  // Visitor text goes in as text, never as markup.
-  element.textContent = text;
-  return element;
-};
 
 // One chat message as a DOM element; every visitor string is set with textContent.
 export const chatItem = (message: ClientChatMessage) => {

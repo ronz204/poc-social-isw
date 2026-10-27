@@ -7,6 +7,6 @@ export const LivePosts = () => (
   <section class="flex flex-col gap-3.5">
     <MessageForm id="live" textPlaceholder="What's on your mind?" sendLabel="Publish" />
     <EmptyLine id="live-empty" text="No live posts yet" />
-    <div id="live-posts" class="flex flex-col gap-3.5"></div>
+    <div id="live-list" class="flex flex-col gap-3.5"></div>
   </section>
 );

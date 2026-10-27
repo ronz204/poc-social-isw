@@ -97,7 +97,7 @@ describe("home route", () => {
   it("leaves the live lists empty in the HTML: history arrives over the socket", async () => {
     const body = await (await load(weatherHandler(async () => WEATHER_OK), feedHandler(async () => FEED_OK))).text();
 
-    expect(body).toMatch(/id="live-posts"[^>]*><\/div>/);
-    expect(body).toMatch(/id="chat-messages"[^>]*><\/div>/);
+    expect(body).toMatch(/id="live-list"[^>]*><\/div>/);
+    expect(body).toMatch(/id="chat-list"[^>]*><\/div>/);
   });
 });
